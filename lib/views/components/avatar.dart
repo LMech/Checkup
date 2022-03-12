@@ -18,12 +18,12 @@ class Avatar extends StatelessWidget {
       child: CircleAvatar(
           foregroundColor: Colors.blue,
           backgroundColor: Colors.white,
-          radius: 70.0,
+          radius: 25.0,
           child: ClipOval(
             child: Image.network(
               user.photoUrl,
               fit: BoxFit.cover,
-              width: 120.0,
+              width: 200.0,
               height: 120.0,
             ),
           )),

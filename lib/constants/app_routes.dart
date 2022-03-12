@@ -12,7 +12,7 @@ class AppRoutes {
     GetPage(name: '/tabbar', page: () => TabbarUI()),
     GetPage(name: '/tabbar/home', page: () => HomeUI()),
     GetPage(name: '/tabbar/profile', page: () => ProfileUI()),
-    GetPage(name: '/settings', page: () => SettingsUI()),
+    GetPage(name: '/tabbar/profile/settings', page: () => SettingsUI()),
     GetPage(name: '/reset-password', page: () => ResetPasswordUI()),
     GetPage(name: '/update-profile', page: () => UpdateProfileUI()),
   ];

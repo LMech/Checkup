@@ -8,8 +8,8 @@ class AppThemes {
   static const Color blackPearl = Color.fromRGBO(30, 31, 43, 1);
   static const Color brinkPink = Color.fromRGBO(255, 97, 136, 1);
   static const Color juneBud = Color.fromRGBO(186, 215, 97, 1);
-  static const Color white = Color.fromRGBO(255, 255, 255, 1);
-  static const Color nevada = Color.fromRGBO(105, 109, 119, 1);
+  static const Color white = Color.fromARGB(255, 255, 255, 255);
+  static const Color nevada = Color.fromARGB(255, 174, 180, 194);
   static const Color ebonyClay = Color.fromRGBO(40, 42, 58, 1);
 
   static String font1 = "ProductSans";
@@ -164,7 +164,7 @@ class AppThemes {
   static const TextTheme _darkTextTheme = TextTheme(
     headline1: TextStyle(fontSize: 20.0, color: _darkTextColor),
     bodyText1: TextStyle(fontSize: 16.0, color: _darkTextColor),
-    bodyText2: TextStyle(fontSize: 14.0, color: Colors.grey),
+    bodyText2: TextStyle(fontSize: 14.0, color: Colors.white),
     button: TextStyle(
         fontSize: 15.0, color: _darkTextColor, fontWeight: FontWeight.w600),
     headline6: TextStyle(fontSize: 16.0, color: _darkTextColor),
