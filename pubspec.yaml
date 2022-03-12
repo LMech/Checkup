@@ -36,10 +36,17 @@ dependencies:
   cupertino_icons: ^1.0.2
   fireauth: ^0.9.0
   firebase: ^9.0.2
-  bloc: ^8.0.3
-  flutter_bloc: ^8.0.1
   percent_indicator: ^4.0.0
   dots_indicator: ^2.1.0
+  get: ^4.6.1
+  flutter_svg: ^1.0.3
+  firebase_core: ^1.13.1
+  firebase_auth: ^3.3.10
+  cloud_firestore: ^3.1.10
+  get_storage: ^2.0.3
+  http: ^0.13.4
+  csv: ^5.0.1
+  crypto: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +74,10 @@ flutter:
   assets:
       - assets/images/onboarding/
       - assets/images/home/
+      - assets/images/
       - assets/icons/home/
+      - assets/icons/
+
 
 
 
