@@ -1,21 +1,24 @@
-import 'package:checkup/screens/onboarding/page/onboarding_page.dart';
-import 'package:checkup/screens/tab_bar/page/tab_bar_page.dart';
-import 'package:fireauth/fireauth.dart';
+import 'package:checkup/helpers/helpers.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-import 'core/const/color_constants.dart';
+import 'constants/constants.dart';
+import 'controllers/controllers.dart';
+import 'views/components/components.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await GetStorage.init();
+  Get.put<AuthController>(AuthController());
+  Get.put<ThemeController>(ThemeController());
+  Get.put<LanguageController>(LanguageController());
   runApp(const MyApp());
 }
 
@@ -24,18 +27,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoggedIn = FirebaseAuth.instance.currentUser != null;
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'CheckUp',
-      theme: ThemeData(
-        textTheme: const TextTheme(
-            bodyText1: TextStyle(color: ColorConstants.textColor)),
-        scaffoldBackgroundColor: Colors.white,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    ThemeController.to.getThemeModeFromStore();
+    return GetBuilder<LanguageController>(
+      builder: (languageController) => Loading(
+        child: GetMaterialApp(
+          translations: Localization(),
+          locale: languageController.getLocale, // <- Current locale
+          // navigatorObservers: [
+          // FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
+          // ],
+          debugShowCheckedModeBanner: true,
+          defaultTransition: Transition.fade,
+          theme: AppThemes.lightTheme,
+          darkTheme: AppThemes.darkTheme,
+          themeMode: ThemeMode.system,
+          initialRoute: "/",
+          getPages: AppRoutes.routes,
+        ),
       ),
-      home: isLoggedIn ? const TabBarPage() : const OnboardingPage(),
     );
   }
 }
