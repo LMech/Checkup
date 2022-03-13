@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sound_stream/sound_stream.dart';
 import 'package:dialogflow_grpc/dialogflow_grpc.dart';
@@ -24,7 +25,7 @@ class _ChatState extends State<ChatUi> {
   late BehaviorSubject<List<int>> _audioStream;
 
   // TODO DialogflowGrpc class instance
-
+  DialogflowGrpcV2Beta1? dialogflow;
   @override
   void initState() {
     super.initState();
@@ -40,6 +41,11 @@ class _ChatState extends State<ChatUi> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlugin() async {
+    // Get a Service account
+    final serviceAccount = ServiceAccount.fromString(
+        '${(await rootBundle.loadString('assets/credentials.json'))}');
+    // Create a DialogflowGrpc Instance
+    dialogflow = DialogflowGrpcV2Beta1.viaServiceAccount(serviceAccount);
     _recorderStatus = _recorder.status.listen((status) {
       if (mounted)
         setState(() {
@@ -59,6 +65,29 @@ class _ChatState extends State<ChatUi> {
   }
 
   void handleSubmitted(text) async {
+    ChatMessage message = ChatMessage(
+      text: text,
+      name: "You",
+      type: true,
+    );
+
+    setState(() {
+      _messages.insert(0, message);
+    });
+
+    DetectIntentResponse data = await dialogflow!.detectIntent(text, 'en-US');
+    String fulfillmentText = data.queryResult.fulfillmentText;
+    if (fulfillmentText.isNotEmpty) {
+      ChatMessage botMessage = ChatMessage(
+        text: fulfillmentText,
+        name: "Bot",
+        type: false,
+      );
+
+      setState(() {
+        _messages.insert(0, botMessage);
+      });
+    }
     print(text);
     _textController.clear();
 
@@ -66,6 +95,58 @@ class _ChatState extends State<ChatUi> {
   }
 
   void handleStream() async {
+    var biasList = SpeechContextV2Beta1(phrases: [
+      'Dialogflow CX',
+      'Dialogflow Essentials',
+      'Action Builder',
+      'HIPAA'
+    ], boost: 20.0);
+
+    // See: https://cloud.google.com/dialogflow/es/docs/reference/rpc/google.cloud.dialogflow.v2#google.cloud.dialogflow.v2.InputAudioConfig
+    var config = InputConfigV2beta1(
+        encoding: 'AUDIO_ENCODING_LINEAR_16',
+        languageCode: 'en-US',
+        sampleRateHertz: 16000,
+        singleUtterance: false,
+        speechContexts: [biasList]);
+    final responseStream =
+        dialogflow!.streamingDetectIntent(config, _audioStream);
+    // Get the transcript and detectedIntent and show on screen
+    responseStream.listen((data) {
+      //print('----');
+      setState(() {
+        //print(data);
+        String transcript = data.recognitionResult.transcript;
+        String queryText = data.queryResult.queryText;
+        String fulfillmentText = data.queryResult.fulfillmentText;
+
+        if (fulfillmentText.isNotEmpty) {
+          ChatMessage message = new ChatMessage(
+            text: queryText,
+            name: "You",
+            type: true,
+          );
+
+          ChatMessage botMessage = new ChatMessage(
+            text: fulfillmentText,
+            name: "Bot",
+            type: false,
+          );
+
+          _messages.insert(0, message);
+          _textController.clear();
+          _messages.insert(0, botMessage);
+        }
+        if (transcript.isNotEmpty) {
+          _textController.text = transcript;
+        }
+      });
+    }, onError: (e) {
+      //print(e);
+    }, onDone: () {
+      //print('done');
+    });
+
     _recorder.start();
 
     _audioStream = BehaviorSubject<List<int>>();
