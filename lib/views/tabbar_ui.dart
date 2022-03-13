@@ -1,3 +1,4 @@
+import 'package:checkup/views/chat_ui.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:checkup/views/home_ui.dart';
 import 'package:checkup/views/ui.dart';
@@ -26,6 +27,7 @@ class TabbarUI extends StatelessWidget {
                     children: [
                       HomeUI(),
                       ProfileUI(),
+                      ChatUi(),
                     ],
                   ),
                 ),
@@ -40,6 +42,10 @@ class TabbarUI extends StatelessWidget {
                     _bottomNavigationBarItem(
                       icon: CupertinoIcons.profile_circled,
                       label: 'Profile',
+                    ),
+                    _bottomNavigationBarItem(
+                      icon: CupertinoIcons.chat_bubble_text,
+                      label: 'chat',
                     ),
                   ],
                 )))));
