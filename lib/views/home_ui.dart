@@ -5,12 +5,10 @@ import 'package:checkup/views/ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
-
 import 'components/feature_card.dart';
 
 class HomeUI extends StatelessWidget {
-  final AuthController authController = Get.find();
+  static final AuthController authController = Get.find();
   final String photoUrl = '';
   @override
   Widget build(BuildContext context) {
@@ -21,9 +19,8 @@ class HomeUI extends StatelessWidget {
         actions: [
           IconButton(
               icon: const Icon(Icons.add),
-              onPressed: () {
-                Get.to(SettingsUI());
-              }),
+              // TODO: add screen for connecting to the devices
+              onPressed: () {}),
         ],
       ),
       body: SafeArea(
@@ -102,7 +99,12 @@ class HomeUI extends StatelessWidget {
         ]),
         GestureDetector(
           child: photoUrl == ''
-              ? Avatar(authController.firestoreUser.value!)
+              ? Avatar(
+                  authController.firestoreUser.value!,
+                  radius: 25.0,
+                  height: 120,
+                  width: 200,
+                )
               : CircleAvatar(
                   child: ClipOval(
                       child: FadeInImage.assetNetwork(
@@ -115,50 +117,6 @@ class HomeUI extends StatelessWidget {
           onTap: () {},
         )
       ]),
-    );
-  }
-
-  Widget _createFeaturesList() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            TextConstants.discoverFeatures,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 15),
-        SizedBox(
-          height: 160,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              const SizedBox(width: 20),
-              FeatureCard(
-                onTap: () {},
-                color: Colors.blueGrey,
-                description: TextConstants.reportFeatureDescription,
-                icon: CupertinoIcons.rectangle_paperclip,
-                title: TextConstants.reportFeatureDescription,
-              ),
-              const SizedBox(width: 15),
-              FeatureCard(
-                onTap: () {},
-                color: Colors.red.shade300,
-                description: TextConstants.oximeterFeatureDescription,
-                icon: CupertinoIcons.waveform_path_ecg,
-                title: TextConstants.oximeterFeatureTitle,
-              ),
-              const SizedBox(width: 20),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
@@ -216,6 +174,50 @@ class HomeUI extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _createFeaturesList() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            TextConstants.discoverFeatures,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 15),
+        SizedBox(
+          height: 160,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              const SizedBox(width: 20),
+              FeatureCard(
+                color: Get.theme.focusColor,
+                icon: CupertinoIcons.rectangle_paperclip,
+                title: TextConstants.reportFeatureTitle,
+                description: TextConstants.reportFeatureDescription,
+                onTap: () {},
+              ),
+              const SizedBox(width: 15),
+              FeatureCard(
+                color: Get.theme.focusColor,
+                icon: CupertinoIcons.waveform_path_ecg,
+                title: TextConstants.oximeterFeatureTitle,
+                description: TextConstants.oximeterFeatureDescription,
+                onTap: () {},
+              ),
+              const SizedBox(width: 20),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
