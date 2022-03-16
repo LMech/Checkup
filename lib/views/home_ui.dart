@@ -5,7 +5,6 @@ import 'package:checkup/views/ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 import 'components/feature_card.dart';
 
