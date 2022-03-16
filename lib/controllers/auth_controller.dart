@@ -113,10 +113,12 @@ class AuthController extends GetxController {
         );
         //create the new user object
         UserModel _newUser = UserModel(
+
             uid: result.user!.uid,
             email: result.user!.email!,
             name: nameController.text,
             photoUrl: gravatarUrl);
+
         //create the user in firestore
         _createUserFirestore(_newUser, result.user!);
         emailController.clear();

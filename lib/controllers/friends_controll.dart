@@ -17,6 +17,7 @@ class AddFriendController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void onSearch() async {
+    print("Sdsdfsdfsdff");
     isLoading = true;
     print("Sdf");
     try {

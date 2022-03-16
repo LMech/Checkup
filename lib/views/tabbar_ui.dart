@@ -1,4 +1,3 @@
-import 'package:checkup/views/components/components.dart';
 import 'package:checkup/views/home_ui.dart';
 import 'package:checkup/views/ui.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/controllers.dart';
+import 'friends/contacts.dart';
 
 class TabbarUI extends StatelessWidget {
   static final tabbarController = Get.put(TabbarController());
@@ -19,14 +19,12 @@ class TabbarUI extends StatelessWidget {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : Obx(() => (Scaffold(
+            : Obx(() => (
+            Scaffold(
                 body: SafeArea(
                   child: IndexedStack(
                     index: tabbarController.tabIndex.value,
-                    children: [
-                      HomeUI(),
-                      ProfileUI(),
-                    ],
+                    children: [HomeUI(), ProfileUI(), Contacts()],
                   ),
                 ),
                 bottomNavigationBar: BottomNavigationBar(
@@ -40,6 +38,10 @@ class TabbarUI extends StatelessWidget {
                     _bottomNavigationBarItem(
                       icon: CupertinoIcons.profile_circled,
                       label: 'Profile',
+                    ),
+                    _bottomNavigationBarItem(
+                      icon: CupertinoIcons.person_crop_circle_fill_badge_exclam,
+                      label: 'Home',
                     ),
                   ],
                 )))));
