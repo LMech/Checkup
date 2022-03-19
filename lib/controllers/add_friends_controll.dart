@@ -60,7 +60,7 @@ class AddFriendController extends GetxController {
     }
 
  *************************************************/
-//
+
 //   Future<void>getFriends() async {
 //
 //     String currentUserId = authController.firestoreUser.value!.uid;
@@ -122,84 +122,84 @@ class AddFriendController extends GetxController {
 //     });
 //   }
 //
-//
-//
-//   Future<Stream<List<DocumentSnapshot>>> getListoffriends() {
-//     return _getListofusers(isFriends: true);
-//   }
-//
-//   Future<Stream<List<DocumentSnapshot>>> getfriendrequests() {
-//     return _getListofusers(
-//       isFriends: false,
-//       isGetRequest: true,
-//     );
-//   }
-//
-//   Future<Stream<List<DocumentSnapshot>>> _getListofusers({
-//     required bool isFriends,
-//     bool isGetRequest = false,
-//   }) async {
-//     return firestore.collection('users').snapshots().transform(
-//       StreamTransformer<QuerySnapshot<Map<String, dynamic>>,
-//           List<DocumentSnapshot>>.fromHandlers(
-//         handleData: (querySnapshot, sink) async {
-//           final currentUserId = authController.firestoreUser.value!.uid;
-//           print('loading friend list of $currentUserId');
-//
-//           final userDocument =
-//               await firestore.collection('users').doc(currentUserId).get();
-//
-//           final friendList = List<String>.from(
-//             json.decode(
-//               (userDocument)['friends'] ?? "[]",
-//             ),
-//           );
-//
-//           final requestList = List<String>.from(
-//             json.decode(
-//               (userDocument)['requests'] ?? "[]",
-//             ),
-//           );
-//
-//           print(friendList);
-//
-//           final _firendsList = <DocumentSnapshot>[];
-//           final _unFriendsList = <DocumentSnapshot>[];
-//           final _friendRequests = <DocumentSnapshot>[];
-//
-//           for (final doc in querySnapshot.docs) {
-//             if (friendList.contains(doc['uid']) ||
-//                 doc['uid'] == currentUserId) {
-//               _firendsList.add(doc);
-//             } else {
-//               final userRequests = List<String>.from(
-//                 json.decode(doc['requests'] ?? '[]'),
-//               );
-//
-//               if (!requestList.contains(doc['uid']) &&
-//                   !userRequests.contains(currentUserId)) {
-//                 _unFriendsList.add(doc);
-//               }
-//
-//               if (requestList.contains(doc['uid'])) {
-//                 _friendRequests.add(doc);
-//               }
-//             }
-//           }
-//
-//           print(_firendsList);
-//
-//           if (isFriends) {
-//             sink.add(_firendsList);
-//           } else {
-//             if (isGetRequest)
-//               sink.add(_friendRequests);
-//             else
-//               sink.add(_unFriendsList);
-//           }
-//         },
-//       ),
-//     );
-//   }
+
+
+  Future<Stream<List<DocumentSnapshot>>> getListoffriends() {
+    return _getListofusers(isFriends: true);
+  }
+
+  Future<Stream<List<DocumentSnapshot>>> getfriendrequests() {
+    return _getListofusers(
+      isFriends: false,
+      isGetRequest: true,
+    );
+  }
+
+  Future<Stream<List<DocumentSnapshot>>> _getListofusers({
+    required bool isFriends,
+    bool isGetRequest = false,
+  }) async {
+    return firestore.collection('users').snapshots().transform(
+      StreamTransformer<QuerySnapshot<Map<String, dynamic>>,
+          List<DocumentSnapshot>>.fromHandlers(
+        handleData: (querySnapshot, sink) async {
+          final currentUserId = authController.firestoreUser.value!.uid;
+          print('loading friend list of $currentUserId');
+
+          final userDocument =
+              await firestore.collection('users').doc(currentUserId).get();
+
+          final friendList = List<String>.from(
+            json.decode(
+              (userDocument)['friends'] ?? "[]",
+            ),
+          );
+
+          final requestList = List<String>.from(
+            json.decode(
+              (userDocument)['requests'] ?? "[]",
+            ),
+          );
+
+          print(friendList);
+
+          final _firendsList = <DocumentSnapshot>[];
+          final _unFriendsList = <DocumentSnapshot>[];
+          final _friendRequests = <DocumentSnapshot>[];
+
+          for (final doc in querySnapshot.docs) {
+            if (friendList.contains(doc['uid']) ||
+                doc['uid'] == currentUserId) {
+              _firendsList.add(doc);
+            } else {
+              final userRequests = List<String>.from(
+                json.decode(doc['requests'] ?? '[]'),
+              );
+
+              if (!requestList.contains(doc['uid']) &&
+                  !userRequests.contains(currentUserId)) {
+                _unFriendsList.add(doc);
+              }
+
+              if (requestList.contains(doc['uid'])) {
+                _friendRequests.add(doc);
+              }
+            }
+          }
+
+          print(_firendsList);
+
+          if (isFriends) {
+            sink.add(_firendsList);
+          } else {
+            if (isGetRequest)
+              sink.add(_friendRequests);
+            else
+              sink.add(_unFriendsList);
+          }
+        },
+      ),
+    );
+  }
 // }
 }
