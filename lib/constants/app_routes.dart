@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 class AppRoutes {
   AppRoutes._(); //this is to prevent anyone from instantiating this object
   static final routes = [
-    GetPage(name: '/', page: () => SplashUI()),
+    GetPage(name: '/', page: () => const SplashUI()),
     GetPage(name: '/signin', page: () => SignInUI()),
     GetPage(name: '/signup', page: () => SignUpUI()),
-    GetPage(name: '/tabbar', page: () => TabbarUI()),
+    GetPage(name: '/tabbar', page: () => const TabbarUI()),
     GetPage(name: '/tabbar/home', page: () => HomeUI()),
     GetPage(name: '/tabbar/profile', page: () => ProfileUI()),
     GetPage(name: '/tabbar/profile/settings', page: () => SettingsUI()),

@@ -1,4 +1,3 @@
-import 'package:checkup/views/components/components.dart';
 import 'package:checkup/views/home_ui.dart';
 import 'package:checkup/views/ui.dart';
 import 'package:flutter/cupertino.dart';

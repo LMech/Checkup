@@ -1,7 +1,6 @@
 import 'package:checkup/models/models.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 
 class Avatar extends StatelessWidget {
   final double radius;
@@ -19,7 +18,11 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (user.photoUrl == '') {
-      return LogoGraphicHeader();
+      return LogoGraphicHeader(
+        radius: radius,
+        width: width,
+        height: height,
+      );
     }
     return Hero(
       tag: 'User Avatar Image',
