@@ -8,7 +8,7 @@ DropdownPicker(
 */
 
 class DropdownPicker extends StatelessWidget {
-  DropdownPicker(
+  const DropdownPicker(
       {required this.menuOptions,
       required this.selectedOption,
       required this.onChanged});

@@ -96,21 +96,19 @@ class AppThemes {
     ),
     appBarTheme: const AppBarTheme(
       color: _lightBackgroundAppBarColor,
-      iconTheme: IconThemeData(color: _lightTextColor),
-      textTheme: _lightTextTheme,
+      iconTheme: IconThemeData(color: _lightTextColor), toolbarTextStyle: _lightTextTheme.bodyText2, titleTextStyle: _lightTextTheme.headline6,
     ),
-    colorScheme: ColorScheme.light(
+    colorScheme: const ColorScheme.light(
       primary: _lightPrimaryColor,
-      primaryVariant: _lightBackgroundColor,
       // secondary: _lightSecondaryColor,
     ),
-    snackBarTheme: SnackBarThemeData(
+    snackBarTheme: const SnackBarThemeData(
         backgroundColor: _lightBackgroundAlertColor,
         actionTextColor: _lightBackgroundActionTextColor),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: _lightIconColor,
     ),
-    popupMenuTheme: PopupMenuThemeData(color: _lightBackgroundAppBarColor),
+    popupMenuTheme: const PopupMenuThemeData(color: _lightBackgroundAppBarColor),
     textTheme: _lightTextTheme,
     buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(
@@ -174,9 +172,7 @@ class AppThemes {
 
   //the dark theme
   static final ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    //primarySwatch: _darkPrimaryColor, //cant be Color on MaterialColor so it can compute different shades.
-    accentColor: _darkPrimaryColor, //prefix icon color form input on focus
+    brightness: Brightness.dark, //prefix icon color form input on focus
 
     fontFamily: font1,
     scaffoldBackgroundColor: _darkBackgroundColor,
@@ -185,14 +181,7 @@ class AppThemes {
     ),
     appBarTheme: const AppBarTheme(
       color: _darkBackgroundAppBarColor,
-      iconTheme: IconThemeData(color: _darkTextColor),
-      textTheme: _darkTextTheme,
-    ),
-    colorScheme: const ColorScheme.dark(
-      primary: _darkPrimaryColor,
-      primaryVariant: _darkBackgroundColor,
-
-      // secondary: _darkSecondaryColor,
+      iconTheme: IconThemeData(color: _darkTextColor), toolbarTextStyle: _darkTextTheme.bodyText2, titleTextStyle: _darkTextTheme.headline6,
     ),
     snackBarTheme: const SnackBarThemeData(
         contentTextStyle: TextStyle(color: Colors.white),
@@ -236,6 +225,10 @@ class AppThemes {
       ),
       fillColor: _darkInputFillColor,
       //focusColor: _darkBorderActiveColor,
-    ),
+    ), colorScheme: const ColorScheme.dark(
+      primary: _darkPrimaryColor,
+
+      // secondary: _darkSecondaryColor,
+    ).copyWith(secondary: _darkPrimaryColor),
   );
 }

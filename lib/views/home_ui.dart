@@ -1,7 +1,6 @@
 import 'package:checkup/constants/text_constants.dart';
 import 'package:checkup/controllers/controllers.dart';
 import 'package:checkup/views/components/avatar.dart';
-import 'package:checkup/views/ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,30 +40,6 @@ class HomeUI extends StatelessWidget {
                   ]),
               const SizedBox(height: 35),
               _createFeaturesList(),
-              // FormVerticalSpace(),
-              // Text(
-              //     'home.uidLabel'.tr +
-              //         ': ' +
-              //         controller.firestoreUser.value!.uid,
-              //     style: TextStyle(fontSize: 16)),
-              // FormVerticalSpace(),
-              // Text(
-              //     'home.nameLabel'.tr +
-              //         ': ' +
-              //         controller.firestoreUser.value!.name,
-              //     style: TextStyle(fontSize: 16)),
-              // FormVerticalSpace(),
-              // Text(
-              //     'home.emailLabel'.tr +
-              //         ': ' +
-              //         controller.firestoreUser.value!.email,
-              //     style: TextStyle(fontSize: 16)),
-              // FormVerticalSpace(),
-              // Text(
-              //     'home.adminUserLabel'.tr +
-              //         ': ' +
-              //         controller.admin.value.toString(),
-              //     style: TextStyle(fontSize: 16)),
             ],
           ),
         ),

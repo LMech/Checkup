@@ -2,7 +2,15 @@ import 'package:checkup/controllers/controllers.dart';
 import 'package:flutter/material.dart';
 
 class LogoGraphicHeader extends StatelessWidget {
-  LogoGraphicHeader({Key? key}) : super(key: key);
+  final double width;
+  final double height;
+  final double radius;
+  LogoGraphicHeader({
+    Key? key,
+    required this.radius,
+    required this.width,
+    required this.height,
+  }) : super(key: key);
   final ThemeController themeController = ThemeController.to;
 
   @override
@@ -16,13 +24,13 @@ class LogoGraphicHeader extends StatelessWidget {
       child: CircleAvatar(
           foregroundColor: Colors.blue,
           backgroundColor: Colors.transparent,
-          radius: 60.0,
+          radius: radius,
           child: ClipOval(
             child: Image.asset(
               _imageLogo,
               fit: BoxFit.cover,
-              width: 120.0,
-              height: 120.0,
+              width: width,
+              height: height,
             ),
           )),
     );

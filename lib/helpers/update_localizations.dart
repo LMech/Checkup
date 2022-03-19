@@ -94,7 +94,7 @@ class Localization extends Translations {
       _localizationFile = _localizationFile + _currentLanguageTextCode;
       for (var _phrase in _localization.phrases) {
         String _phraseKey = _phrase.key;
-        String _phrasePhrase = _phrase.phrase.replaceAll(r"'", "\\\'");
+        String _phrasePhrase = _phrase.phrase.replaceAll(r"'", "\\'");
         String _currentPhraseTextCode = "'$_phraseKey': '$_phrasePhrase',\n";
         _localizationFile = _localizationFile + _currentPhraseTextCode;
       }

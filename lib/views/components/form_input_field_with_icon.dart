@@ -1,19 +1,7 @@
 import 'package:flutter/material.dart';
-/*
-FormInputFieldWithIcon(
-                controller: _email,
-                iconPrefix: Icons.link,
-                labelText: 'Post URL',
-                validator: Validator.notEmpty,
-                keyboardType: TextInputType.multiline,
-                minLines: 3,
-                onChanged: (value) => print('changed'),
-                onSaved: (value) => print('implement me'),
-              ),
-*/
 
 class FormInputFieldWithIcon extends StatelessWidget {
-  FormInputFieldWithIcon(
+  const FormInputFieldWithIcon(
       {required this.controller,
       required this.iconPrefix,
       required this.labelText,
@@ -23,7 +11,8 @@ class FormInputFieldWithIcon extends StatelessWidget {
       this.minLines = 1,
       this.maxLines,
       required this.onChanged,
-      required this.onSaved});
+      required this.onSaved,
+      required this.onEditdingComplete});
 
   final TextEditingController controller;
   final IconData iconPrefix;
@@ -35,6 +24,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final int? maxLines;
   final void Function(String) onChanged;
   final void Function(String?)? onSaved;
+  final void Function() onEditdingComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +37,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
       controller: controller,
       onSaved: onSaved,
       onChanged: onChanged,
+      onEditingComplete: onEditdingComplete,
       keyboardType: keyboardType,
       obscureText: obscureText,
       maxLines: maxLines,
