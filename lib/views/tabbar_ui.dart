@@ -1,3 +1,7 @@
+
+import 'package:checkup/views/chat_ui.dart';
+import 'package:checkup/views/components/components.dart';
+//>>>>>>> b8e1392233eb3d5cd9fafe80de584657b88ffcd3
 import 'package:checkup/views/home_ui.dart';
 import 'package:checkup/views/ui.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,6 +29,12 @@ class TabbarUI extends StatelessWidget {
                   child: IndexedStack(
                     index: tabbarController.tabIndex.value,
                     children: [HomeUI(), ProfileUI(), Contacts()],
+                  /*  children: [
+                      HomeUI(),
+                      ProfileUI(),
+                      ChatUi(),
+                    ],*/
+//>>>>>>> b8e1392233eb3d5cd9fafe80de584657b88ffcd3
                   ),
                 ),
                 bottomNavigationBar: BottomNavigationBar(
@@ -40,8 +50,11 @@ class TabbarUI extends StatelessWidget {
                       label: 'Profile',
                     ),
                     _bottomNavigationBarItem(
+//<<<<<<< HEAD
                       icon: CupertinoIcons.person_crop_circle_fill_badge_exclam,
                       label: 'Home',
+//=======
+//>>>>>>> b8e1392233eb3d5cd9fafe80de584657b88ffcd3
                     ),
                   ],
                 )))));
