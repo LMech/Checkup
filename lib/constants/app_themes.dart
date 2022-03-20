@@ -94,9 +94,11 @@ class AppThemes {
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: _lightPrimaryColor,
     ),
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       color: _lightBackgroundAppBarColor,
-      iconTheme: IconThemeData(color: _lightTextColor), toolbarTextStyle: _lightTextTheme.bodyText2, titleTextStyle: _lightTextTheme.headline6,
+      iconTheme: IconThemeData(color: _lightTextColor),
+      toolbarTextStyle: _lightTextTheme.bodyText2,
+      titleTextStyle: _lightTextTheme.headline6,
     ),
     colorScheme: const ColorScheme.light(
       primary: _lightPrimaryColor,
@@ -108,7 +110,8 @@ class AppThemes {
     iconTheme: const IconThemeData(
       color: _lightIconColor,
     ),
-    popupMenuTheme: const PopupMenuThemeData(color: _lightBackgroundAppBarColor),
+    popupMenuTheme:
+        const PopupMenuThemeData(color: _lightBackgroundAppBarColor),
     textTheme: _lightTextTheme,
     buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(
@@ -179,9 +182,11 @@ class AppThemes {
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: _darkPrimaryColor,
     ),
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       color: _darkBackgroundAppBarColor,
-      iconTheme: IconThemeData(color: _darkTextColor), toolbarTextStyle: _darkTextTheme.bodyText2, titleTextStyle: _darkTextTheme.headline6,
+      iconTheme: IconThemeData(color: _darkTextColor),
+      toolbarTextStyle: _darkTextTheme.bodyText2,
+      titleTextStyle: _darkTextTheme.headline6,
     ),
     snackBarTheme: const SnackBarThemeData(
         contentTextStyle: TextStyle(color: Colors.white),
@@ -225,7 +230,8 @@ class AppThemes {
       ),
       fillColor: _darkInputFillColor,
       //focusColor: _darkBorderActiveColor,
-    ), colorScheme: const ColorScheme.dark(
+    ),
+    colorScheme: const ColorScheme.dark(
       primary: _darkPrimaryColor,
 
       // secondary: _darkSecondaryColor,

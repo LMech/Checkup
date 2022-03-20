@@ -15,8 +15,10 @@ class TabbarUI extends StatelessWidget {
     return GetBuilder<AuthController>(
         init: AuthController(),
         builder: (controller) => controller.firestoreUser.value!.uid == null
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? SafeArea(
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
               )
             : Obx(() => (Scaffold(
                 body: SafeArea(

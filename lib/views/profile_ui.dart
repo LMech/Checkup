@@ -1,4 +1,5 @@
 import 'package:checkup/controllers/controllers.dart';
+import 'package:checkup/controllers/profile_controller.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:checkup/views/components/profile/about_user_ui.dart';
 import 'package:checkup/views/settings_ui.dart';
@@ -7,11 +8,13 @@ import 'package:get/get.dart';
 
 class ProfileUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
+  final ProfileController profileController = Get.put(ProfileController());
 
   ProfileUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var photoUrl = '';
     return Scaffold(
         appBar: AppBar(
           title: const Text("Profile"),
@@ -27,12 +30,28 @@ class ProfileUI extends StatelessWidget {
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(children: <Widget>[
-            Avatar(authController.firestoreUser.value!,
-                radius: 80, height: 500, width: 500),
-            // _aboutYou(),
+            GestureDetector(
+              child: photoUrl == ''
+                  ? Avatar(
+                      authController.firestoreUser.value!,
+                      radius: 50.0,
+                      height: 120,
+                      width: 200,
+                    )
+                  : CircleAvatar(
+                      child: ClipOval(
+                          child: FadeInImage.assetNetwork(
+                              placeholder: '',
+                              image: photoUrl,
+                              fit: BoxFit.cover,
+                              width: 200,
+                              height: 120)),
+                      radius: 50),
+              onTap: () {},
+            ),
             ElevatedButton(
                 onPressed: () {
-                  Get.to(AboutUserUI());
+                  Get.to(() => AboutUserUI());
                 },
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

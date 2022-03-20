@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 
 class AboutUserUI extends StatelessWidget {
   AboutUserUI({Key? key}) : super(key: key);
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final ProfileController profileController = Get.put(ProfileController());
+  final ProfileController profileController = ProfileController.to;
+  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,64 +23,64 @@ class AboutUserUI extends StatelessWidget {
   _aboutYou() {
     return Container(
         child: Form(
-            key: _formKey,
+            // key: _formKey,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  FormInputFieldWithIcon(
-                    controller: profileController.phoneNumberController,
-                    iconPrefix: CupertinoIcons.phone,
-                    keyboardType: TextInputType.datetime,
-                    labelText: "Phone Number",
-                    validator: Validator().name,
-                    onChanged: (value) {},
-                    onSaved: (value) {},
-                    onEditdingComplete: () async {
-                      await profileController.updateDB('phoneNumber',
-                          profileController.phoneNumberController.text);
-                    },
-                  ),
-                  const FormVerticalSpace(),
-                  FormInputFieldWithIcon(
-                    controller: profileController.dataOfBirthController,
-                    iconPrefix: CupertinoIcons.calendar,
-                    keyboardType: TextInputType.datetime,
-                    labelText: "Date of Birth",
-                    validator: Validator().name,
-                    onChanged: (value) {},
-                    onSaved: (value) {},
-                    onEditdingComplete: () async {
-                      await profileController.updateDB('dateOfBirth',
-                          profileController.dataOfBirthController.text);
-                    },
-                  ),
-                  const FormVerticalSpace(),
-                  FormInputFieldWithIcon(
-                      controller: profileController.heightController,
-                      iconPrefix: Icons.height_sharp,
-                      keyboardType: TextInputType.number,
-                      labelText: "Height",
-                      validator: Validator().number,
-                      onChanged: (value) {},
-                      onSaved: (value) {},
-                      onEditdingComplete: () async {
-                        await profileController.updateDB('dateOfBirth',
-                            profileController.dataOfBirthController.text);
-                      }),
-                  const FormVerticalSpace(),
-                  FormInputFieldWithIcon(
-                      controller: profileController.weightController,
-                      iconPrefix: Icons.monitor_weight,
-                      keyboardType: TextInputType.datetime,
-                      labelText: "Weight",
-                      validator: Validator().number,
-                      onChanged: (value) {},
-                      onSaved: (value) {},
-                      onEditdingComplete: () async {
-                        await profileController.updateDB('dateOfBirth',
-                            profileController.dataOfBirthController.text);
-                      })
-                ])));
+          FormInputFieldWithIcon(
+            controller: profileController.phoneNumberController,
+            iconPrefix: CupertinoIcons.phone,
+            keyboardType: TextInputType.datetime,
+            labelText: "Phone Number",
+            validator: Validator().name,
+            onChanged: (value) {},
+            onSaved: (value) {},
+            onEditdingComplete: () async {
+              await profileController.updateDB(
+                  'phoneNumber', profileController.phoneNumberController.text);
+            },
+          ),
+          const FormVerticalSpace(),
+          FormInputFieldWithIcon(
+            controller: profileController.dataOfBirthController,
+            iconPrefix: CupertinoIcons.calendar,
+            keyboardType: TextInputType.datetime,
+            labelText: "Date of Birth",
+            validator: Validator().name,
+            onChanged: (value) {},
+            onSaved: (value) {},
+            onEditdingComplete: () async {
+              await profileController.updateDB(
+                  'dateOfBirth', profileController.dataOfBirthController.text);
+            },
+          ),
+          const FormVerticalSpace(),
+          FormInputFieldWithIcon(
+              controller: profileController.heightController,
+              iconPrefix: Icons.height_sharp,
+              keyboardType: TextInputType.number,
+              labelText: "Height",
+              validator: Validator().number,
+              onChanged: (value) {},
+              onSaved: (value) {},
+              onEditdingComplete: () async {
+                await profileController.updateDB('dateOfBirth',
+                    profileController.dataOfBirthController.text);
+              }),
+          const FormVerticalSpace(),
+          FormInputFieldWithIcon(
+              controller: profileController.weightController,
+              iconPrefix: Icons.monitor_weight,
+              keyboardType: TextInputType.datetime,
+              labelText: "Weight",
+              validator: Validator().number,
+              onChanged: (value) {},
+              onSaved: (value) {},
+              onEditdingComplete: () async {
+                await profileController.updateDB('dateOfBirth',
+                    profileController.dataOfBirthController.text);
+              })
+        ])));
   }
 }
