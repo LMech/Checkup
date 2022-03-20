@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
+@immutable
 class FormInputFieldWithIcon extends StatelessWidget {
-  const FormInputFieldWithIcon(
-      {required this.controller,
+  FormInputFieldWithIcon(
+      {Key? key,
+      required this.controller,
       required this.iconPrefix,
       required this.labelText,
       required this.validator,
@@ -10,9 +13,11 @@ class FormInputFieldWithIcon extends StatelessWidget {
       this.obscureText = false,
       this.minLines = 1,
       this.maxLines,
-      required this.onChanged,
-      required this.onSaved,
-      required this.onEditdingComplete});
+      this.onTap,
+      this.onChanged,
+      this.onSaved,
+      this.onEditdingComplete})
+      : super(key: key);
 
   final TextEditingController controller;
   final IconData iconPrefix;
@@ -22,9 +27,10 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final bool obscureText;
   final int minLines;
   final int? maxLines;
-  final void Function(String) onChanged;
-  final void Function(String?)? onSaved;
-  final void Function() onEditdingComplete;
+  void Function()? onTap;
+  void Function(String)? onChanged;
+  void Function(String?)? onSaved;
+  void Function()? onEditdingComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +41,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
         labelText: labelText,
       ),
       controller: controller,
+      onTap: onTap,
       onSaved: onSaved,
       onChanged: onChanged,
       onEditingComplete: onEditdingComplete,
