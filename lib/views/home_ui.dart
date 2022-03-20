@@ -39,7 +39,7 @@ class HomeUI extends StatelessWidget {
                         "BPM", _screenWidth),
                   ]),
               const SizedBox(height: 35),
-              _createFeaturesList(),
+              _featuresList(),
             ],
           ),
         ),
@@ -152,7 +152,7 @@ class HomeUI extends StatelessWidget {
     );
   }
 
-  Widget _createFeaturesList() {
+  Widget _featuresList() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
