@@ -25,7 +25,7 @@ class Avatar extends StatelessWidget {
       );
     }
     return Hero(
-      tag: 'User Avatar Image',
+      tag: 'User Avatar Image $radius',
       child: CircleAvatar(
           foregroundColor: Colors.blue,
           backgroundColor: Colors.white,

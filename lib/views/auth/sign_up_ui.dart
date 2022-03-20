@@ -80,7 +80,7 @@ class SignUpUI extends StatelessWidget {
                   const FormVerticalSpace(),
                   LabelButton(
                     labelText: 'auth.signInLabelButton'.tr,
-                    onPressed: () => Get.to(SignInUI()),
+                    onPressed: () => Get.to(() => SignInUI()),
                   ),
                 ],
               ),
