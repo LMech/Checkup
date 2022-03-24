@@ -25,7 +25,11 @@ class TabbarUI extends StatelessWidget {
                 body: SafeArea(
                   child: IndexedStack(
                     index: tabbarController.tabIndex.value,
-                    children: [HomeUI(), ProfileUI(), Contacts()],
+                    children: [
+                      HomeUI(),
+                      Contacts(),
+                      ProfileUI(),
+                    ],
                   ),
                 ),
                 bottomNavigationBar: BottomNavigationBar(
@@ -35,6 +39,10 @@ class TabbarUI extends StatelessWidget {
                     _bottomNavigationBarItem(
                       icon: CupertinoIcons.home,
                       label: 'Home',
+                    ),
+                    _bottomNavigationBarItem(
+                      icon: CupertinoIcons.person_3_fill,
+                      label: 'Contacts',
                     ),
                     _bottomNavigationBarItem(
                       icon: CupertinoIcons.profile_circled,

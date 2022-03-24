@@ -27,7 +27,7 @@ class UserModel {
       dateOfBirth: Json['dateOfBirth'],
       phoneNumber: Json['phoneNumber'],
       height: Json['height'],
-      weight: Json['wight'],
+      weight: Json['weight'],
     );
   }
 
