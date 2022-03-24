@@ -15,8 +15,6 @@ class Binding extends Bindings {
     Get.lazyPut(() => LanguageController());
     Get.lazyPut(() => AddFriendController());
     Get.lazyPut(() => friendsControll());
-    Get.lazyPut(() => GetUserMap());
-
-
+    // Get.lazyPut(() => GetUserMap());
   }
 }
