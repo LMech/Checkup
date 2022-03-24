@@ -1,4 +1,4 @@
-//User Model
+// User Model;
 class UserModel {
   final String uid;
   final String email;
@@ -8,9 +8,10 @@ class UserModel {
   String dateOfBirth;
   int height;
   int weight;
-
+  final List<String>? friends;
   UserModel(
-      {required this.uid,
+      {this.friends,
+      required this.uid,
       required this.email,
       required this.name,
       required this.photoUrl,
@@ -19,7 +20,7 @@ class UserModel {
       this.height = -1,
       this.weight = -1});
 
-  factory UserModel.fromMap(Map data) {
+  factory UserModel.fromJson(Map<String, dynamic> Json) {
     return UserModel(
       uid: data['uid'],
       email: data['email'] ?? '',
@@ -42,4 +43,19 @@ class UserModel {
         "height": height,
         "weight": weight,
       };
+
+  //     uid: Json['uid'],
+  //     name: Json['name'],
+  //     email: Json['email'],
+  //     photoUrl: Json['photoUrl'],
+  //   );
+  // }
+
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     'uid': uid,
+  //     'name': name,
+  //     'email': email,
+  //     'photoUrl': photoUrl,
+  //   };
 }

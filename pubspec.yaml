@@ -48,6 +48,12 @@ dependencies:
   csv: ^5.0.1
   crypto: ^3.0.1
   js: ^0.6.3
+  cached_network_image: ^3.2.0
+  sound_stream: ^0.3.0
+  dialogflow_grpc: ^0.2.9
+  rxdart: ^0.27.3
+  tflite: ^1.1.2
+  image_picker: ^0.8.4+11
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +84,7 @@ flutter:
       - assets/images/
       - assets/icons/home/
       - assets/icons/
+      - assets/credentials.json
 
 
 
