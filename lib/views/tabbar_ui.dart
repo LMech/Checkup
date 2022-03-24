@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/controllers.dart';
+import 'friends/contacts.dart';
 
 class TabbarUI extends StatelessWidget {
   static final tabbarController = Get.put(TabbarController());
@@ -24,10 +25,7 @@ class TabbarUI extends StatelessWidget {
                 body: SafeArea(
                   child: IndexedStack(
                     index: tabbarController.tabIndex.value,
-                    children: [
-                      HomeUI(),
-                      ProfileUI(),
-                    ],
+                    children: [HomeUI(), ProfileUI(), Contacts()],
                   ),
                 ),
                 bottomNavigationBar: BottomNavigationBar(
