@@ -5,7 +5,6 @@ import 'package:checkup/views/auth/auth.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:checkup/views/components/segmented_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class SettingsUI extends StatelessWidget {
@@ -31,7 +30,7 @@ class SettingsUI extends StatelessWidget {
             title: Text('settings.updateProfile'.tr),
             trailing: ElevatedButton(
               onPressed: () async {
-                Get.to(UpdateProfileUI());
+                Get.to(() => UpdateProfileUI());
               },
               child: Text(
                 'settings.updateProfile'.tr,

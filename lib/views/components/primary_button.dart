@@ -8,7 +8,7 @@ PrimaryButton(
 */
 
 class PrimaryButton extends StatelessWidget {
-  PrimaryButton({required this.labelText, required this.onPressed});
+  const PrimaryButton({required this.labelText, required this.onPressed});
 
   final String labelText;
   final void Function() onPressed;
@@ -19,7 +19,7 @@ class PrimaryButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         labelText.toUpperCase(),
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }

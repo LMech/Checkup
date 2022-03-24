@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class AppThemes {
   AppThemes._();
 
-  static const Color dodgerBlue = Color.fromRGBO(29, 161, 242, 1);
+  static const Color dodgerBlue = Color.fromARGB(255, 112, 196, 248);
   static const Color whiteLilac = Color.fromRGBO(248, 250, 252, 1);
   static const Color blackPearl = Color.fromRGBO(30, 31, 43, 1);
   static const Color brinkPink = Color.fromRGBO(255, 97, 136, 1);
   static const Color juneBud = Color.fromRGBO(186, 215, 97, 1);
   static const Color white = Color.fromARGB(255, 255, 255, 255);
-  static const Color nevada = Color.fromARGB(255, 174, 180, 194);
+  static const Color nevada = Color.fromARGB(255, 196, 197, 200);
   static const Color ebonyClay = Color.fromRGBO(40, 42, 58, 1);
 
   static String font1 = "ProductSans";
@@ -33,10 +33,10 @@ class AppThemes {
   static const Color _lightTextSecondaryColor = Colors.black;
 
   //Border Color
-  static const Color _lightBorderColor = nevada;
+  static const Color _lightBorderColor = blackPearl;
 
   //Icon Color
-  static const Color _lightIconColor = nevada;
+  static const Color _lightIconColor = blackPearl;
 
   //form input colors
   static const Color _lightInputFillColor = _lightBackgroundSecondaryColor;
@@ -78,7 +78,7 @@ class AppThemes {
   static const TextTheme _lightTextTheme = TextTheme(
     headline1: TextStyle(fontSize: 20.0, color: _lightTextColor),
     bodyText1: TextStyle(fontSize: 16.0, color: _lightTextColor),
-    bodyText2: TextStyle(fontSize: 14.0, color: Colors.grey),
+    bodyText2: TextStyle(fontSize: 14.0, color: _lightTextColor),
     button: TextStyle(
         fontSize: 15.0, color: _lightTextColor, fontWeight: FontWeight.w600),
     headline6: TextStyle(fontSize: 16.0, color: _lightTextColor),
@@ -94,23 +94,24 @@ class AppThemes {
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: _lightPrimaryColor,
     ),
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       color: _lightBackgroundAppBarColor,
       iconTheme: IconThemeData(color: _lightTextColor),
-      textTheme: _lightTextTheme,
+      toolbarTextStyle: _lightTextTheme.bodyText2,
+      titleTextStyle: _lightTextTheme.headline6,
     ),
-    colorScheme: ColorScheme.light(
+    colorScheme: const ColorScheme.light(
       primary: _lightPrimaryColor,
-      primaryVariant: _lightBackgroundColor,
       // secondary: _lightSecondaryColor,
     ),
-    snackBarTheme: SnackBarThemeData(
+    snackBarTheme: const SnackBarThemeData(
         backgroundColor: _lightBackgroundAlertColor,
         actionTextColor: _lightBackgroundActionTextColor),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: _lightIconColor,
     ),
-    popupMenuTheme: PopupMenuThemeData(color: _lightBackgroundAppBarColor),
+    popupMenuTheme:
+        const PopupMenuThemeData(color: _lightBackgroundAppBarColor),
     textTheme: _lightTextTheme,
     buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(
@@ -174,25 +175,18 @@ class AppThemes {
 
   //the dark theme
   static final ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    //primarySwatch: _darkPrimaryColor, //cant be Color on MaterialColor so it can compute different shades.
-    accentColor: _darkPrimaryColor, //prefix icon color form input on focus
+    brightness: Brightness.dark, //prefix icon color form input on focus
 
     fontFamily: font1,
     scaffoldBackgroundColor: _darkBackgroundColor,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: _darkPrimaryColor,
     ),
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       color: _darkBackgroundAppBarColor,
       iconTheme: IconThemeData(color: _darkTextColor),
-      textTheme: _darkTextTheme,
-    ),
-    colorScheme: const ColorScheme.dark(
-      primary: _darkPrimaryColor,
-      primaryVariant: _darkBackgroundColor,
-
-      // secondary: _darkSecondaryColor,
+      toolbarTextStyle: _darkTextTheme.bodyText2,
+      titleTextStyle: _darkTextTheme.headline6,
     ),
     snackBarTheme: const SnackBarThemeData(
         contentTextStyle: TextStyle(color: Colors.white),
@@ -237,5 +231,10 @@ class AppThemes {
       fillColor: _darkInputFillColor,
       //focusColor: _darkBorderActiveColor,
     ),
+    colorScheme: const ColorScheme.dark(
+      primary: _darkPrimaryColor,
+
+      // secondary: _darkSecondaryColor,
+    ).copyWith(secondary: _darkPrimaryColor),
   );
 }
