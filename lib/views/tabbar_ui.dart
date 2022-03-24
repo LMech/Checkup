@@ -1,5 +1,3 @@
-import 'package:checkup/views/chat_ui.dart';
-import 'package:checkup/views/components/components.dart';
 import 'package:checkup/views/home_ui.dart';
 import 'package:checkup/views/ui.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/controllers.dart';
+import 'friends/contacts.dart';
 
 class TabbarUI extends StatelessWidget {
   static final tabbarController = Get.put(TabbarController());
@@ -17,8 +16,10 @@ class TabbarUI extends StatelessWidget {
     return GetBuilder<AuthController>(
         init: AuthController(),
         builder: (controller) => controller.firestoreUser.value!.uid == null
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? SafeArea(
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
               )
             : Obx(() => (Scaffold(
                 body: SafeArea(
@@ -26,8 +27,8 @@ class TabbarUI extends StatelessWidget {
                     index: tabbarController.tabIndex.value,
                     children: [
                       HomeUI(),
+                      Contacts(),
                       ProfileUI(),
-                      ChatUi(),
                     ],
                   ),
                 ),
@@ -40,12 +41,12 @@ class TabbarUI extends StatelessWidget {
                       label: 'Home',
                     ),
                     _bottomNavigationBarItem(
-                      icon: CupertinoIcons.profile_circled,
-                      label: 'Profile',
+                      icon: CupertinoIcons.person_3_fill,
+                      label: 'Contacts',
                     ),
                     _bottomNavigationBarItem(
-                      icon: CupertinoIcons.chat_bubble_text,
-                      label: 'chat',
+                      icon: CupertinoIcons.profile_circled,
+                      label: 'Profile',
                     ),
                   ],
                 )))));

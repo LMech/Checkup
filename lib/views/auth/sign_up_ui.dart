@@ -26,7 +26,11 @@ class SignUpUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  LogoGraphicHeader(),
+                  LogoGraphicHeader(
+                    radius: 20,
+                    height: 120,
+                    width: 200,
+                  ),
                   const SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
                     controller: authController.nameController,
@@ -36,8 +40,9 @@ class SignUpUI extends StatelessWidget {
                     onChanged: (value) => '',
                     onSaved: (value) =>
                         authController.nameController.text = value!,
+                    onEditdingComplete: () {},
                   ),
-                  FormVerticalSpace(),
+                  const FormVerticalSpace(),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: CupertinoIcons.mail,
@@ -47,8 +52,9 @@ class SignUpUI extends StatelessWidget {
                     onChanged: (value) => '',
                     onSaved: (value) =>
                         authController.emailController.text = value!,
+                    onEditdingComplete: () {},
                   ),
-                  FormVerticalSpace(),
+                  const FormVerticalSpace(),
                   FormInputFieldWithIcon(
                     controller: authController.passwordController,
                     iconPrefix: CupertinoIcons.lock,
@@ -59,8 +65,9 @@ class SignUpUI extends StatelessWidget {
                     onSaved: (value) =>
                         authController.passwordController.text = value!,
                     maxLines: 1,
+                    onEditdingComplete: () {},
                   ),
-                  FormVerticalSpace(),
+                  const FormVerticalSpace(),
                   PrimaryButton(
                       labelText: 'auth.signUpButton'.tr,
                       onPressed: () async {
@@ -70,10 +77,10 @@ class SignUpUI extends StatelessWidget {
                           authController.registerWithEmailAndPassword(context);
                         }
                       }),
-                  FormVerticalSpace(),
+                  const FormVerticalSpace(),
                   LabelButton(
                     labelText: 'auth.signInLabelButton'.tr,
-                    onPressed: () => Get.to(SignInUI()),
+                    onPressed: () => Get.to(() => SignInUI()),
                   ),
                 ],
               ),

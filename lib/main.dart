@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'constants/constants.dart';
 import 'controllers/controllers.dart';
+import 'helpers/dependencies.dart';
 import 'views/components/components.dart';
 
 import 'firebase_options.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
     return GetBuilder<LanguageController>(
       builder: (languageController) => Loading(
         child: GetMaterialApp(
+          initialBinding: Binding(),
           translations: Localization(),
           locale: languageController.getLocale, // <- Current locale
           // navigatorObservers: [

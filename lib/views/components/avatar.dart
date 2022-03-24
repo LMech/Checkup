@@ -3,28 +3,39 @@ import 'package:checkup/views/components/components.dart';
 import 'package:flutter/material.dart';
 
 class Avatar extends StatelessWidget {
-  Avatar(
-    this.user,
-  );
+  final double radius;
+  final double height;
+  final double width;
+  const Avatar(
+    this.user, {
+    Key? key,
+    required this.radius,
+    required this.height,
+    required this.width,
+  }) : super(key: key);
   final UserModel user;
 
   @override
   Widget build(BuildContext context) {
     if (user.photoUrl == '') {
-      return LogoGraphicHeader();
+      return LogoGraphicHeader(
+        radius: radius,
+        width: width,
+        height: height,
+      );
     }
     return Hero(
-      tag: 'User Avatar Image',
+      tag: 'User Avatar Image $radius',
       child: CircleAvatar(
           foregroundColor: Colors.blue,
           backgroundColor: Colors.white,
-          radius: 25.0,
+          radius: radius,
           child: ClipOval(
             child: Image.network(
               user.photoUrl,
               fit: BoxFit.cover,
-              width: 200.0,
-              height: 120.0,
+              width: width,
+              height: height,
             ),
           )),
     );

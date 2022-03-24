@@ -4,7 +4,6 @@ import 'package:checkup/views/auth/auth.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'dart:core';
 import 'package:get/get.dart';
@@ -13,6 +12,7 @@ class SignInUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
@@ -25,8 +25,12 @@ class SignInUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  LogoGraphicHeader(),
-                  SizedBox(height: 48.0),
+                  LogoGraphicHeader(
+                    radius: 20,
+                    height: 120,
+                    width: 200,
+                  ),
+                  const SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: CupertinoIcons.mail,
@@ -36,8 +40,9 @@ class SignInUI extends StatelessWidget {
                     onChanged: (value) => '',
                     onSaved: (value) =>
                         authController.emailController.text = value!,
+                    onEditdingComplete: () {},
                   ),
-                  FormVerticalSpace(),
+                  const FormVerticalSpace(),
                   FormInputFieldWithIcon(
                     controller: authController.passwordController,
                     iconPrefix: CupertinoIcons.lock,
@@ -48,8 +53,9 @@ class SignInUI extends StatelessWidget {
                     onSaved: (value) =>
                         authController.passwordController.text = value!,
                     maxLines: 1,
+                    onEditdingComplete: () {},
                   ),
-                  FormVerticalSpace(),
+                  const FormVerticalSpace(),
                   PrimaryButton(
                       labelText: 'auth.signInButton'.tr,
                       onPressed: () async {
@@ -57,15 +63,15 @@ class SignInUI extends StatelessWidget {
                           authController.signInWithEmailAndPassword(context);
                         }
                       }),
-                  FormVerticalSpace(),
+                  const FormVerticalSpace(),
                   LabelButton(
                     labelText: 'auth.resetPasswordLabelButton'.tr,
-                    onPressed: () => Get.to(ResetPasswordUI()),
+                    onPressed: () => Get.to(() => ResetPasswordUI()),
                   ),
                   LabelButton(
                     labelText: 'auth.signUpLabelButton'.tr,
-                    onPressed: () => Get.to(SignUpUI()),
-                  ),
+                    onPressed: () => Get.to(() => SignUpUI()),
+                  ), /*  */
                 ],
               ),
             ),

@@ -49,7 +49,7 @@ class AuthController extends GetxController {
     if (_firebaseUser == null) {
       Get.offAll(SignInUI());
     } else {
-      Get.offAll(TabbarUI());
+      Get.offAll(const TabbarUI());
     }
   }
 
@@ -64,13 +64,13 @@ class AuthController extends GetxController {
     return _db
         .doc('/users/${firebaseUser.value!.uid}')
         .snapshots()
-        .map((snapshot) => UserModel.fromMap(snapshot.data()!));
+        .map((snapshot) => UserModel.fromJson(snapshot.data()!));
   }
 
   //get the firestore user from the firestore collection
   Future<UserModel> getFirestoreUser() {
     return _db.doc('/users/${firebaseUser.value!.uid}').get().then(
-        (documentSnapshot) => UserModel.fromMap(documentSnapshot.data()!));
+        (documentSnapshot) => UserModel.fromJson(documentSnapshot.data()!));
   }
 
   //Method to handle user sign in using email and password
@@ -113,10 +113,11 @@ class AuthController extends GetxController {
         );
         //create the new user object
         UserModel _newUser = UserModel(
-            uid: result.user!.uid,
-            email: result.user!.email!,
-            name: nameController.text,
-            photoUrl: gravatarUrl);
+          uid: result.user!.uid,
+          email: result.user!.email!,
+          name: nameController.text,
+          photoUrl: gravatarUrl,
+        );
         //create the user in firestore
         _createUserFirestore(_newUser, result.user!);
         emailController.clear();
