@@ -1,5 +1,6 @@
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ChatbotUI extends StatefulWidget {
   @override
@@ -11,15 +12,24 @@ class _ChatbotUIState extends State<ChatbotUI> {
   final TextEditingController messageController = TextEditingController();
 
   List<Map<String, dynamic>> messages = [];
+  late GetStorage messagesStorage;
+  late var allMessages;
+  static int messagesCount = 0;
 
   @override
   void initState() {
     super.initState();
     DialogFlowtter.fromFile().then((instance) => dialogFlowtter = instance);
+    messagesStorage = GetStorage('messagesStorage');
+    allMessages = messagesStorage.getValues();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(allMessages.toString());
+    if (messages.isEmpty) {
+      showOldMessages();
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -87,17 +97,36 @@ class _ChatbotUIState extends State<ChatbotUI> {
   }
 
   void addMessage(Message message, [bool isUserMessage = false]) {
+    messagesStorage.write(messagesCount.toString(),
+        message.text!.text.toString() + " : " + isUserMessage.toString());
+    messagesCount++;
     messages.add({
       'message': message,
       'isUserMessage': isUserMessage,
     });
   }
 
-  // @override
-  // void dispose() {
-  //   dialogFlowtter.dispose();
-  //   super.dispose();
-  // }
+  void showOldMessages() {
+    allMessages = messagesStorage.getValues();
+
+    print(allMessages);
+    for (var msg in allMessages) {
+      var split = msg.toString().split(" : ");
+      var first = split.first.substring(1, split.first.length - 1);
+      messages.add({
+        'message': Message(text: DialogText(text: first.split(","))),
+        'isUserMessage': split.last == 'true',
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    dialogFlowtter.dispose();
+    messagesStorage.erase();
+    messagesCount = 0;
+    super.dispose();
+  }
 }
 
 class Body extends StatelessWidget {

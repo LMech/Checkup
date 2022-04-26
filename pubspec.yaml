@@ -50,7 +50,9 @@ dependencies:
 
   # Dialogflow Packages
   dialog_flowtter: ^0.3.3
-  hexcolor: ^2.0.6
+  path_provider: ^2.0.9
+  get_storage: ^2.0.3
+  
 
 
 
