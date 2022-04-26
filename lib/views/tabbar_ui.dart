@@ -1,5 +1,6 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/tabbar_controller.dart';
+import 'package:checkup/views/chat_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,6 +29,7 @@ class TabbarUI extends StatelessWidget {
                     index: tabbarController.tabIndex.value,
                     children: [
                       const HomeUI(),
+                      ChatbotUI(),
                       ContactsUI(),
                       ProfileUI(),
                     ],
@@ -36,27 +38,25 @@ class TabbarUI extends StatelessWidget {
                 bottomNavigationBar: BottomNavigationBar(
                   currentIndex: tabbarController.tabIndex.value,
                   onTap: tabbarController.changeTabIndex,
-                  items: [
-                    _bottomNavigationBarItem(
-                      icon: CupertinoIcons.home,
+                  type: BottomNavigationBarType.fixed,
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(CupertinoIcons.home),
                       label: 'Home',
                     ),
-                    _bottomNavigationBarItem(
-                      icon: CupertinoIcons.person_3_fill,
+                    BottomNavigationBarItem(
+                      icon: Icon(CupertinoIcons.chat_bubble_2),
+                      label: 'Atouf',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(CupertinoIcons.person_3_fill),
                       label: 'Contacts',
                     ),
-                    _bottomNavigationBarItem(
-                      icon: CupertinoIcons.profile_circled,
+                    BottomNavigationBarItem(
+                      icon: Icon(CupertinoIcons.profile_circled),
                       label: 'Profile',
                     ),
                   ],
                 )))));
-  }
-
-  _bottomNavigationBarItem({required IconData icon, required String label}) {
-    return BottomNavigationBarItem(
-      icon: Icon(icon),
-      label: label,
-    );
   }
 }
