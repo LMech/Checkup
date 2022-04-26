@@ -26,7 +26,7 @@ class SignUpUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  LogoGraphicHeader(
+                  const LogoGraphicHeader(
                     radius: 20,
                     height: 120,
                     width: 200,
@@ -35,7 +35,7 @@ class SignUpUI extends StatelessWidget {
                   FormInputFieldWithIcon(
                     controller: authController.nameController,
                     iconPrefix: CupertinoIcons.person,
-                    labelText: 'auth.nameFormField'.tr,
+                    labelText: 'Name',
                     validator: Validator().name,
                     onChanged: (value) => '',
                     onSaved: (value) =>
@@ -46,7 +46,7 @@ class SignUpUI extends StatelessWidget {
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: CupertinoIcons.mail,
-                    labelText: 'auth.emailFormField'.tr,
+                    labelText: 'Email'.tr,
                     validator: Validator().email,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => '',
@@ -58,7 +58,7 @@ class SignUpUI extends StatelessWidget {
                   FormInputFieldWithIcon(
                     controller: authController.passwordController,
                     iconPrefix: CupertinoIcons.lock,
-                    labelText: 'auth.passwordFormField'.tr,
+                    labelText: 'Password'.tr,
                     validator: Validator().password,
                     obscureText: true,
                     onChanged: (value) => '',
@@ -69,7 +69,7 @@ class SignUpUI extends StatelessWidget {
                   ),
                   const FormVerticalSpace(),
                   PrimaryButton(
-                      labelText: 'auth.signUpButton'.tr,
+                      labelText: 'Sign Up'.tr,
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           SystemChannels.textInput.invokeMethod(
@@ -79,7 +79,7 @@ class SignUpUI extends StatelessWidget {
                       }),
                   const FormVerticalSpace(),
                   LabelButton(
-                    labelText: 'auth.signInLabelButton'.tr,
+                    labelText: 'Already have an accound, sign in',
                     onPressed: () => Get.to(() => SignInUI()),
                   ),
                 ],

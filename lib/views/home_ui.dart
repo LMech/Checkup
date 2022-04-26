@@ -1,25 +1,39 @@
 import 'package:checkup/constants/text_constants.dart';
 import 'package:checkup/controllers/controllers.dart';
+import 'package:checkup/controllers/home_controller.dart';
+import 'package:checkup/views/auth/connect_ui.dart';
 import 'package:checkup/views/components/avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'components/feature_card.dart';
 
-class HomeUI extends StatelessWidget {
+class HomeUI extends StatefulWidget {
   static final AuthController authController = Get.find();
+
+  const HomeUI({Key? key}) : super(key: key);
+
+  @override
+  State<HomeUI> createState() => _HomeUIState();
+}
+
+class _HomeUIState extends State<HomeUI> {
+  HomeController homeController = Get.put(HomeController());
+
   final String photoUrl = '';
+
   @override
   Widget build(BuildContext context) {
     final _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('home.title'.tr),
+        title: const Text('Home'),
         actions: [
           IconButton(
               icon: const Icon(Icons.add),
-              // TODO: add screen for connecting to the devices
-              onPressed: () {}),
+              onPressed: () {
+                Get.to(const ConnectUI());
+              }),
         ],
       ),
       body: SafeArea(
@@ -30,14 +44,108 @@ class HomeUI extends StatelessWidget {
               const SizedBox(height: 35),
               _profileData(),
               const SizedBox(height: 35),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    _vitalCard(Icons.bubble_chart_outlined, Colors.blueAccent,
-                        "Oxygen Saturation", "%", _screenWidth),
-                    _vitalCard(CupertinoIcons.heart, Colors.red, "Heart Rate",
-                        "BPM", _screenWidth),
-                  ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Container(
+                  padding: const EdgeInsets.all(15),
+                  height: 220,
+                  width: _screenWidth * .42,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Get.theme.cardColor,
+                    boxShadow: const [
+                      BoxShadow(
+                        blurRadius: 5.0,
+                        spreadRadius: 1.1,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: const [
+                          Icon(
+                            CupertinoIcons.heart,
+                            color: Colors.red,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            "Heart Rate",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Obx(
+                        () => Text(homeController.hr.string,
+                            style: const TextStyle(
+                              fontSize: 48,
+                              fontWeight: FontWeight.w700,
+                            )),
+                      ),
+                      const Text(
+                        "BPM",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(15),
+                  height: 220,
+                  width: _screenWidth * .42,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Get.theme.cardColor,
+                    boxShadow: const [
+                      BoxShadow(
+                        blurRadius: 5.0,
+                        spreadRadius: 1.1,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: const [
+                          Icon(
+                            Icons.bubble_chart_outlined,
+                            color: Colors.blueAccent,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            "Oxygen\nSaturation",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Obx(
+                        () => Text(homeController.hr.value,
+                            style: const TextStyle(
+                              fontSize: 48,
+                              fontWeight: FontWeight.w700,
+                            )),
+                      ),
+                      const Text(
+                        "%",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ]),
               const SizedBox(height: 35),
               _featuresList(),
             ],
@@ -50,14 +158,14 @@ class HomeUI extends StatelessWidget {
   }
 
   Widget _profileData() {
-    final String userName = authController.firestoreUser.value!.name;
+    final String userName = HomeUI.authController.firestoreUser.value!.name;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            'Hi, $userName'.tr,
+            'Hi, $userName',
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -75,7 +183,7 @@ class HomeUI extends StatelessWidget {
         GestureDetector(
           child: photoUrl == ''
               ? Avatar(
-                  authController.firestoreUser.value!,
+                  HomeUI.authController.firestoreUser.value!,
                   radius: 25.0,
                   height: 120,
                   width: 200,
@@ -92,63 +200,6 @@ class HomeUI extends StatelessWidget {
           onTap: () {},
         )
       ]),
-    );
-  }
-
-  Widget _vitalCard(IconData icon, Color color, String vital, String unit,
-      double screenWidth) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      height: 200,
-      width: screenWidth * 0.42,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Get.theme.cardColor,
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 5.0,
-            spreadRadius: 1.1,
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            children: [
-              Icon(
-                icon,
-                color: color,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  vital.tr,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const Text(
-            "--",
-            style: TextStyle(
-              fontSize: 48,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          Text(
-            unit.tr,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
     );
   }
 

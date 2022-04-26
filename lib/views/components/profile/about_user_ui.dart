@@ -3,11 +3,10 @@ import 'package:checkup/helpers/validator.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class AboutUserUI extends StatefulWidget {
-  AboutUserUI({Key? key}) : super(key: key);
+  const AboutUserUI({Key? key}) : super(key: key);
 
   @override
   State<AboutUserUI> createState() => _AboutUserUIState();
@@ -39,7 +38,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
 
   _aboutYou() {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Form(
             // key: _formKey,
             child: ListView(
