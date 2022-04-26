@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/controllers.dart';
+import 'friends/contacts.dart';
 
 class TabbarUI extends StatelessWidget {
   static final tabbarController = Get.put(TabbarController());
@@ -26,6 +27,7 @@ class TabbarUI extends StatelessWidget {
                     index: tabbarController.tabIndex.value,
                     children: [
                       const HomeUI(),
+                      Contacts(),
                       ProfileUI(),
                     ],
                   ),
@@ -37,6 +39,10 @@ class TabbarUI extends StatelessWidget {
                     _bottomNavigationBarItem(
                       icon: CupertinoIcons.home,
                       label: 'Home',
+                    ),
+                    _bottomNavigationBarItem(
+                      icon: CupertinoIcons.person_3_fill,
+                      label: 'Contacts',
                     ),
                     _bottomNavigationBarItem(
                       icon: CupertinoIcons.profile_circled,
