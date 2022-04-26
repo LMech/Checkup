@@ -1,4 +1,4 @@
-import 'package:checkup/controllers/controllers.dart';
+import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/helpers/helpers.dart';
 import 'package:checkup/views/auth/auth.dart';
 import 'package:checkup/views/components/components.dart';

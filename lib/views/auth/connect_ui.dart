@@ -1,5 +1,5 @@
-import 'package:checkup/views/bluetooth_search_ui.dart';
-import 'package:checkup/views/bluetooth_background_task.dart';
+import 'package:checkup/views/home/bluetooth_search_ui.dart';
+import 'package:checkup/services/bluetooth_background_task.dart';
 import 'package:checkup/views/components/list_tile_with_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';

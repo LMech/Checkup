@@ -7,11 +7,12 @@ class UserImageAvatar extends StatelessWidget {
   final Function() onTap;
 
   const UserImageAvatar({
+    Key? key,
     required this.imageUrl,
     required this.onTap,
     this.height = 45.0,
     this.width = 45.0,
-  });
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,8 +29,8 @@ class UserImageAvatar extends StatelessWidget {
               : Colors.black,
         ),
         image: DecorationImage(
-          image: imageUrl == null || imageUrl.isEmpty
-              ? AssetImage('assets/images/icon_user.png') as ImageProvider
+          image: imageUrl == '' || imageUrl.isEmpty
+              ? const AssetImage('assets/images/icon_user.png') as ImageProvider
               : NetworkImage(imageUrl),
           fit: BoxFit.fill,
         ),

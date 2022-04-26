@@ -1,9 +1,9 @@
+import 'package:checkup/controllers/add_friends_controll.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../controllers/add_friends_controll.dart';
 
-class AddContact extends GetWidget<AddFriendController> {
-  AddContact({Key? key}) : super(key: key);
+class AddContactUI extends GetWidget<AddFriendController> {
+  const AddContactUI({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AddFriendController>(
@@ -11,8 +11,8 @@ class AddContact extends GetWidget<AddFriendController> {
         builder: (controller) {
           return Scaffold(
               body: Container(
-            margin: EdgeInsets.only(top: 40),
-            decoration: BoxDecoration(
+            margin: const EdgeInsets.only(top: 40),
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
@@ -20,17 +20,15 @@ class AddContact extends GetWidget<AddFriendController> {
               ),
             ),
             child: controller.isLoading
-                ? Center(
-                    child: Container(
-                      child: CircularProgressIndicator(),
-                    ),
+                ? const Center(
+                    child: CircularProgressIndicator(),
                   )
                 : Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
-                      Container(
+                      SizedBox(
                         height: 50,
                         width: 300,
                         child: TextField(
@@ -40,7 +38,7 @@ class AddContact extends GetWidget<AddFriendController> {
                               onTap: () {
                                 controller.onsearch();
                               },
-                              child: Icon(Icons.search),
+                              child: const Icon(Icons.search),
                             ),
                             hintText: "Search",
                             border: OutlineInputBorder(
@@ -49,10 +47,10 @@ class AddContact extends GetWidget<AddFriendController> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       controller.userMap != null
@@ -63,7 +61,7 @@ class AddContact extends GetWidget<AddFriendController> {
                               ),
                               title: Text(
                                 controller.userMap!['name'],
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
@@ -72,12 +70,11 @@ class AddContact extends GetWidget<AddFriendController> {
                               subtitle: Text(controller.userMap!['email']),
                               trailing: InkWell(
                                 onTap: () {
-                           //    controller.sendfriendrequest(
-                                    //  controller.userMap!['uid']);
-
-
+                                  //    controller.sendfriendrequest(
+                                  //  controller.userMap!['uid']);
                                 },
-                                child: Icon(Icons.add, color: Colors.black),
+                                child:
+                                    const Icon(Icons.add, color: Colors.black),
                               ),
                             )
                           : Container(),

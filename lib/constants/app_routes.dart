@@ -1,7 +1,10 @@
 import 'package:checkup/views/auth/auth.dart';
-import 'package:checkup/views/components/profile/about_user_ui.dart';
-import 'package:checkup/views/home_ui.dart';
-import 'package:checkup/views/ui.dart';
+import 'package:checkup/views/home/home_ui.dart';
+import 'package:checkup/views/profile/about_user_ui.dart';
+import 'package:checkup/views/profile/profile_ui.dart';
+import 'package:checkup/views/profile/settings_ui.dart';
+import 'package:checkup/views/splash_ui.dart';
+import 'package:checkup/views/tabbar_ui.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {

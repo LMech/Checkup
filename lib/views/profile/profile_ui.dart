@@ -1,9 +1,9 @@
-import 'package:checkup/controllers/controllers.dart';
+import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/profile_controller.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:checkup/views/components/list_tile_with_icon.dart';
-import 'package:checkup/views/components/profile/about_user_ui.dart';
-import 'package:checkup/views/settings_ui.dart';
+import 'package:checkup/views/profile/about_user_ui.dart';
+import 'package:checkup/views/profile/settings_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

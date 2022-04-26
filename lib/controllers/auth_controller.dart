@@ -1,5 +1,4 @@
 import 'package:checkup/helpers/helpers.dart';
-import 'package:checkup/models/models.dart';
 import 'package:checkup/views/auth/auth.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:checkup/views/tabbar_ui.dart';
@@ -9,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+
+import '../models/user_model.dart';
 
 class AuthController extends GetxController {
   static AuthController to = Get.find();
@@ -47,9 +48,9 @@ class AuthController extends GetxController {
     }
 
     if (_firebaseUser == null) {
-      Get.offAll(SignInUI());
+      Get.offAll(() => SignInUI());
     } else {
-      Get.offAll(const TabbarUI());
+      Get.offAll(() => const TabbarUI());
     }
   }
 

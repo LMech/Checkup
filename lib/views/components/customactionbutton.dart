@@ -5,9 +5,10 @@ class CustomActionButton extends StatelessWidget {
   final Function onPressed;
 
   const CustomActionButton({
+    Key? key,
     required this.title,
     required this.onPressed,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +22,9 @@ class CustomActionButton extends StatelessWidget {
       minWidth: 100,
       child: Text(
         title,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
-      onPressed: onPressed (),
+      onPressed: onPressed(),
     );
   }
 }

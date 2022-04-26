@@ -1,11 +1,12 @@
-import 'package:checkup/views/home_ui.dart';
-import 'package:checkup/views/ui.dart';
+import 'package:checkup/controllers/auth_controller.dart';
+import 'package:checkup/controllers/tabbar_controller.dart';
+import 'package:checkup/views/home/home_ui.dart';
+import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/controllers.dart';
-import 'friends/contacts.dart';
+import 'friends/contacts_ui.dart';
 
 class TabbarUI extends StatelessWidget {
   static final tabbarController = Get.put(TabbarController());
@@ -27,7 +28,7 @@ class TabbarUI extends StatelessWidget {
                     index: tabbarController.tabIndex.value,
                     children: [
                       const HomeUI(),
-                      Contacts(),
+                      ContactsUI(),
                       ProfileUI(),
                     ],
                   ),
