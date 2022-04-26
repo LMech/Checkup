@@ -2,5 +2,16 @@
     "cSpell.words": [
         "cupertino",
         "Schyler"
-    ]
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "windows": true,
+        "web": true,
+        "ios": true,
+    }
 }
