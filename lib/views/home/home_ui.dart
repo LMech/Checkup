@@ -1,12 +1,12 @@
 import 'package:checkup/constants/text_constants.dart';
-import 'package:checkup/controllers/controllers.dart';
+import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/home_controller.dart';
 import 'package:checkup/views/auth/connect_ui.dart';
 import 'package:checkup/views/components/avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'components/feature_card.dart';
+import '../components/feature_card.dart';
 
 class HomeUI extends StatefulWidget {
   static final AuthController authController = Get.find();
@@ -32,7 +32,7 @@ class _HomeUIState extends State<HomeUI> {
           IconButton(
               icon: const Icon(Icons.add),
               onPressed: () {
-                Get.to(const ConnectUI());
+                Get.to(() => const ConnectUI());
               }),
         ],
       ),

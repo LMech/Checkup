@@ -1,4 +1,4 @@
-import 'package:checkup/controllers/controllers.dart';
+import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/views/auth/auth.dart';
 
 import 'package:flutter/material.dart';

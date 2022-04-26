@@ -1,4 +1,4 @@
-import 'package:checkup/models/models.dart';
+import 'package:checkup/models/user_model.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:flutter/material.dart';
 

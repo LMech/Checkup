@@ -5,9 +5,10 @@ class CustomActionButton extends StatelessWidget {
   final Function() onPressed;
 
   const CustomActionButton({
+    Key? key,
     required this.title,
-    required this.onPressed ,
-  });
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

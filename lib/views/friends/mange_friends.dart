@@ -1,7 +1,7 @@
-import 'package:checkup/controllers/add_friends_controll.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:checkup/controllers/add_friends_controll.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
 
 // enum UsersType {
 //   friendRequests,
