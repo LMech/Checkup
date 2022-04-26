@@ -5,10 +5,12 @@ class ListTileWithIcon extends StatelessWidget {
   final IconData icon;
   final double size;
   final void Function() onTap;
+  Color color;
 
-  const ListTileWithIcon(
+  ListTileWithIcon(
       {Key? key,
       required this.title,
+      this.color = Colors.transparent,
       required this.icon,
       required this.size,
       required this.onTap})
@@ -17,6 +19,7 @@ class ListTileWithIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: color,
       child: ListTile(
         title: Text(
           title,
