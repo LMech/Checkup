@@ -1,21 +1,6 @@
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Atouf',
-      home: ChatbotUI(),
-    );
-  }
-}
-
 class ChatbotUI extends StatefulWidget {
   @override
   _ChatbotUIState createState() => _ChatbotUIState();
@@ -108,11 +93,11 @@ class _ChatbotUIState extends State<ChatbotUI> {
     });
   }
 
-  @override
-  void dispose() {
-    dialogFlowtter.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   dialogFlowtter.dispose();
+  //   super.dispose();
+  // }
 }
 
 class Body extends StatelessWidget {
