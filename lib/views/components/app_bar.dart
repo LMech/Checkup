@@ -21,7 +21,7 @@ class CustomAppBarAction extends StatelessWidget {
         horizontal: 7.0,
       ),
       width: 45,
-      height: height != null ? height : double.infinity,
+      height: height ?? double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Theme.of(context).cardColor,
@@ -34,9 +34,7 @@ class CustomAppBarAction extends StatelessWidget {
             onTap: onActionPressed,
             child: Icon(
               icon,
-              color: iconColor == null
-                  ? Theme.of(context).primaryColor
-                  : iconColor,
+              color: iconColor ?? Theme.of(context).primaryColor,
             ),
           ),
         ),

@@ -9,9 +9,11 @@ DropdownPicker(
 
 class DropdownPicker extends StatelessWidget {
   const DropdownPicker(
-      {required this.menuOptions,
+      {Key? key,
+      required this.menuOptions,
       required this.selectedOption,
-      required this.onChanged});
+      required this.onChanged})
+      : super(key: key);
 
   final List<dynamic> menuOptions;
   final String selectedOption;

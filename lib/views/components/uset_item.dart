@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/friends_controll.dart';
-import '../../controllers/get_user_map_controller.dart';
 import 'action_button.dart';
 import 'avatar.dart';
 
@@ -15,20 +13,21 @@ class UserItem extends StatefulWidget {
   final Function? onAcceptRequestPressed;
 
   const UserItem({
+    Key? key,
     required this.userId,
     this.isFriend = true,
     this.isRequest = false,
     this.onAddFriendPressed,
     this.onDeleteRequestPressed,
     this.onAcceptRequestPressed,
-  });
+  }) : super(key: key);
 
   @override
   _UserItemState createState() => _UserItemState();
 }
 
 class _UserItemState extends State<UserItem> {
-  final friendsControll controller = Get.find();
+  final FriendsController controller = Get.find();
 
   bool _isRequestSent = false;
   bool _isRequestAccepted = false;
@@ -36,7 +35,7 @@ class _UserItemState extends State<UserItem> {
 
   @override
   Widget build(BuildContext context) {
-    print(controller.UserdataMap!['uid']);
+    debugPrint(controller.userDataMap!['uid']);
     return Card(
       // color: Colors.grey[100],
       elevation: 0.0,
@@ -72,16 +71,16 @@ class _UserItemState extends State<UserItem> {
                               radius: 25)
                           // TODO: remember to change
                           : Avatar(
-                              controller.UserdataMap!['photourl'],
+                              controller.userDataMap!['photourl'],
                               width: 25,
                               radius: 25,
                               height: 25,
                             )),
                   title: Text(
-                    controller.UserdataMap!['name'],
+                    controller.userDataMap!['name'],
                   ),
                   subtitle: Text(
-                    controller.UserdataMap!['email'],
+                    controller.userDataMap!['email'],
                   ),
                 ),
                 SingleChildScrollView(
@@ -111,7 +110,7 @@ class _UserItemState extends State<UserItem> {
                                       ? _onAcceptRequestPressed
                                       : _onAddFriendPressed,
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 widget.isRequest
                                     ? CustomActionButton(
                                         title: 'Delete',

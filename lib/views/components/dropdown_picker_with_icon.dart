@@ -9,9 +9,11 @@ DropdownPickerWithIcon(
 */
 class DropdownPickerWithIcon extends StatelessWidget {
   const DropdownPickerWithIcon(
-      {required this.menuOptions,
+      {Key? key,
+      required this.menuOptions,
       required this.selectedOption,
-      this.onChanged});
+      this.onChanged})
+      : super(key: key);
 
   final List<dynamic> menuOptions;
   final String selectedOption;
