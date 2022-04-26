@@ -5,21 +5,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-import '../models/user_model.dart';
 import 'auth_controller.dart';
 
-class friendsControll extends GetxController {
+class FriendsController extends GetxController {
   final AuthController authController = Get.find();
 
-
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  late var  friendList=[];
+  late var friendList = [];
 
-  Map<String, dynamic>? UserdataMap;
-  var photoUrl="";
+  Map<String, dynamic>? userDataMap;
+  var photoUrl = "";
 
-  friendsControll(){
-
+  FriendsController() {
     final currentUserId = authController.firestoreUser.value!.uid;
 
     getListOFFriends(currentUserId);
@@ -52,7 +49,7 @@ class friendsControll extends GetxController {
   Future<void> sendFriendRequest(String currentUserId, String friendId) async {
     final friendDoc = await _firestore.collection('users').doc(friendId).get();
     final requests =
-        List<String>.from(json.decode(friendDoc['requests'] .data()?? '[]'));
+        List<String>.from(json.decode(friendDoc['requests'].data() ?? '[]'));
 
     requests.add(currentUserId);
     _firestore
@@ -82,11 +79,10 @@ class friendsControll extends GetxController {
     userRequests.remove(friendId);
     userFriends.add(friendId);
 
-    _firestore.collection('users').doc(currentUserId)
-      ..update({
-        'friends': json.encode(userFriends),
-        'requests': json.encode(userRequests),
-      });
+    _firestore.collection('users').doc(currentUserId).update({
+      'friends': json.encode(userFriends),
+      'requests': json.encode(userRequests),
+    });
 
     _firestore.collection('users').doc(friendId).update({
       'friends': json.encode(friendFriends),
@@ -111,52 +107,9 @@ class friendsControll extends GetxController {
         .update({'requests': json.encode(userRequests)});
   }
 
-
- Future<List<dynamic>> getListOFFriends (String currentUserId)
-
- async{
-
-   final userdoc =
-
-       await _firestore.collection('users').doc(currentUserId).get();
-
-
-   Map<String, dynamic>? userMap;
-
-   try {
-     await _firestore
-         .collection('users')
-         .where("uid", isEqualTo: currentUserId)
-         .get()
-         .then((value) {
-       userMap = value.docs[0].data();
-     });
-   } catch (e) {
-     print(e);
-   }
-
-   print(userMap);
-
-   friendList = userMap!['friends'];
-   print("friendList   friendList $friendList");
-
-for(int i=0 ; i<friendList.length;i++)
-{
-  getUserdata(friendList[i]);
-  print("aloooooooooooooooooooo${friendList[i]}");
-}
-   return friendList;
- }
-
-
-
-
-
-  getUserdata (String currentUserId)
-
-  async{
-
-
+  Future<List<dynamic>> getListOFFriends(String currentUserId) async {
+    final userdoc =
+        await _firestore.collection('users').doc(currentUserId).get();
 
     Map<String, dynamic>? userMap;
 
@@ -169,148 +122,124 @@ for(int i=0 ; i<friendList.length;i++)
         userMap = value.docs[0].data();
       });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
 
-    print(userMap);
+    debugPrint(userMap.toString());
 
-    UserdataMap = userMap;
+    friendList = userMap!['friends'];
+    debugPrint("friendList   friendList $friendList");
 
-
+    for (int i = 0; i < friendList.length; i++) {
+      getUserdata(friendList[i]);
+      debugPrint("aloooooooooooooooooooo${friendList[i]}");
+    }
+    return friendList;
   }
 
-  /**
-  Future<Map<String, dynamic>?> getUserdata (String currentUserId)
-
-  async{
-
-    final userdoc =
-
-    await _firestore.collection('users').doc(currentUserId).get();
-
-
+  getUserdata(String currentUserId) async {
     Map<String, dynamic>? userMap;
 
-
-    print('lkjsjdalskdjaskdjaskjdksjdddddddkkkkkkkkkkkkkkkkkkkkkkkkkkkkk$UserdataMap');
-
-    await _firestore
-        .collection('users')
-        .where("uid", isEqualTo: currentUserId)
-        .get()
-        .then((value) {
-      userMap = value.docs[0].data();
-    });
-    print('hhhhhhhhhhhhhhhhhhhhhhhhh$UserdataMap');
-
-
-
-    print(userMap);
-
-    UserdataMap = userMap;
-    print("UserdataMap   UserdataMap $UserdataMap");
-
-
-    return UserdataMap;
-  }
-
-
-
-***/
-  Future<Map<String, dynamic>?> getUserdatavvvv(String userId) async{
-
-   bool isloading ;
-
-    try  {    isloading = true;
-
-    print('lkjsjdalskdjaskdjaskjdksjdddddddkkkkkkkkkkkkkkkkkkkkkkkkkkkkk$UserdataMap');
-
-    print(userId);
-    await _firestore
-        .collection('users')
-        .where("uid", isEqualTo: userId)
-        .get()
-        .then((value) {
-      UserdataMap = value.docs[0].data();
-      photoUrl =   UserdataMap!['photourl'];
-      print('sssssssssssssssssssssssssssssss$UserdataMap');
-      isloading = false;
-    });
+    try {
+      await _firestore
+          .collection('users')
+          .where("uid", isEqualTo: currentUserId)
+          .get()
+          .then((value) {
+        userMap = value.docs[0].data();
+      });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
-    print('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb$UserdataMap');
 
-    return UserdataMap;
+    debugPrint(userMap.toString());
 
+    userDataMap = userMap;
   }
 
+  Future<Map<String, dynamic>?> getUserdatavvvv(String userId) async {
+    bool isloading;
 
+    try {
+      isloading = true;
 
+      debugPrint(
+          'lkjsjdalskdjaskdjaskjdksjdddddddkkkkkkkkkkkkkkkkkkkkkkkkkkkkk$userDataMap');
 
+      debugPrint(userId);
+      await _firestore
+          .collection('users')
+          .where("uid", isEqualTo: userId)
+          .get()
+          .then((value) {
+        userDataMap = value.docs[0].data();
+        photoUrl = userDataMap!['photourl'];
+        debugPrint('sssssssssssssssssssssssssssssss$userDataMap');
+        isloading = false;
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    debugPrint('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb$userDataMap');
 
+    return userDataMap;
+  }
 
-
-
-
-
-
-
-
-
-
-  Future<Stream<List<QueryDocumentSnapshot<Object>>>> getListOfFriends(String currentUserId) async {
+  Future<Stream<List<QueryDocumentSnapshot<Object>>>> getListOfFriends(
+      String currentUserId) async {
     return _getListOfUsers(currentUserId: currentUserId, isFriends: true);
   }
 
-  Future<Stream<List<DocumentSnapshot<Object>>>>  getUnFriendList(String currentUserId) {
+  Future<Stream<List<DocumentSnapshot<Object>>>> getUnFriendList(
+      String currentUserId) {
     return _getListOfUsers(currentUserId: currentUserId, isFriends: false);
   }
 
-  Future<Stream<List<QueryDocumentSnapshot>>> getFriendRequests(String currentUserId) {
+  Future<Stream<List<QueryDocumentSnapshot>>> getFriendRequests(
+      String currentUserId) {
     return _getListOfUsers(
       currentUserId: currentUserId,
       isFriends: false,
       isGetRequest: true,
     );
   }
+
   Future<Stream<List<QueryDocumentSnapshot<Object>>>> _getListOfUsers({
     required String currentUserId,
     required bool isFriends,
     bool isGetRequest = false,
   }) async {
     return _firestore.collection('users').snapshots().transform(
-      StreamTransformer<QuerySnapshot<Map<String,dynamic>>, List<QueryDocumentSnapshot<Object>>>.fromHandlers(
-        handleData: (querySnapshot, sink) async {
-          print('loading friend list of $currentUserId');
+        StreamTransformer<QuerySnapshot<Map<String, dynamic>>,
+                List<QueryDocumentSnapshot<Object>>>.fromHandlers(
+            handleData: (querySnapshot, sink) async {
+      debugPrint('loading friend list of $currentUserId');
 
-          final userdoc =
+      final userdoc =
           await _firestore.collection('users').doc(currentUserId).get();
 
-          print("zlxc;zxlc,;lzxmc;lzmxv;lzmxcv;lmxc;vxzcv$userdoc");
+      debugPrint("zlxc;zxlc,;lzxmc;lzmxv;lzmxcv;lmxc;vxzcv$userdoc");
 
-          Map<String, dynamic>? userMap;
+      Map<String, dynamic>? userMap;
 
-          try {
-            await _firestore
-                .collection('users')
-                .where("uid", isEqualTo: currentUserId)
-                .get()
-                .then((value) {
-              userMap = value.docs[0].data();
-            });
-          } catch (e) {
-            print(e);
-          }
-          print(userMap);
+      try {
+        await _firestore
+            .collection('users')
+            .where("uid", isEqualTo: currentUserId)
+            .get()
+            .then((value) {
+          userMap = value.docs[0].data();
+        });
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+      debugPrint(userMap.toString());
 
-          final friendList = userMap!['friends'];
-          print("friendList   friendList $friendList");
-          final requestList = userMap!['requests'];
+      final friendList = userMap!['friends'];
+      debugPrint("friendList   friendList $friendList");
+      final requestList = userMap!['requests'];
 
-
-          print("requestList is $requestList");
-        })
-    );
+      debugPrint("requestList is $requestList");
+    }));
   }
 }

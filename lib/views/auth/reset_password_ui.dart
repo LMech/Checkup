@@ -1,4 +1,4 @@
-import 'package:checkup/controllers/controllers.dart';
+import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/helpers/helpers.dart';
 import 'package:checkup/views/auth/auth.dart';
 import 'package:checkup/views/components/components.dart';
@@ -26,7 +26,7 @@ class ResetPasswordUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  LogoGraphicHeader(
+                  const LogoGraphicHeader(
                     radius: 20,
                     height: 120,
                     width: 200,
@@ -35,7 +35,7 @@ class ResetPasswordUI extends StatelessWidget {
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: CupertinoIcons.mail,
-                    labelText: 'auth.emailFormField'.tr,
+                    labelText: 'Email',
                     validator: Validator().email,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => '',
@@ -45,7 +45,7 @@ class ResetPasswordUI extends StatelessWidget {
                   ),
                   const FormVerticalSpace(),
                   PrimaryButton(
-                      labelText: 'auth.resetPasswordButton'.tr,
+                      labelText: 'Reset',
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           await authController.sendPasswordResetEmail(context);
@@ -66,14 +66,14 @@ class ResetPasswordUI extends StatelessWidget {
     if (authController.emailController.text == '') {
       return null;
     }
-    return AppBar(title: Text('auth.resetPasswordTitle'.tr));
+    return AppBar(title: const Text('Reset'));
   }
 
   signInLink(BuildContext context) {
     if (authController.emailController.text == '') {
       return LabelButton(
-        labelText: 'auth.signInonResetPasswordLabelButton'.tr,
-        onPressed: () => Get.offAll(SignInUI()),
+        labelText: 'Sign in',
+        onPressed: () => Get.offAll(() => SignInUI()),
       );
     }
     return const SizedBox(width: 0, height: 0);

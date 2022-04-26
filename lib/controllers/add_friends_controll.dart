@@ -9,9 +9,7 @@ import 'dart:convert';
 class AddFriendController extends GetxController {
   final AuthController authController = Get.find();
 
-  AddFriendController() {
-
-  }
+  AddFriendController();
 
   Map<String, dynamic>? userMap;
   List<Map<String, dynamic>>? uersFriends;
@@ -33,96 +31,9 @@ class AddFriendController extends GetxController {
         isLoading = false;
       });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
-/***********************************************
-    Future<void> sendfriendrequest(String friendid) async {
-    final String userid = authController.firestoreUser.value!.uid;
-    final friends = List<String>.from(json.decode(userMap?['friends'] ?? '[]'));
-    for (int i = 0; i < friends.length; i++) {
-    print("Sdsdfsdfsdff");
-
-    if (friends[i] == userid) {
-    Get.snackbar("title", "message");
-    return;
-    }
-    }
-    final requests =
-    List<String>.from(json.decode(userMap?['requests'] ?? '[]'));
-
-    requests.add(userid);
-
-    firestore
-    .collection('users')
-    .doc(friendid)
-    .update(({'requests': json.encode(requests)}));
-    }
-
- *************************************************/
-
-//   Future<void>getFriends() async {
-//
-//     String currentUserId = authController.firestoreUser.value!.uid;
-//
-//     final userDocument =
-//     await firestore.collection('users').doc(currentUserId).get();
-//
-//     List<String> friendList = List<String>.from(
-//     json.decode(
-//     (userDocument)['friends'].map((x) => String.fromJson(x))) ,);
-//
-//
-//     for(int i=0;i<friendList.length;i++){
-//       try {
-//         await firestore
-//             .collection('users')
-//             .where("uid", isEqualTo:friendList[i])
-//             .get()
-//             .then((value) {
-//           uersFriends![i] = value.docs[0].data();
-//
-//         });
-//       } catch (e) {
-//         print(e);
-//       }
-//     }
-// print("uersFriendsssssssssssssssssssssssss$uersFriends");
-//   }
-//   Future<void> acceptfriendrequest(String friendid) async {
-//     final String currentuserid = authController.firestoreUser.value!.uid;
-//
-//     final frienddoc = await firestore.collection('users').doc(friendid).get();
-//     final friendrequests =
-//         List<String>.from(json.decode(frienddoc['requests'] ?? '[]'));
-//     final friendfriends =
-//         List<String>.from(json.decode(frienddoc['friends'] ?? '[]'));
-//
-//     final userdoc =
-//         await firestore.collection('users').doc(currentuserid).get();
-//     final userrequests =
-//         List<String>.from(json.decode(userdoc['requests'] ?? '[]'));
-//     final userfriends =
-//         List<String>.from(json.decode(userdoc['friends'] ?? '[]'));
-//
-//     friendrequests.remove(currentuserid);
-//     friendfriends.add(currentuserid);
-//
-//     userrequests.remove(friendid);
-//     userfriends.add(friendid);
-//
-//     firestore.collection('users').doc(currentuserid).update({
-//       'friends': json.encode(userfriends),
-//       'requests': json.encode(userrequests),
-//     });
-//
-//     firestore.collection('users').doc(friendid).update({
-//       'friends': json.encode(friendfriends),
-//       'requests': json.encode(friendrequests),
-//     });
-//   }
-//
-
 
   Future<Stream<List<DocumentSnapshot>>> getListoffriends() {
     return _getListofusers(isFriends: true);
@@ -144,7 +55,7 @@ class AddFriendController extends GetxController {
           List<DocumentSnapshot>>.fromHandlers(
         handleData: (querySnapshot, sink) async {
           final currentUserId = authController.firestoreUser.value!.uid;
-          print('loading friend list of $currentUserId');
+          debugPrint('loading friend list of $currentUserId');
 
           final userDocument =
               await firestore.collection('users').doc(currentUserId).get();
@@ -161,7 +72,7 @@ class AddFriendController extends GetxController {
             ),
           );
 
-          print(friendList);
+          debugPrint(friendList.toString());
 
           final _firendsList = <DocumentSnapshot>[];
           final _unFriendsList = <DocumentSnapshot>[];
@@ -187,15 +98,16 @@ class AddFriendController extends GetxController {
             }
           }
 
-          print(_firendsList);
+          debugPrint(_firendsList.toString());
 
           if (isFriends) {
             sink.add(_firendsList);
           } else {
-            if (isGetRequest)
+            if (isGetRequest) {
               sink.add(_friendRequests);
-            else
+            } else {
               sink.add(_unFriendsList);
+            }
           }
         },
       ),

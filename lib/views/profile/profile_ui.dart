@@ -1,9 +1,9 @@
-import 'package:checkup/controllers/controllers.dart';
+import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/profile_controller.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:checkup/views/components/list_tile_with_icon.dart';
-import 'package:checkup/views/components/profile/about_user_ui.dart';
-import 'package:checkup/views/settings_ui.dart';
+import 'package:checkup/views/profile/about_user_ui.dart';
+import 'package:checkup/views/profile/settings_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +23,7 @@ class ProfileUI extends StatelessWidget {
             IconButton(
                 icon: const Icon(Icons.settings),
                 onPressed: () {
-                  Get.to(() => SettingsUI());
+                  Get.to(() => const SettingsUI());
                 }),
           ],
         ),
@@ -32,7 +32,7 @@ class ProfileUI extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(children: <Widget>[
             _profileData(),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             _listView(),
           ]),
         )));
@@ -44,7 +44,7 @@ class ProfileUI extends StatelessWidget {
 
     return Column(
       children: [
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         GestureDetector(
           child: photoUrl == ''
               ? Avatar(
@@ -64,13 +64,13 @@ class ProfileUI extends StatelessWidget {
                   radius: 50),
           onTap: () {},
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
-          "$userName",
-          style: TextStyle(fontSize: 28.0),
+          userName,
+          style: const TextStyle(fontSize: 28.0),
         ),
-        SizedBox(height: 5),
-        Text("$email"),
+        const SizedBox(height: 5),
+        Text(email),
       ],
     );
   }
@@ -82,13 +82,13 @@ class ProfileUI extends StatelessWidget {
           title: "About Me",
           icon: Icons.arrow_forward_ios_outlined,
           size: 20.0,
-          onTap: () => Get.to(() => AboutUserUI()),
+          onTap: () => Get.to(() => const AboutUserUI()),
         ),
         ListTileWithIcon(
           title: "Medical Bracelet",
           icon: Icons.arrow_forward_ios_outlined,
           size: 20.0,
-          onTap: () => Get.to(() => AboutUserUI()),
+          onTap: () => Get.to(() => const AboutUserUI()),
         )
       ]),
     );
