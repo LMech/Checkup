@@ -11,6 +11,8 @@ class UpdateProfileUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  UpdateProfileUI({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     //print('user.name: ' + user?.value?.name);
@@ -30,7 +32,7 @@ class UpdateProfileUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  LogoGraphicHeader(
+                  const LogoGraphicHeader(
                     radius: 20,
                     height: 120,
                     width: 200,
@@ -39,9 +41,9 @@ class UpdateProfileUI extends StatelessWidget {
                   FormInputFieldWithIcon(
                     controller: authController.nameController,
                     iconPrefix: Icons.person,
-                    labelText: 'auth.nameFormField'.tr,
+                    labelText: 'Name',
                     validator: Validator().name,
-                    onChanged: (value) => null,
+                    onChanged: (value) => '',
                     onSaved: (value) =>
                         authController.nameController.text = value!,
                     onEditdingComplete: () {},
@@ -50,10 +52,10 @@ class UpdateProfileUI extends StatelessWidget {
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: Icons.email,
-                    labelText: 'auth.emailFormField'.tr,
+                    labelText: 'Email'.tr,
                     validator: Validator().email,
                     keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) => null,
+                    onChanged: (value) => '',
                     onSaved: (value) =>
                         authController.emailController.text = value!,
                     onEditdingComplete: () {},
@@ -108,13 +110,13 @@ class UpdateProfileUI extends StatelessWidget {
             String pattern = r'^.{6,}$';
             RegExp regex = RegExp(pattern);
             if (!regex.hasMatch(value!)) {
-              return 'validator.password'.tr;
+              return 'Password';
             } else {
               return null;
             }
           },
           obscureText: true,
-          onChanged: (value) => null,
+          onChanged: (value) => '',
           onSaved: (value) => _password.text = value!,
           maxLines: 1,
           onEditdingComplete: () {},
