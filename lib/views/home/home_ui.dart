@@ -78,7 +78,7 @@ class _HomeUIState extends State<HomeUI> {
                         ],
                       ),
                       Obx(
-                        () => Text(homeController.hr.string,
+                        () => Text(homeController.hr.value,
                             style: const TextStyle(
                               fontSize: 48,
                               fontWeight: FontWeight.w700,
@@ -128,7 +128,7 @@ class _HomeUIState extends State<HomeUI> {
                         ],
                       ),
                       Obx(
-                        () => Text(homeController.hr.value,
+                        () => Text(homeController.spo2.value,
                             style: const TextStyle(
                               fontSize: 48,
                               fontWeight: FontWeight.w700,
