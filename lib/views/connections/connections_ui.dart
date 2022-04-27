@@ -1,8 +1,8 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/connections_controller.dart';
 import 'package:checkup/views/components/app_bar.dart';
+import 'package:checkup/views/components/connection.dart';
 import 'package:checkup/views/components/user_image_avatar.dart';
-import 'package:checkup/views/components/uset_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -84,25 +84,25 @@ class _ConnectionsUIState extends State<ConnectionsUI> {
                   topRight: Radius.circular(35.0),
                 ),
               ),
-              child: connectionsController.friendList.isEmpty
-                  ? Center(
-                      child: Text(
-                        'You don\'t have friends!. Try to add some. ☺️😊',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(fontSize: 18),
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: connectionsController.friendList.length,
-                      itemBuilder: (ctx, index) {
-                        return UserItem(
-                          userId: connectionsController.friendList[index],
-                        );
+              child: FutureBuilder(
+                  future: connectionsController.getConnectionsData(),
+                  builder: (context,
+                      AsyncSnapshot<List<Map<String, dynamic>?>?> snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: Text('loading'));
+                    }
+
+                    // WHEN THE CALL IS DONE BUT HAPPENS TO HAVE AN ERROR
+                    if (snapshot.hasError) {
+                      return const Center(child: Text("Error"));
+                    }
+                    return ListView.builder(
+                      itemCount: snapshot.data?.length,
+                      itemBuilder: (_, index) {
+                        return Connection(connectionData: snapshot.data!.first);
                       },
-                    ),
+                    );
+                  }),
             ))
       ]),
       floatingActionButton: FloatingActionButton(
