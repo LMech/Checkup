@@ -7,6 +7,7 @@ import 'package:checkup/views/profile/settings_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+@immutable
 class ProfileUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final ProfileController profileController = Get.put(ProfileController());
@@ -85,11 +86,17 @@ class ProfileUI extends StatelessWidget {
           onTap: () => Get.to(() => const AboutUserUI()),
         ),
         ListTileWithIcon(
-          title: "Medical Bracelet",
+          title: "Medical ID",
           icon: Icons.arrow_forward_ios_outlined,
           size: 20.0,
           onTap: () => Get.to(() => const AboutUserUI()),
-        )
+        ),
+        ListTileWithIcon(
+            title: "Sign Out",
+            color: const Color.fromARGB(71, 232, 88, 88),
+            icon: Icons.logout_sharp,
+            size: 20.0,
+            onTap: () => AuthController.to.signOut()),
       ]),
     );
   }
