@@ -1,5 +1,5 @@
 import 'package:checkup/helpers/helpers.dart';
-import 'package:checkup/views/auth/auth.dart';
+import 'package:checkup/views/auth/sign_in_ui.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:checkup/views/tabbar_ui.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

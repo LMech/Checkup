@@ -1,4 +1,7 @@
-import 'package:checkup/views/auth/auth.dart';
+import 'package:checkup/views/auth/reset_password_ui.dart';
+import 'package:checkup/views/auth/sign_in_ui.dart';
+import 'package:checkup/views/auth/sign_up_ui.dart';
+import 'package:checkup/views/auth/update_profile_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/about_user_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
@@ -11,7 +14,7 @@ class AppRoutes {
   AppRoutes._(); //this is to prevent anyone from instantiating this object
   static final routes = [
     GetPage(name: '/', page: () => const SplashUI()),
-    GetPage(name: '/signin', page: () => SignInUI()),
+    GetPage(name: '/singin', page: () => SignInUI()),
     GetPage(name: '/signup', page: () => SignUpUI()),
     GetPage(name: '/tabbar', page: () => const TabbarUI()),
     GetPage(name: '/tabbar/home', page: () => const HomeUI()),

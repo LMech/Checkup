@@ -1,6 +1,6 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/helpers/helpers.dart';
-import 'package:checkup/views/auth/auth.dart';
+import 'package:checkup/views/auth/sign_in_ui.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,7 @@ class SignUpUI extends StatelessWidget {
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: CupertinoIcons.mail,
-                    labelText: 'Email'.tr,
+                    labelText: 'Email',
                     validator: Validator().email,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => '',
@@ -58,7 +58,7 @@ class SignUpUI extends StatelessWidget {
                   FormInputFieldWithIcon(
                     controller: authController.passwordController,
                     iconPrefix: CupertinoIcons.lock,
-                    labelText: 'Password'.tr,
+                    labelText: 'Password',
                     validator: Validator().password,
                     obscureText: true,
                     onChanged: (value) => '',

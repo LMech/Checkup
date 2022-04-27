@@ -7,19 +7,54 @@ import 'package:get/get.dart';
 
 import 'auth_controller.dart';
 
-class FriendsController extends GetxController {
+class ConnectionsController extends GetxController {
   final AuthController authController = Get.find();
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late var friendList = [];
+  String? userEmail;
+  List<dynamic>? userConnections;
 
   Map<String, dynamic>? userDataMap;
   var photoUrl = "";
 
-  FriendsController() {
-    final currentUserId = authController.firestoreUser.value!.uid;
+  ConnectionsController() {
+    // debugPrint(userConnections.toString());
+    // listConnections(userEmail);
+  }
 
-    getListOFFriends(currentUserId);
+  void printConnections() {
+    userConnections = authController.firestoreUser.value!.connections;
+    // debugPrint(userConnections.toString());
+    listConnections(userConnections ?? []);
+  }
+
+  void listConnections(List<dynamic> userConnections) async {
+    print((json.decode(userConnections.toString())));
+    // Map<String, dynamic>? userMap;
+
+    // try {
+    //   await _firestore
+    //       .collection('users')
+    //       .where("email", isEqualTo: 'michaelgeorge@duck.com')
+    //       .get()
+    //       .then((value) {
+    //     userMap = value.docs[0].data();
+    //   });
+    // } catch (e) {
+    //   debugPrint(e.toString());
+    // }
+    // debugPrint(userMap.toString());
+    // debugPrint(userMap.toString());
+
+    // friendList = userMap!['friends'];
+    // debugPrint("friendList   friendList $friendList");
+
+    // for (int i = 0; i < friendList.length; i++) {
+    //   getUserdata(friendList[i]);
+    //   debugPrint("aloooooooooooooooooooo${friendList[i]}");
+    // }
+    // return friendList;
   }
 
   Future<void> unFriendUser(String currentUserId, String friendId) async {
@@ -105,36 +140,6 @@ class FriendsController extends GetxController {
         .collection('users')
         .doc(currentUserId)
         .update({'requests': json.encode(userRequests)});
-  }
-
-  Future<List<dynamic>> getListOFFriends(String currentUserId) async {
-    final userdoc =
-        await _firestore.collection('users').doc(currentUserId).get();
-
-    Map<String, dynamic>? userMap;
-
-    try {
-      await _firestore
-          .collection('users')
-          .where("uid", isEqualTo: currentUserId)
-          .get()
-          .then((value) {
-        userMap = value.docs[0].data();
-      });
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-
-    debugPrint(userMap.toString());
-
-    friendList = userMap!['friends'];
-    debugPrint("friendList   friendList $friendList");
-
-    for (int i = 0; i < friendList.length; i++) {
-      getUserdata(friendList[i]);
-      debugPrint("aloooooooooooooooooooo${friendList[i]}");
-    }
-    return friendList;
   }
 
   getUserdata(String currentUserId) async {
