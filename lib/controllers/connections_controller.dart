@@ -18,15 +18,32 @@ class ConnectionsController extends GetxController {
   Map<String, dynamic>? userDataMap;
   var photoUrl = "";
 
-  ConnectionsController() {
-    // debugPrint(userConnections.toString());
-    // listConnections(userEmail);
-  }
-
   void printConnections() {
     userConnections = authController.firestoreUser.value!.connections;
     // debugPrint(userConnections.toString());
     listConnections(userConnections ?? []);
+  }
+
+  List<dynamic>? getConnections() {
+    userConnections = authController.firestoreUser.value!.connections;
+    return userConnections;
+  }
+
+  Future<List<Map<String, dynamic>?>?> getConnectionsData() async {
+    List<Map<String, dynamic>?>? connectionMap = [];
+    for (String connection in getConnections() ?? []) {
+      try {
+        await _firestore
+            .collection('users')
+            .where('email',
+                isEqualTo: connection.substring(1, connection.length - 1))
+            .get()
+            .then((value) => connectionMap.add(value.docs[0].data()));
+      } catch (e) {
+        debugPrint("Error : " + e.toString());
+      }
+    }
+    return connectionMap;
   }
 
   void listConnections(List<dynamic> userConnections) async {
