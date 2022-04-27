@@ -1,8 +1,6 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/connections_controller.dart';
-import 'package:checkup/views/components/app_bar.dart';
 import 'package:checkup/views/components/connection.dart';
-import 'package:checkup/views/components/user_image_avatar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,82 +34,76 @@ class _ConnectionsUIState extends State<ConnectionsUI> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Stack(children: [
-        Container(
-          height: screenSize.height,
-          width: screenSize.width,
-          color: Theme.of(context).primaryColor,
-        ),
-        Positioned(
-          top: 30.0,
-          child: CustomAppBarAction(
-            icon: Icons.search,
-            height: 45.0,
-            onActionPressed: _openSearchScreen,
-          ),
-        ),
-        Positioned(
-          top: 30.0,
-          right: 0.0,
-          child: CustomAppBarAction(
-            icon: Icons.settings,
-            height: 45.0,
-            onActionPressed: () => connectionsController.printConnections(),
-          ),
-        ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 30.0),
-            child: Hero(
-              tag: 'user-avatar',
-              child: UserImageAvatar(
-                imageUrl: _userPhotoUrl!,
-                onTap: _openProfilePage,
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-            top: screenSize.height * 0.15,
-            child: Container(
-              width: screenSize.width,
-              height: screenSize.height * 0.85,
-              decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(35.0),
-                  topRight: Radius.circular(35.0),
-                ),
-              ),
-              child: FutureBuilder(
-                  future: connectionsController.getConnectionsData(),
-                  builder: (context,
-                      AsyncSnapshot<List<Map<String, dynamic>?>?> snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(child: Text('loading'));
-                    }
+        body: FutureBuilder(
+            future: connectionsController.getConnectionsData(),
+            builder: (context,
+                AsyncSnapshot<List<Map<String, dynamic>?>?> snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: Text('loading'));
+              }
 
-                    // WHEN THE CALL IS DONE BUT HAPPENS TO HAVE AN ERROR
-                    if (snapshot.hasError) {
-                      return const Center(child: Text("Error"));
-                    }
-                    return ListView.builder(
-                      itemCount: snapshot.data?.length,
-                      itemBuilder: (_, index) {
-                        return Connection(connectionData: snapshot.data!.first);
-                      },
-                    );
-                  }),
-            ))
-      ]),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Get.to(() => const AddContactUI());
-        },
-      ),
-    );
+              // WHEN THE CALL IS DONE BUT HAPPENS TO HAVE AN ERROR
+              if (snapshot.hasError) {
+                return const Center(child: Text("Error"));
+              }
+              return ListView.builder(
+                itemCount: snapshot.data?.length,
+                itemBuilder: (_, index) {
+                  return Connection(connectionData: snapshot.data!.first);
+                },
+              );
+            }),
+        // Stack(
+        // children: [
+        // Positioned(
+        // top: 30.0,
+        //   child: CustomAppBarAction(
+        //     icon: Icons.search,
+        //     height: 45.0,
+        //     onActionPressed: _openSearchScreen,
+        //   ),
+        // ),
+        // Positioned(
+        //   top: 30.0,
+        //   right: 0.0,
+        //   child: CustomAppBarAction(
+        //     icon: Icons.settings,
+        //     height: 45.0,
+        //     onActionPressed: () => connectionsController.printConnections(),
+        //   ),
+        // ),
+        // Align(
+        //   alignment: Alignment.topCenter,
+        //   child: Padding(
+        //     padding: const EdgeInsets.only(top: 30.0),
+        //     child: Hero(
+        //       tag: 'user-avatar',
+        //       child: UserImageAvatar(
+        //         imageUrl: _userPhotoUrl!,
+        //         onTap: _openProfilePage,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        // Positioned(
+        //     top: screenSize.height * 0.15,
+        //     child: Container(
+        //       width: screenSize.width,
+        //       height: screenSize.height * 0.85,
+        //       decoration: BoxDecoration(
+        //         color: Theme.of(context).canvasColor,
+        //         borderRadius: const BorderRadius.only(
+        //           topLeft: Radius.circular(35.0),
+        //           topRight: Radius.circular(35.0),
+        //         ),
+        //       ),
+        //       child:
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            Get.to(() => const AddContactUI());
+          },
+        ));
   }
 
   void _openSearchScreen() {}
@@ -173,4 +165,4 @@ class _ConnectionsUIState extends State<ConnectionsUI> {
 //     );
 //     },
 
-//     ) async 
+//     ) async
