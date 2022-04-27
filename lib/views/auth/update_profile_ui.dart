@@ -1,7 +1,7 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/helpers/helpers.dart';
 import 'package:checkup/models/user_model.dart';
-import 'package:checkup/views/auth/auth.dart';
+import 'package:checkup/views/auth/reset_password_ui.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

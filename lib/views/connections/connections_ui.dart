@@ -1,5 +1,5 @@
 import 'package:checkup/controllers/auth_controller.dart';
-import 'package:checkup/controllers/friends_controll.dart';
+import 'package:checkup/controllers/connections_controller.dart';
 import 'package:checkup/views/components/app_bar.dart';
 import 'package:checkup/views/components/user_image_avatar.dart';
 import 'package:checkup/views/components/uset_item.dart';
@@ -8,18 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'add_contact_ui.dart';
 
-class ContactsUI extends StatefulWidget {
-  static const String routeName = '/dashboard';
+class ConnectionsUI extends StatefulWidget {
+  // static const String routeName = '/dashboard';
 
-  ContactsUI({Key? key}) : super(key: key);
+  const ConnectionsUI({Key? key}) : super(key: key);
 
   @override
-  _ContactsUIState createState() => _ContactsUIState();
+  _ConnectionsUIState createState() => _ConnectionsUIState();
 }
 
-class _ContactsUIState extends State<ContactsUI> {
+class _ConnectionsUIState extends State<ConnectionsUI> {
   final AuthController authController = Get.find();
-  static final friendsController = Get.put(FriendsController());
+  static final connectionsController = Get.put(ConnectionsController());
 
   String? _userPhotoUrl;
   List<DocumentSnapshot>? usersData;
@@ -56,7 +56,7 @@ class _ContactsUIState extends State<ContactsUI> {
           child: CustomAppBarAction(
             icon: Icons.settings,
             height: 45.0,
-            onActionPressed: () => _openSettingsPage(context),
+            onActionPressed: () => connectionsController.printConnections(),
           ),
         ),
         Align(
@@ -84,7 +84,7 @@ class _ContactsUIState extends State<ContactsUI> {
                   topRight: Radius.circular(35.0),
                 ),
               ),
-              child: friendsController.friendList.isEmpty
+              child: connectionsController.friendList.isEmpty
                   ? Center(
                       child: Text(
                         'You don\'t have friends!. Try to add some. ☺️😊',
@@ -96,10 +96,10 @@ class _ContactsUIState extends State<ContactsUI> {
                       ),
                     )
                   : ListView.builder(
-                      itemCount: friendsController.friendList.length,
+                      itemCount: connectionsController.friendList.length,
                       itemBuilder: (ctx, index) {
                         return UserItem(
-                          userId: friendsController.friendList[index],
+                          userId: connectionsController.friendList[index],
                         );
                       },
                     ),
@@ -120,60 +120,57 @@ class _ContactsUIState extends State<ContactsUI> {
 
   void _openSettingsPage(context) {}
 }
-/**FutureBuilder<Stream<List<QueryDocumentSnapshot>>>(
-    future: friendscontroll
-    .getListOfFriends(currentUserId!),
-    builder: (ctx, snap) {
-    if (!snap.hasData) {
-    print("1111111111111111");
-    return Center(
-    child: CircularProgressIndicator(),
-    );
-    }
-    return StreamBuilder<List<DocumentSnapshot>>(
-    stream: snap.data,
-    builder:
-    (ctx, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
-    if (!snapshot.hasData) {
-    print("22222222222222222");
-    print(friendscontroll
-    .getListOfFriends(currentUserId!));
-    return Center(
-    child: CircularProgressIndicator(),
-    );
-    }
+// FutureBuilder<Stream<List<QueryDocumentSnapshot>>>({future = friendsController.getListOfFriends(currentUserId!),builder = (ctx, snap)} {
+//     if (!snap.hasData) {
+//     print("1111111111111111");
+//     return Center(
+//     child: CircularProgressIndicator(),
+//     );
+//     }
+//     return StreamBuilder<List<DocumentSnapshot>>(
+//     stream: snap.data,
+//     builder:
+//     (ctx, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
+//     if (!snapshot.hasData) {
+//     print("22222222222222222");
+//     print(friendscontroll
+//     .getListOfFriends(currentUserId!));
+//     return Center(
+//     child: CircularProgressIndicator(),
+//     );
+//     }
 
-    usersData = snapshot.data;
+//     usersData = snapshot.data;
 
-    if (snapshot.data!.isEmpty) {
-    return Center(
-    child: Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-    Image.asset('assets/images/chat_icon.png'),
-    Text(
-    'You don\'t have friends!. Try to add some. ☺️😊',
-    textAlign: TextAlign.center,
-    style: Theme.of(context)
-    .textTheme
-    .bodyText1!
-    .copyWith(fontSize: 18),
-    ),
-    ],
-    ),
-    );
-    }
+//     if (snapshot.data!.isEmpty) {
+//     return Center(
+//     child: Column(
+//     mainAxisSize: MainAxisSize.min,
+//     children: [
+//     Image.asset('assets/images/chat_icon.png'),
+//     Text(
+//     'You don\'t have friends!. Try to add some. ☺️😊',
+//     textAlign: TextAlign.center,
+//     style: Theme.of(context)
+//     .textTheme
+//     .bodyText1!
+//     .copyWith(fontSize: 18),
+//     ),
+//     ],
+//     ),
+//     );
+//     }
 
-    return ListView.builder(
-    itemCount: snapshot.data!.length,
-    itemBuilder: (ctx, index) {
-    return UserItem(
-    userDocument: snapshot.data![index],
-    );
-    },
-    );
-    },
-    );
-    },
+//     return ListView.builder(
+//     itemCount: snapshot.data!.length,
+//     itemBuilder: (ctx, index) {
+//     return UserItem(
+//     userDocument: snapshot.data![index],
+//     );
+//     },
+//     );
+//     },
+//     );
+//     },
 
-    ),**/
+//     ) async 

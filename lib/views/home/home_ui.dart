@@ -1,7 +1,7 @@
 import 'package:checkup/constants/text_constants.dart';
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/home_controller.dart';
-import 'package:checkup/views/auth/connect_ui.dart';
+import 'package:checkup/views/home/connect_ui.dart';
 import 'package:checkup/views/components/avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../controllers/friends_controll.dart';
+import '../../controllers/connections_controller.dart';
 import 'action_button.dart';
 import 'avatar.dart';
 
@@ -27,7 +27,7 @@ class UserItem extends StatefulWidget {
 }
 
 class _UserItemState extends State<UserItem> {
-  final FriendsController controller = Get.find();
+  final ConnectionsController controller = Get.find();
 
   bool _isRequestSent = false;
   bool _isRequestAccepted = false;

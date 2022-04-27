@@ -1,13 +1,12 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/tabbar_controller.dart';
 import 'package:checkup/views/chat_ui.dart';
+import 'package:checkup/views/connections/connections_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'friends/contacts_ui.dart';
 
 class TabbarUI extends StatelessWidget {
   static final tabbarController = Get.put(TabbarController());
@@ -17,7 +16,7 @@ class TabbarUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(
         init: AuthController(),
-        builder: (controller) => controller.firestoreUser.value?.uid == null
+        builder: (controller) => controller.firestoreUser.value!.uid == null
             ? const SafeArea(
                 child: Center(
                   child: CircularProgressIndicator(),
@@ -30,7 +29,7 @@ class TabbarUI extends StatelessWidget {
                     children: [
                       const HomeUI(),
                       ChatbotUI(),
-                      ContactsUI(),
+                      const ConnectionsUI(),
                       ProfileUI(),
                     ],
                   ),

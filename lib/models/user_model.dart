@@ -7,16 +7,19 @@ class UserModel {
   String dateOfBirth;
   int height;
   int weight;
+  List<dynamic> connections;
 
-  UserModel(
-      {required this.uid,
-      required this.email,
-      required this.name,
-      required this.photoUrl,
-      this.dateOfBirth = '',
-      this.phoneNumber = '',
-      this.height = -1,
-      this.weight = -1});
+  UserModel({
+    required this.uid,
+    required this.email,
+    required this.name,
+    required this.photoUrl,
+    this.dateOfBirth = '',
+    this.phoneNumber = '',
+    this.height = 0,
+    this.weight = 0,
+    this.connections = const [],
+  });
 
   factory UserModel.fromJson(Map<String, dynamic> objectJOSN) {
     return UserModel(
@@ -28,6 +31,7 @@ class UserModel {
       phoneNumber: objectJOSN['phoneNumber'],
       height: objectJOSN['height'],
       weight: objectJOSN['weight'],
+      connections: objectJOSN['connections'],
     );
   }
 
@@ -40,5 +44,6 @@ class UserModel {
         'dateOfBirth': dateOfBirth,
         "height": height,
         "weight": weight,
+        "connections": connections,
       };
 }
