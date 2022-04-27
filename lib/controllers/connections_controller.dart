@@ -18,14 +18,13 @@ class ConnectionsController extends GetxController {
   Map<String, dynamic>? userDataMap;
   var photoUrl = "";
 
-  void printConnections() {
-    userConnections = authController.firestoreUser.value!.connections;
-    // debugPrint(userConnections.toString());
-    listConnections(userConnections ?? []);
-  }
+  // void printConnections() {
+  //   userConnections = authController.firestoreUser.value!.connections;
+  // }
 
   List<dynamic>? getConnections() {
     userConnections = authController.firestoreUser.value!.connections;
+    userEmail = authController.firestoreUser.value!.email;
     return userConnections;
   }
 
@@ -38,40 +37,18 @@ class ConnectionsController extends GetxController {
             .where('email',
                 isEqualTo: connection.substring(1, connection.length - 1))
             .get()
-            .then((value) => connectionMap.add(value.docs[0].data()));
+            .then((value) {
+          List<dynamic> _ =
+              json.decode(value.docs[0].data()['connections'].toString());
+          if (_.contains(userEmail)) {
+            connectionMap.add(value.docs[0].data());
+          }
+        });
       } catch (e) {
         debugPrint("Error : " + e.toString());
       }
     }
     return connectionMap;
-  }
-
-  void listConnections(List<dynamic> userConnections) async {
-    print((json.decode(userConnections.toString())));
-    // Map<String, dynamic>? userMap;
-
-    // try {
-    //   await _firestore
-    //       .collection('users')
-    //       .where("email", isEqualTo: 'michaelgeorge@duck.com')
-    //       .get()
-    //       .then((value) {
-    //     userMap = value.docs[0].data();
-    //   });
-    // } catch (e) {
-    //   debugPrint(e.toString());
-    // }
-    // debugPrint(userMap.toString());
-    // debugPrint(userMap.toString());
-
-    // friendList = userMap!['friends'];
-    // debugPrint("friendList   friendList $friendList");
-
-    // for (int i = 0; i < friendList.length; i++) {
-    //   getUserdata(friendList[i]);
-    //   debugPrint("aloooooooooooooooooooo${friendList[i]}");
-    // }
-    // return friendList;
   }
 
   Future<void> unFriendUser(String currentUserId, String friendId) async {

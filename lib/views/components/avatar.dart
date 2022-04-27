@@ -1,4 +1,3 @@
-import 'package:checkup/models/user_model.dart';
 import 'package:checkup/views/components/components.dart';
 import 'package:flutter/material.dart';
 
@@ -13,11 +12,11 @@ class Avatar extends StatelessWidget {
     required this.height,
     required this.width,
   }) : super(key: key);
-  final UserModel user;
+  final String user;
 
   @override
   Widget build(BuildContext context) {
-    if (user.photoUrl == '') {
+    if (user == '') {
       return LogoGraphicHeader(
         radius: radius,
         width: width,
@@ -32,7 +31,7 @@ class Avatar extends StatelessWidget {
           radius: radius,
           child: ClipOval(
             child: Image.network(
-              user.photoUrl,
+              user,
               fit: BoxFit.cover,
               width: width,
               height: height,
