@@ -19,7 +19,7 @@
 MAX30102 sensor;
 Pulse pulseIR;
 Pulse pulseRed;
-MAFilter bpm;
+
 SoftwareSerial bluetooth(9, 10);
 
 #define LED LED_BUILTIN
@@ -71,17 +71,12 @@ int getVCC() {
 
 int  beatAvg;
 int  SPO2, SPO2f;
-int  voltage;
-bool filter_for_graph = false;
-bool draw_Red = false;
-
-
+int  voltage;  
 void setup(void) {
   Serial.begin(9600);
   bluetooth.begin(9600);
   pinMode(LED, OUTPUT);
   pinMode(BUTTON, INPUT_PULLUP);
-  filter_for_graph = EEPROM.read(OPTIONS);
   Wire.begin();
   Wire.setClock(400000);
   delay(300);
@@ -100,20 +95,25 @@ byte rates[RATE_SIZE]; //Array of heart rates
 byte rateSpot = 0;
 
 
+
 void loop()  {
   sensor.check();
   long now = millis();   //start time of this cycle
+
+  // Check if sensor connected
   if (!sensor.available()) return;
   uint32_t irValue = sensor.getIR();
   uint32_t redValue = sensor.getRed();
   sensor.nextSample();
+
+  // Check if placed
   if (irValue < 5000) {
-    voltage = getVCC();
-    Serial.println("not place");
     placed = 0;
+    voltage = getVCC();
     delay(100);
   } else {
     placed = 1;
+    
     // remove DC element
     int16_t IR_signal, Red_signal;
     bool beatRed, beatIR;
@@ -132,18 +132,20 @@ void loop()  {
         rateSpot %= RATE_SIZE; //Wrap variable
         beatAvg = 0;
 
-        //        //Take average of readings
+        //Take average of readings
         for (byte x = 0 ; x < RATE_SIZE ; x++)
           beatAvg += rates[x];
         beatAvg /= RATE_SIZE;
       }
       digitalWrite(LED, HIGH);
+      
       // compute SpO2 ratio
       long numerator   = (pulseRed.avgAC() * pulseIR.avgDC()) / 256;
       long denominator = (pulseRed.avgDC() * pulseIR.avgAC()) / 256;
       int RX100 = (denominator > 0) ? (numerator * 100) / denominator : 999;
       // using formula
       SPO2f = (10400 - RX100 * 17 + 50) / 100;
+      
       // from table
       if ((RX100 >= 0) && (RX100 < 184))
         SPO2 = pgm_read_byte_near(&spo2_table[RX100]);
@@ -154,11 +156,11 @@ void loop()  {
     Serial.print(beatAvg);
     Serial.print("  ");
     Serial.println(SPO2);
-    char cBeatAvg = (char)beatAvg;
-    char cSPO2 = (char)SPO2;
-    char arr[] = {cBeatAvg, cSPO2};
-    String s = arr;
+    String cBeatAvg = (String)(char)beatAvg;
+    String cSPO2 = (String)(char)SPO2;
+    String s = cBeatAvg + cSPO2;
     Serial.println(s);
+    bluetooth.write(-1);
+    bluetooth.print(s);
   }
-
 }

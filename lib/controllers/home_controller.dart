@@ -1,13 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  var hr = '-'.obs;
+  var hr = '--'.obs;
+  var spo2 = '--'.obs;
 
-  updateHR(String value) {
-    hr(value);
-    // hr.value = value;
-    debugPrint("here");
-    debugPrint(hr.value);
+  updateHR(String hr) {
+    this.hr(hr);
+  }
+
+  updateSpo2(String spo2) {
+    this.spo2(spo2);
+  }
+
+  updateAll(String hr, String spo2) {
+    updateHR(hr);
+    updateSpo2(spo2);
   }
 }
