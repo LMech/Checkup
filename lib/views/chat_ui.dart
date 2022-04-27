@@ -1,569 +1,203 @@
-// import 'dart:async';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:rxdart/rxdart.dart';
-// import 'package:sound_stream/sound_stream.dart';
-// import 'package:dialogflow_grpc/dialogflow_grpc.dart';
-// import 'package:dialogflow_grpc/generated/google/cloud/dialogflow/v2beta1/session.pb.dart';
-
-// class ChatUi extends StatefulWidget {
-//   ChatUi({Key? key}) : super(key: key);
-
-//   @override
-//   _ChatState createState() => _ChatState();
-// }
-
-// class _ChatState extends State<ChatUi> {
-//   final List<ChatMessage> _messages = <ChatMessage>[];
-//   final TextEditingController _textController = TextEditingController();
-
-//   bool _isRecording = false;
-
-//   RecorderStream _recorder = RecorderStream();
-//   late StreamSubscription _recorderStatus;
-//   late StreamSubscription<List<int>> _audioStreamSubscription;
-//   late BehaviorSubject<List<int>> _audioStream;
-
-//   // TODO DialogflowGrpc class instance
-//   DialogflowGrpcV2Beta1? dialogflow;
-//   @override
-//   void initState() {
-//     super.initState();
-//     initPlugin();
-//   }
-
-//   @override
-//   void dispose() {
-//     _recorderStatus.cancel();
-//     _audioStreamSubscription.cancel();
-//     super.dispose();
-//   }
-
-//   // Platform messages are asynchronous, so we initialize in an async method.
-//   Future<void> initPlugin() async {
-//     // Get a Service account
-//     final serviceAccount = ServiceAccount.fromString(
-//         '${(await rootBundle.loadString('assets/credentials.json'))}');
-//     // Create a DialogflowGrpc Instance
-//     dialogflow = DialogflowGrpcV2Beta1.viaServiceAccount(serviceAccount);
-//     _recorderStatus = _recorder.status.listen((status) {
-//       if (mounted)
-//         setState(() {
-//           _isRecording = status == SoundStreamStatus.Playing;
-//         });
-//     });
-
-//     await Future.wait([_recorder.initialize()]);
-
-//     // TODO Get a Service account
-//   }
-
-//   void stopStream() async {
-//     await _recorder.stop();
-//     await _audioStreamSubscription.cancel();
-//     await _audioStream.close();
-//   }
-
-//   void handleSubmitted(text) async {
-//     ChatMessage message = ChatMessage(
-//       text: text,
-//       name: "You",
-//       type: true,
-//     );
-
-//     setState(() {
-//       _messages.insert(0, message);
-//     });
-
-//     DetectIntentResponse data = await dialogflow!.detectIntent(text, 'en-US');
-//     String fulfillmentText = data.queryResult.fulfillmentText;
-//     if (fulfillmentText.isNotEmpty) {
-//       ChatMessage botMessage = ChatMessage(
-//         text: fulfillmentText,
-//         name: "Bot",
-//         type: false,
-//       );
-
-//       setState(() {
-//         _messages.insert(0, botMessage);
-//       });
-//     }
-//     _textController.clear();
-
-//     //TODO Dialogflow Code
-//   }
-
-//   void handleStream() async {
-//     var biasList = SpeechContextV2Beta1(phrases: [
-//       'Dialogflow CX',
-//       'Dialogflow Essentials',
-//       'Action Builder',
-//       'HIPAA'
-//     ], boost: 20.0);
-
-//     // See: https://cloud.google.com/dialogflow/es/docs/reference/rpc/google.cloud.dialogflow.v2#google.cloud.dialogflow.v2.InputAudioConfig
-//     var config = InputConfigV2beta1(
-//         encoding: 'AUDIO_ENCODING_LINEAR_16',
-//         languageCode: 'en-US',
-//         sampleRateHertz: 16000,
-//         singleUtterance: false,
-//         speechContexts: [biasList]);
-//     final responseStream =
-//         dialogflow!.streamingDetectIntent(config, _audioStream);
-//     // Get the transcript and detectedIntent and show on screen
-//     responseStream.listen((data) {
-//       print('----');
-//       setState(() {
-//         print(data);
-//         String transcript = data.recognitionResult.transcript;
-//         String queryText = data.queryResult.queryText;
-//         String fulfillmentText = data.queryResult.fulfillmentText;
-
-//         if (fulfillmentText.isNotEmpty) {
-//           ChatMessage message = new ChatMessage(
-//             text: queryText,
-//             name: "You",
-//             type: true,
-//           );
-
-//           ChatMessage botMessage = new ChatMessage(
-//             text: fulfillmentText,
-//             name: "Bot",
-//             type: false,
-//           );
-
-//           _messages.insert(0, message);
-//           _textController.clear();
-//           _messages.insert(0, botMessage);
-//         }
-//         if (transcript.isNotEmpty) {
-//           _textController.text = transcript;
-//         }
-//       });
-//     }, onError: (e) {
-//       //print(e);
-//     }, onDone: () {
-//       //print('done');
-//     });
-
-//     _recorder.start();
-
-//     _audioStream = BehaviorSubject<List<int>>();
-//     _audioStreamSubscription = _recorder.audioStream.listen((data) {
-//       print(data);
-//       _audioStream.add(data);
-//     });
-
-//     // TODO Create SpeechContexts
-//     // Create an audio InputConfig
-
-//     // TODO Make the streamingDetectIntent call, with the InputConfig and the audioStream
-//     // TODO Get the transcript and detectedIntent and show on screen
-//   }
-
-//   // The chat interface
-//   //
-//   //------------------------------------------------------------------------------------
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(children: <Widget>[
-//       Flexible(
-//           child: ListView.builder(
-//         padding: EdgeInsets.all(8.0),
-//         reverse: true,
-//         itemBuilder: (_, int index) => _messages[index],
-//         itemCount: _messages.length,
-//       )),
-//       Divider(height: 1.0),
-//       Container(
-//           decoration: BoxDecoration(color: Theme.of(context).cardColor),
-//           child: IconTheme(
-//             data: IconThemeData(color: Theme.of(context).accentColor),
-//             child: Container(
-//               margin: const EdgeInsets.symmetric(horizontal: 8.0),
-//               child: Row(
-//                 children: <Widget>[
-//                   Flexible(
-//                     child: TextField(
-//                       controller: _textController,
-//                       onSubmitted: handleSubmitted,
-//                       decoration:
-//                           InputDecoration.collapsed(hintText: "Send a message"),
-//                     ),
-//                   ),
-//                   Container(
-//                     margin: EdgeInsets.symmetric(horizontal: 4.0),
-//                     child: IconButton(
-//                       icon: Icon(Icons.send),
-//                       onPressed: () => handleSubmitted(_textController.text),
-//                     ),
-//                   ),
-//                   IconButton(
-//                     iconSize: 30.0,
-//                     icon: Icon(_isRecording ? Icons.mic_off : Icons.mic),
-//                     onPressed: _isRecording ? stopStream : handleStream,
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           )),
-//     ]);
-//   }
-// }
-
-// //------------------------------------------------------------------------------------
-// // The chat message balloon
-// //
-// //------------------------------------------------------------------------------------
-// class ChatMessage extends StatelessWidget {
-//   ChatMessage({this.text, this.name, this.type});
-
-//   final String? text;
-//   final String? name;
-//   final bool? type;
-
-//   List<Widget> otherMessage(context) {
-//     return <Widget>[
-//       new Container(
-//         margin: const EdgeInsets.only(right: 16.0),
-//         child: CircleAvatar(child: new Text('B')),
-//       ),
-//       new Expanded(
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: <Widget>[
-//             Text(this.name!, style: TextStyle(fontWeight: FontWeight.bold)),
-//             Container(
-//               margin: const EdgeInsets.only(top: 5.0),
-//               child: Text(text!),
-//             ),
-//           ],
-//         ),
-//       ),
-//     ];
-//   }
-
-//   List<Widget> myMessage(context) {
-//     return <Widget>[
-//       Expanded(
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.end,
-//           children: <Widget>[
-//             Text(this.name!, style: Theme.of(context).textTheme.subtitle1),
-//             Container(
-//               margin: const EdgeInsets.only(top: 5.0),
-//               child: Text(text!),
-//             ),
-//           ],
-//         ),
-//       ),
-//       Container(
-//         margin: const EdgeInsets.only(left: 16.0),
-//         child: CircleAvatar(
-//             child: Text(
-//           name![0],
-//           style: TextStyle(fontWeight: FontWeight.bold),
-//         )),
-//       ),
-//     ];
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: const EdgeInsets.symmetric(vertical: 10.0),
-//       child: Row(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: this.type! ? myMessage(context) : otherMessage(context),
-//       ),
-//     );
-//   }
-// }
-
-
-
-/// ========
-// import 'dart:async';
-
-// import 'package:dialogflow_grpc/dialogflow_grpc.dart';
-// import 'package:dialogflow_grpc/generated/google/cloud/dialogflow/v2beta1/session.pb.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:rxdart/rxdart.dart';
-// import 'package:sound_stream/sound_stream.dart';
-
-// class ChatUi extends StatefulWidget {
-//   ChatUi({Key? key}) : super(key: key);
-
-//   @override
-//   _ChatState createState() => _ChatState();
-// }
-
-// class _ChatState extends State<ChatUi> {
-//   final List<ChatMessage> _messages = <ChatMessage>[];
-//   final TextEditingController _textController = TextEditingController();
-
-//   bool _isRecording = false;
-
-//   RecorderStream _recorder = RecorderStream();
-//   late StreamSubscription _recorderStatus;
-//   late StreamSubscription<List<int>> _audioStreamSubscription;
-//   late BehaviorSubject<List<int>> _audioStream;
-
-//   // TODO DialogflowGrpc class instance
-//   DialogflowGrpcV2Beta1? dialogflow;
-//   @override
-//   void initState() {
-//     super.initState();
-//     initPlugin();
-//   }
-
-//   @override
-//   void dispose() {
-//     _recorderStatus.cancel();
-//     _audioStreamSubscription.cancel();
-//     super.dispose();
-//   }
-
-//   // Platform messages are asynchronous, so we initialize in an async method.
-//   Future<void> initPlugin() async {
-//     // Get a Service account
-//     final serviceAccount = ServiceAccount.fromString(
-//         '${(await rootBundle.loadString('assets/credentials.json'))}');
-//     // Create a DialogflowGrpc Instance
-//     dialogflow = DialogflowGrpcV2Beta1.viaServiceAccount(serviceAccount);
-//     _recorderStatus = _recorder.status.listen((status) {
-//       if (mounted)
-//         setState(() {
-//           _isRecording = status == SoundStreamStatus.Playing;
-//         });
-//     });
-
-//     await Future.wait([_recorder.initialize()]);
-
-//     // TODO Get a Service account
-//   }
-
-//   void stopStream() async {
-//     await _recorder.stop();
-//     await _audioStreamSubscription.cancel();
-//     await _audioStream.close();
-//   }
-
-//   void handleSubmitted(text) async {
-//     ChatMessage message = ChatMessage(
-//       text: text,
-//       name: "You",
-//       type: true,
-//     );
-
-//     setState(() {
-//       _messages.insert(0, message);
-//     });
-
-//     DetectIntentResponse data = await dialogflow!.detectIntent(text, 'en-US');
-//     String fulfillmentText = data.queryResult.fulfillmentText;
-//     if (fulfillmentText.isNotEmpty) {
-//       ChatMessage botMessage = ChatMessage(
-//         text: fulfillmentText,
-//         name: "Bot",
-//         type: false,
-//       );
-
-//       setState(() {
-//         _messages.insert(0, botMessage);
-//       });
-//     }
-//     print(text);
-//     _textController.clear();
-
-//     //TODO Dialogflow Code
-//   }
-
-//   void handleStream() async {
-//     var biasList = SpeechContextV2Beta1(phrases: [
-//       'Dialogflow CX',
-//       'Dialogflow Essentials',
-//       'Action Builder',
-//       'HIPAA'
-//     ], boost: 20.0);
-
-//     // See: https://cloud.google.com/dialogflow/es/docs/reference/rpc/google.cloud.dialogflow.v2#google.cloud.dialogflow.v2.InputAudioConfig
-//     var config = InputConfigV2beta1(
-//         encoding: 'AUDIO_ENCODING_LINEAR_16',
-//         languageCode: 'en-US',
-//         sampleRateHertz: 16000,
-//         singleUtterance: false,
-//         speechContexts: [biasList]);
-//     final responseStream =
-//         dialogflow!.streamingDetectIntent(config, _audioStream);
-//     // Get the transcript and detectedIntent and show on screen
-//     responseStream.listen((data) {
-//       //print('----');
-//       setState(() {
-//         //print(data);
-//         String transcript = data.recognitionResult.transcript;
-//         String queryText = data.queryResult.queryText;
-//         String fulfillmentText = data.queryResult.fulfillmentText;
-
-//         if (fulfillmentText.isNotEmpty) {
-//           ChatMessage message = new ChatMessage(
-//             text: queryText,
-//             name: "You",
-//             type: true,
-//           );
-
-//           ChatMessage botMessage = new ChatMessage(
-//             text: fulfillmentText,
-//             name: "Bot",
-//             type: false,
-//           );
-
-//           _messages.insert(0, message);
-//           _textController.clear();
-//           _messages.insert(0, botMessage);
-//         }
-//         if (transcript.isNotEmpty) {
-//           _textController.text = transcript;
-//         }
-//       });
-//     }, onError: (e) {
-//       //print(e);
-//     }, onDone: () {
-//       //print('done');
-//     });
-
-//     _recorder.start();
-
-//     _audioStream = BehaviorSubject<List<int>>();
-//     _audioStreamSubscription = _recorder.audioStream.listen((data) {
-//       print(data);
-//       _audioStream.add(data);
-//     });
-
-//     // TODO Create SpeechContexts
-//     // Create an audio InputConfig
-
-//     // TODO Make the streamingDetectIntent call, with the InputConfig and the audioStream
-//     // TODO Get the transcript and detectedIntent and show on screen
-//   }
-
-//   // The chat interface
-//   //
-//   //------------------------------------------------------------------------------------
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(children: <Widget>[
-//       Flexible(
-//           child: ListView.builder(
-//         padding: EdgeInsets.all(8.0),
-//         reverse: true,
-//         itemBuilder: (_, int index) => _messages[index],
-//         itemCount: _messages.length,
-//       )),
-//       Divider(height: 1.0),
-//       Container(
-//           decoration: BoxDecoration(color: Theme.of(context).cardColor),
-//           child: IconTheme(
-//             data: IconThemeData(color: Theme.of(context).accentColor),
-//             child: Container(
-//               margin: const EdgeInsets.symmetric(horizontal: 8.0),
-//               child: Row(
-//                 children: <Widget>[
-//                   Flexible(
-//                     child: TextField(
-//                       controller: _textController,
-//                       onSubmitted: handleSubmitted,
-//                       decoration:
-//                           InputDecoration.collapsed(hintText: "Send a message"),
-//                     ),
-//                   ),
-//                   Container(
-//                     margin: EdgeInsets.symmetric(horizontal: 4.0),
-//                     child: IconButton(
-//                       icon: Icon(Icons.send),
-//                       onPressed: () => handleSubmitted(_textController.text),
-//                     ),
-//                   ),
-//                   IconButton(
-//                     iconSize: 30.0,
-//                     icon: Icon(_isRecording ? Icons.mic_off : Icons.mic),
-//                     onPressed: _isRecording ? stopStream : handleStream,
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           )),
-//     ]);
-//   }
-// }
-
-// //------------------------------------------------------------------------------------
-// // The chat message balloon
-// //
-// //------------------------------------------------------------------------------------
-// class ChatMessage extends StatelessWidget {
-//   ChatMessage({this.text, this.name, this.type});
-
-//   final String? text;
-//   final String? name;
-//   final bool? type;
-
-//   List<Widget> otherMessage(context) {
-//     return <Widget>[
-//       new Container(
-//         margin: const EdgeInsets.only(right: 16.0),
-//         child: CircleAvatar(child: new Text('B')),
-//       ),
-//       new Expanded(
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: <Widget>[
-//             Text(this.name!, style: TextStyle(fontWeight: FontWeight.bold)),
-//             Container(
-//               margin: const EdgeInsets.only(top: 5.0),
-//               child: Text(text!),
-//             ),
-//           ],
-//         ),
-//       ),
-//     ];
-//   }
-
-//   List<Widget> myMessage(context) {
-//     return <Widget>[
-//       Expanded(
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.end,
-//           children: <Widget>[
-//             Text(this.name!, style: Theme.of(context).textTheme.subtitle1),
-//             Container(
-//               margin: const EdgeInsets.only(top: 5.0),
-//               child: Text(text!),
-//             ),
-//           ],
-//         ),
-//       ),
-//       Container(
-//         margin: const EdgeInsets.only(left: 16.0),
-//         child: CircleAvatar(
-//             child: Text(
-//           name![0],
-//           style: TextStyle(fontWeight: FontWeight.bold),
-//         )),
-//       ),
-//     ];
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: const EdgeInsets.symmetric(vertical: 10.0),
-//       child: Row(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: this.type! ? myMessage(context) : otherMessage(context),
-//       ),
-//     );
-//   }
-// }
-// >>>>>>> get_bracnh-updates
+import 'package:dialog_flowtter/dialog_flowtter.dart';
+import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+
+class ChatbotUI extends StatefulWidget {
+  @override
+  _ChatbotUIState createState() => _ChatbotUIState();
+}
+
+class _ChatbotUIState extends State<ChatbotUI> {
+  late DialogFlowtter dialogFlowtter;
+  final TextEditingController messageController = TextEditingController();
+
+  List<Map<String, dynamic>> messages = [];
+  late GetStorage messagesStorage;
+  late var allMessages;
+  static int messagesCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    DialogFlowtter.fromFile().then((instance) => dialogFlowtter = instance);
+    messagesStorage = GetStorage('messagesStorage');
+    allMessages = messagesStorage.getValues();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(allMessages.toString());
+    if (messages.isEmpty) {
+      showOldMessages();
+    }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Atouf',
+        ),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(child: Body(messages: messages)),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: messageController,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        hintStyle: const TextStyle(
+                          fontSize: 15,
+                          fontStyle: FontStyle.italic,
+                        ),
+                        hintText: 'Send a message',
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.send),
+                    onPressed: () {
+                      sendMessage(messageController.text);
+                      messageController.clear();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void sendMessage(String text) async {
+    if (text.isEmpty) return;
+    setState(() {
+      addMessage(
+        Message(text: DialogText(text: [text])),
+        true,
+      );
+    });
+
+    DetectIntentResponse response = await dialogFlowtter.detectIntent(
+      queryInput: QueryInput(text: TextInput(text: text)),
+    );
+
+    if (response.message == null) return;
+    setState(() {
+      addMessage(response.message!);
+    });
+  }
+
+  void addMessage(Message message, [bool isUserMessage = false]) {
+    messagesStorage.write(messagesCount.toString(),
+        message.text!.text.toString() + " : " + isUserMessage.toString());
+    messagesCount++;
+    messages.add({
+      'message': message,
+      'isUserMessage': isUserMessage,
+    });
+  }
+
+  void showOldMessages() {
+    allMessages = messagesStorage.getValues();
+
+    print(allMessages);
+    for (var msg in allMessages) {
+      var split = msg.toString().split(" : ");
+      var first = split.first.substring(1, split.first.length - 1);
+      messages.add({
+        'message': Message(text: DialogText(text: first.split(","))),
+        'isUserMessage': split.last == 'true',
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    dialogFlowtter.dispose();
+    messagesStorage.erase();
+    messagesCount = 0;
+    super.dispose();
+  }
+}
+
+class Body extends StatelessWidget {
+  final List<Map<String, dynamic>> messages;
+
+  const Body({
+    Key? key,
+    this.messages = const [],
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      itemBuilder: (context, i) {
+        var obj = messages[messages.length - 1 - i];
+        Message message = obj['message'];
+        bool isUserMessage = obj['isUserMessage'] ?? false;
+        return Row(
+          mainAxisAlignment:
+              isUserMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _MessageContainer(
+              message: message,
+              isUserMessage: isUserMessage,
+            ),
+          ],
+        );
+      },
+      separatorBuilder: (_, i) => Container(height: 10),
+      itemCount: messages.length,
+      reverse: true,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 20,
+      ),
+    );
+  }
+}
+
+class _MessageContainer extends StatelessWidget {
+  final Message message;
+  final bool isUserMessage;
+
+  const _MessageContainer({
+    Key? key,
+    required this.message,
+    this.isUserMessage = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 250),
+      child: LayoutBuilder(
+        builder: (context, constrains) {
+          return Container(
+            decoration: BoxDecoration(
+              color: isUserMessage ? Colors.blue : Colors.grey[800],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              message.text?.text?[0] ?? '',
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
