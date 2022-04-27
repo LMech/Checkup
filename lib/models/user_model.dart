@@ -8,6 +8,7 @@ class UserModel {
   int height;
   int weight;
   List<dynamic> connections;
+  List<dynamic> requests;
 
   UserModel({
     required this.uid,
@@ -19,6 +20,7 @@ class UserModel {
     this.height = 0,
     this.weight = 0,
     this.connections = const [],
+    this.requests = const [],
   });
 
   factory UserModel.fromJson(Map<String, dynamic> objectJOSN) {
@@ -32,6 +34,7 @@ class UserModel {
       height: objectJOSN['height'],
       weight: objectJOSN['weight'],
       connections: objectJOSN['connections'],
+      requests: objectJOSN['requests'],
     );
   }
 
@@ -45,5 +48,6 @@ class UserModel {
         "height": height,
         "weight": weight,
         "connections": connections,
+        "requests": requests,
       };
 }
