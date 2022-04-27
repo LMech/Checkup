@@ -36,7 +36,8 @@ class _ConnectionsUIState extends State<ConnectionsUI> {
         body: Column(
           children: [
             FutureBuilder(
-                future: connectionsController.getConnectionsData(),
+                future: connectionsController.getUsersData(
+                    connectionsController.getConnections(), false),
                 builder: (context,
                     AsyncSnapshot<List<Map<String, dynamic>?>?> snapshot) {
                   if (!snapshot.hasData) {
@@ -59,29 +60,30 @@ class _ConnectionsUIState extends State<ConnectionsUI> {
                   );
                 }),
             const Divider(),
-            // FutureBuilder(
-            //     future: connectionsController.getConnectionsData(),
-            //     builder: (context,
-            //         AsyncSnapshot<List<Map<String, dynamic>?>?> snapshot) {
-            //       if (!snapshot.hasData) {
-            //         return const Center(child: Text('loading'));
-            //       }
+            FutureBuilder(
+                future: connectionsController.getUsersData(
+                    connectionsController.getRequests(), true),
+                builder: (context,
+                    AsyncSnapshot<List<Map<String, dynamic>?>?> snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: Text('loading'));
+                  }
 
-            //       if (snapshot.hasError) {
-            //         return const Center(child: Text("Error"));
-            //       }
-            //       return ListView.builder(
-            //         shrinkWrap: true,
-            //         physics: const ScrollPhysics(),
-            //         itemCount: snapshot.data?.length,
-            //         itemBuilder: (_, index) {
-            //           return Connection(
-            //             connectionData: snapshot.data!.first,
-            //             isFriend: true,
-            //           );
-            //         },
-            //       );
-            //     }),
+                  if (snapshot.hasError) {
+                    return const Center(child: Text("Error"));
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (_, index) {
+                      return Connection(
+                        connectionData: snapshot.data!.first,
+                        isFriend: true,
+                      );
+                    },
+                  );
+                }),
           ],
         ),
         floatingActionButton: FloatingActionButton(

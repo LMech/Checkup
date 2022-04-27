@@ -26,7 +26,6 @@ class _ChatbotUIState extends State<ChatbotUI> {
 
   @override
   Widget build(BuildContext context) {
-    print(allMessages.toString());
     if (messages.isEmpty) {
       showOldMessages();
     }
@@ -109,7 +108,6 @@ class _ChatbotUIState extends State<ChatbotUI> {
   void showOldMessages() {
     allMessages = messagesStorage.getValues();
 
-    print(allMessages);
     for (var msg in allMessages) {
       var split = msg.toString().split(" : ");
       var first = split.first.substring(1, split.first.length - 1);
