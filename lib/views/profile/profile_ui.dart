@@ -49,7 +49,7 @@ class ProfileUI extends StatelessWidget {
         GestureDetector(
           child: photoUrl == ''
               ? Avatar(
-                  authController.firestoreUser.value!,
+                  authController.firestoreUser.value?.photoUrl ?? '',
                   radius: 50.0,
                   height: 120,
                   width: 200,

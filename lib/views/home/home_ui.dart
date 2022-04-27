@@ -183,7 +183,7 @@ class _HomeUIState extends State<HomeUI> {
         GestureDetector(
           child: photoUrl == ''
               ? Avatar(
-                  HomeUI.authController.firestoreUser.value!,
+                  HomeUI.authController.firestoreUser.value?.photoUrl ?? '',
                   radius: 25.0,
                   height: 120,
                   width: 200,
