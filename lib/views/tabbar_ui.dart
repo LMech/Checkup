@@ -29,7 +29,7 @@ class TabbarUI extends StatelessWidget {
                     children: [
                       const HomeUI(),
                       ChatbotUI(),
-                      const ConnectionsUI(),
+                      ConnectionsUI(),
                       ProfileUI(),
                     ],
                   ),

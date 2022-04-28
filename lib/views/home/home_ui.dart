@@ -153,13 +153,10 @@ class _HomeUIState extends State<HomeUI> {
         ),
       ),
     );
-
-    // );
   }
 
   Widget _profileData() {
     final String userName = HomeUI.authController.firestoreUser.value!.name;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

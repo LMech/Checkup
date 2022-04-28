@@ -27,7 +27,7 @@ class ConnectionsController extends GetxController {
   Future<int> _isUserExist(String email) async {
     int _isExist = 0;
     if (email == _userEmail) {
-      _isExist = 2;
+      _isExist = 1;
     } else {
       try {
         await _db
@@ -49,20 +49,6 @@ class ConnectionsController extends GetxController {
     return _isExist;
   }
 
-  // Future<int> _connectionsCount() async {
-  //   int cnt = 0;
-  //   try {
-  //     await _db
-  //         .doc('/connections/$_userEmail')
-  //         .get()
-  //         .then((value) => cnt = value.data()!.length);
-  //   } catch (e) {
-  //     logger.e(_userEmail);
-  //     Get.snackbar('Error', e.toString());
-  //   }
-  //   return cnt;
-  // }
-
   // TODO: Add other exceptions
   void sendRequest(String connectionEmail) async {
     int isExist = await _isUserExist(connectionEmail);
@@ -70,26 +56,27 @@ class ConnectionsController extends GetxController {
       try {
         await _db
             .doc('/connections/$connectionEmail')
-            .update({_ecodeEmail(_userEmail): false});
+            .update({_encodeEmail(_userEmail): false});
       } catch (e) {
         logger.e(e);
       }
+      _updateConnections();
     }
-    _updateConnections();
+    logger.e(isExist);
   }
 
   void acceptRequest(String connectionEmail) async {
     try {
       await _db
           .doc('/connections/$_userEmail')
-          .update({_ecodeEmail(connectionEmail): true});
+          .update({_encodeEmail(connectionEmail): true});
     } catch (e) {
       logger.e(e);
     }
     try {
       await _db
           .doc('/connections/$connectionEmail')
-          .update({_ecodeEmail(_userEmail): true});
+          .update({_encodeEmail(_userEmail): true});
     } catch (e) {
       logger.e(e);
     }
@@ -140,8 +127,7 @@ class ConnectionsController extends GetxController {
     try {
       await _db
           .doc('/connections/$_userEmail')
-          .update({_ecodeEmail(connectionEmail): FieldValue.delete()});
-      Get.snackbar("Deleted", "The users now is not in your connections");
+          .update({_encodeEmail(connectionEmail): FieldValue.delete()});
     } catch (e) {
       logger.e(e);
       Get.snackbar('Error', e.toString());
@@ -149,7 +135,7 @@ class ConnectionsController extends GetxController {
     try {
       await _db
           .doc('/connections/$connectionEmail')
-          .update({_ecodeEmail(_userEmail): FieldValue.delete()});
+          .update({_encodeEmail(_userEmail): FieldValue.delete()});
     } catch (e) {
       logger.e(e);
       Get.snackbar('Error', e.toString());
@@ -157,7 +143,7 @@ class ConnectionsController extends GetxController {
     _updateConnections();
   }
 
-  String _ecodeEmail(String email) => email.replaceAll('.', '(period)');
+  String _encodeEmail(String email) => email.replaceAll('.', '(period)');
   String _decodeEmail(String email) => email.replaceAll('(period)', '.');
 }
 
