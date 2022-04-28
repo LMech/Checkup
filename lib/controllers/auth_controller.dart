@@ -102,9 +102,6 @@ class AuthController extends GetxController {
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((result) async {
-        // print('uID: ' + result.user!.uid.toString());
-        // print('email: ' + result.user!.email.toString());
-        //get photo url from gravatar if user has one
         Gravatar gravatar = Gravatar(emailController.text);
         String gravatarUrl = gravatar.imageUrl(
           size: 200,
@@ -121,6 +118,7 @@ class AuthController extends GetxController {
         );
         //create the user in firestore
         _createUserFirestore(_newUser, result.user!);
+        _createConnectionsListFirestore(emailController.text);
         emailController.clear();
         passwordController.clear();
         hideLoadingIndicator();
@@ -199,6 +197,12 @@ class AuthController extends GetxController {
   //create the firestore user in users collection
   void _createUserFirestore(UserModel user, User _firebaseUser) {
     _db.doc('/users/${_firebaseUser.uid}').set(user.toJson());
+    update();
+  }
+
+  // create connections list in connections collection
+  void _createConnectionsListFirestore(String _email) {
+    _db.doc('/connections/$_email').set({'connections': []});
     update();
   }
 
