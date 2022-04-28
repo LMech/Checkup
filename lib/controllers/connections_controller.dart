@@ -9,11 +9,20 @@ class ConnectionsController extends GetxController {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   late String _userEmail;
   var logger = Logger();
+  var userConnections = <Map<String, dynamic>?>[].obs;
+  var userRequests = <Map<String, dynamic>?>[].obs;
 
-  Map<String, dynamic>? userDataMap;
-
-  ConnectionsController() {
+  @override
+  onInit() async {
+    super.onInit();
     _userEmail = authController.firestoreUser.value!.email;
+    _updateConnections();
+  }
+
+  void _updateConnections() async {
+    userConnections(await getConnectionsData(await getConnections(true)));
+    userRequests(await getConnectionsData(await getConnections(false)));
+    logger.e(userConnections);
   }
 
   Future<int> _isUserExist(String email) async {
@@ -60,21 +69,32 @@ class ConnectionsController extends GetxController {
     int isExist = await _isUserExist(connectionEmail);
     if (isExist == 1) {
       try {
-        await _db.doc('/connections/$_userEmail').update(
-            {connectionEmail.substring(0, connectionEmail.length - 4): false});
+        await _db
+            .doc('/connections/$connectionEmail')
+            .update({_userEmail.replaceAll('.', '(period)'): false});
       } catch (e) {
         logger.e(e);
       }
     }
+    _updateConnections();
   }
 
   void acceptRequest(String connectionEmail) async {
     try {
-      await _db.doc('/connections/$_userEmail').update(
-          {connectionEmail.substring(0, connectionEmail.length - 4): true});
+      await _db
+          .doc('/connections/$_userEmail')
+          .set({connectionEmail.replaceAll('.', '(period)'): true});
     } catch (e) {
       logger.e(e);
     }
+    try {
+      await _db
+          .doc('/connections/$connectionEmail')
+          .update({_userEmail.replaceAll('.', '(period)'): true});
+    } catch (e) {
+      logger.e(e);
+    }
+    _updateConnections();
   }
 
   Future<List<String>> getConnections(bool getConnections) async {
@@ -89,8 +109,7 @@ class ConnectionsController extends GetxController {
     }
     for (var entry in allEntries) {
       if (entry.value.toString() == getConnections.toString()) {
-        logger.e('message');
-        allConnections.add(entry.key + '.com');
+        allConnections.add(entry.key.replaceAll('(period)', '.'));
       }
     }
     logger.e(allConnections);
@@ -116,7 +135,6 @@ class ConnectionsController extends GetxController {
     for (String connectionEmail in connectionsEmail) {
       usersMapList.add(await getConnectionData(connectionEmail));
     }
-    logger.e(usersMapList);
     return usersMapList;
   }
 }

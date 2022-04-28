@@ -1,6 +1,8 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/connections_controller.dart';
+import 'package:checkup/views/components/connection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +17,6 @@ class ConnectionsUI extends StatefulWidget {
 
 class _ConnectionsUIState extends State<ConnectionsUI> {
   final AuthController authController = Get.find();
-  static final connectionsController = Get.put(ConnectionsController());
 
   String? _userPhotoUrl;
   List<DocumentSnapshot>? usersData;
@@ -30,66 +31,41 @@ class _ConnectionsUIState extends State<ConnectionsUI> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
-          children: const [
-            // FutureBuilder(
-            //     future: connectionsController.getUsersData(
-            //         connectionsController.getConnections(), false),
-            //     builder: (context,
-            //         AsyncSnapshot<List<Map<String, dynamic>?>?> snapshot) {
-            //       if (!snapshot.hasData) {
-            //         return const Center(child: Text('loading'));
-            //       }
-
-            //       if (snapshot.hasError) {
-            //         return const Center(child: Text("Error"));
-            //       }
-            //       return ListView.builder(
-            //         shrinkWrap: true,
-            //         physics: const ScrollPhysics(),
-            //         itemCount: snapshot.data?.length,
-            //         itemBuilder: (_, index) {
-            //           return Connection(
-            //             connectionData: snapshot.data!.first,
-            //             isFriend: true,
-            //           );
-            //         },
-            //       );
-            //     }),
-            // const Divider(),
-            // FutureBuilder(
-            //     future: connectionsController.getUsersData(
-            //         connectionsController.getRequests(), true),
-            //     builder: (context,
-            //         AsyncSnapshot<List<Map<String, dynamic>?>?> snapshot) {
-            //       if (!snapshot.hasData) {
-            //         return const Center(child: Text('loading'));
-            //       }
-
-            //       if (snapshot.hasError) {
-            //         return const Center(child: Text("Error"));
-            //       }
-            //       return ListView.builder(
-            //         shrinkWrap: true,
-            //         physics: const ScrollPhysics(),
-            //         itemCount: snapshot.data?.length,
-            //         itemBuilder: (_, index) {
-            //           return Connection(
-            //             connectionData: snapshot.data!.first,
-            //             isFriend: true,
-            //           );
-            //         },
-            //       );
-            //     }),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () {
-            connectionsController.getConnectionsData(
-                ['michaelgeorge@duck.com', 'lmech.ge@gmail.com']);
-          },
-        ));
+    return GetBuilder<ConnectionsController>(
+        init: ConnectionsController(),
+        builder: (controller) => Scaffold(
+              body: SafeArea(
+                  child: Obx(
+                () => Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: controller.userConnections.length,
+                          itemBuilder: (_, index) {
+                            return Connection(
+                              connectionData: controller.userConnections[index],
+                              isFriend: true,
+                            );
+                          }),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: controller.userRequests.length,
+                          itemBuilder: (_, index) {
+                            return Connection(
+                              connectionData: controller.userRequests[index],
+                              isFriend: false,
+                            );
+                          }),
+                    ),
+                  ],
+                ),
+              )),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () =>
+                    controller.acceptRequest('michaelgeorge@duck.com'),
+                child: const Icon(CupertinoIcons.add),
+              ),
+            ));
   }
 }
