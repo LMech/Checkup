@@ -22,7 +22,6 @@ class ConnectionsController extends GetxController {
   void _updateConnections() async {
     userConnections(await getConnectionsData(await getConnections(true)));
     userRequests(await getConnectionsData(await getConnections(false)));
-    logger.e(userConnections);
   }
 
   Future<int> _isUserExist(String email) async {
@@ -71,7 +70,7 @@ class ConnectionsController extends GetxController {
       try {
         await _db
             .doc('/connections/$connectionEmail')
-            .update({_userEmail.replaceAll('.', '(period)'): false});
+            .update({_ecodeEmail(_userEmail): false});
       } catch (e) {
         logger.e(e);
       }
@@ -83,14 +82,14 @@ class ConnectionsController extends GetxController {
     try {
       await _db
           .doc('/connections/$_userEmail')
-          .set({connectionEmail.replaceAll('.', '(period)'): true});
+          .update({_ecodeEmail(connectionEmail): true});
     } catch (e) {
       logger.e(e);
     }
     try {
       await _db
           .doc('/connections/$connectionEmail')
-          .update({_userEmail.replaceAll('.', '(period)'): true});
+          .update({_ecodeEmail(_userEmail): true});
     } catch (e) {
       logger.e(e);
     }
@@ -109,10 +108,9 @@ class ConnectionsController extends GetxController {
     }
     for (var entry in allEntries) {
       if (entry.value.toString() == getConnections.toString()) {
-        allConnections.add(entry.key.replaceAll('(period)', '.'));
+        allConnections.add(_decodeEmail(entry.key));
       }
     }
-    logger.e(allConnections);
     return allConnections;
   }
 
@@ -137,6 +135,30 @@ class ConnectionsController extends GetxController {
     }
     return usersMapList;
   }
+
+  void removeConnection(String connectionEmail) async {
+    try {
+      await _db
+          .doc('/connections/$_userEmail')
+          .update({_ecodeEmail(connectionEmail): FieldValue.delete()});
+      Get.snackbar("Deleted", "The users now is not in your connections");
+    } catch (e) {
+      logger.e(e);
+      Get.snackbar('Error', e.toString());
+    }
+    try {
+      await _db
+          .doc('/connections/$connectionEmail')
+          .update({_ecodeEmail(_userEmail): FieldValue.delete()});
+    } catch (e) {
+      logger.e(e);
+      Get.snackbar('Error', e.toString());
+    }
+    _updateConnections();
+  }
+
+  String _ecodeEmail(String email) => email.replaceAll('.', '(period)');
+  String _decodeEmail(String email) => email.replaceAll('(period)', '.');
 }
 
 
