@@ -16,15 +16,15 @@ class ConnectionsController extends GetxController {
     _userEmail = authController.firestoreUser.value!.email;
   }
 
-  Future<int> _isUserExist(String _email) async {
+  Future<int> _isUserExist(String email) async {
     int _isExist = 0;
-    if (_email == _userEmail) {
+    if (email == _userEmail) {
       _isExist = 2;
     } else {
       try {
         await _db
             .collection('users')
-            .where('email', isEqualTo: _email)
+            .where('email', isEqualTo: email)
             .get()
             .then((value) {
           if (value.docs.isBlank ?? true) {
@@ -56,16 +56,71 @@ class ConnectionsController extends GetxController {
   // }
 
   // TODO: Add other exceptions
-  void addConnection(String _connectionEmail) async {
-    int isExist = await _isUserExist(_connectionEmail);
+  void sendRequest(String connectionEmail) async {
+    int isExist = await _isUserExist(connectionEmail);
     if (isExist == 1) {
-      _db.doc('/connections/$_userEmail').update({
-        _connectionEmail.substring(0, _connectionEmail.length - 4):
-            _connectionEmail
-      });
+      try {
+        await _db.doc('/connections/$_userEmail').update(
+            {connectionEmail.substring(0, connectionEmail.length - 4): false});
+      } catch (e) {
+        logger.e(e);
+      }
     }
-    // logger.e(isExist);
   }
+
+  void acceptRequest(String connectionEmail) async {
+    try {
+      await _db.doc('/connections/$_userEmail').update(
+          {connectionEmail.substring(0, connectionEmail.length - 4): true});
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  Future<List<String>> getConnections(bool getConnections) async {
+    List<String> allConnections = [];
+    List<MapEntry<String, dynamic>> allEntries = [];
+    try {
+      await _db.doc('/connections/$_userEmail').get().then((value) {
+        allEntries = value.data()!.entries.toList();
+      });
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
+    for (var entry in allEntries) {
+      if (entry.value.toString() == getConnections.toString()) {
+        logger.e('message');
+        allConnections.add(entry.key + '.com');
+      }
+    }
+    logger.e(allConnections);
+    return allConnections;
+  }
+
+  Future<Map<String, dynamic>?> getConnectionData(
+      String connectionEmail) async {
+    Map<String, dynamic>? userMap = {};
+    await _db
+        .collection('users')
+        .where('email', isEqualTo: connectionEmail)
+        .get()
+        .then((value) {
+      userMap = value.docs.first.data();
+    });
+    return userMap;
+  }
+
+  Future<List<Map<String, dynamic>?>> getConnectionsData(
+      List<String> connectionsEmail) async {
+    List<Map<String, dynamic>?> usersMapList = [];
+    for (String connectionEmail in connectionsEmail) {
+      usersMapList.add(await getConnectionData(connectionEmail));
+    }
+    logger.e(usersMapList);
+    return usersMapList;
+  }
+}
+
 
   // void printConnections() {
   //   userConnections = authController.firestoreUser.value!.connections;
@@ -107,4 +162,4 @@ class ConnectionsController extends GetxController {
   //   }
   //   return connectionMap;
   // }
-}
+

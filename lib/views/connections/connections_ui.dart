@@ -87,7 +87,8 @@ class _ConnectionsUIState extends State<ConnectionsUI> {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            connectionsController.addConnection('testemail@email.com');
+            connectionsController.getConnectionsData(
+                ['michaelgeorge@duck.com', 'lmech.ge@gmail.com']);
           },
         ));
   }
