@@ -1,14 +1,12 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/connections_controller.dart';
-import 'package:checkup/views/components/connection.dart';
+import 'package:checkup/views/components/connection_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConnectionsUI extends StatefulWidget {
-  // static const String routeName = '/dashboard';
-
   const ConnectionsUI({Key? key}) : super(key: key);
 
   @override
@@ -42,19 +40,18 @@ class _ConnectionsUIState extends State<ConnectionsUI> {
                       child: ListView.builder(
                           itemCount: controller.userConnections.length,
                           itemBuilder: (_, index) {
-                            return Connection(
+                            return ConnectionCard(
                               connectionData: controller.userConnections[index],
-                              isFriend: true,
                             );
                           }),
                     ),
+                    const Divider(),
                     Expanded(
                       child: ListView.builder(
                           itemCount: controller.userRequests.length,
                           itemBuilder: (_, index) {
-                            return Connection(
+                            return ConnectionCard(
                               connectionData: controller.userRequests[index],
-                              isFriend: false,
                             );
                           }),
                     ),
