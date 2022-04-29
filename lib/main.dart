@@ -58,7 +58,7 @@ class AppRoutes {
 
     // /tabbar
     GetPage(name: '/tabbar/home', page: () => HomeUI()),
-    GetPage(name: '/tabbar/chat', page: () => const ChatbotUI()),
+    GetPage(name: '/tabbar/chat', page: () => ChatbotUI()),
     GetPage(name: '/tabbar/connections', page: () => ConnectionsUI()),
     GetPage(name: '/tabbar/profile', page: () => ProfileUI()),
 

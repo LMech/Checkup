@@ -20,7 +20,7 @@ class TabbarUI extends StatelessWidget {
                 index: controller.tabIndex.value,
                 children: [
                   HomeUI(),
-                  const ChatbotUI(),
+                  ChatbotUI(),
                   ConnectionsUI(),
                   ProfileUI(),
                 ],
