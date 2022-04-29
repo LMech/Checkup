@@ -1,17 +1,20 @@
 import 'package:checkup/controllers/auth_controller.dart';
-import 'package:checkup/helpers/helpers.dart';
-import 'package:checkup/views/auth/auth.dart';
-import 'package:checkup/views/components/components.dart';
+import 'package:checkup/helpers/validator.dart';
+import 'package:checkup/views/components/form_input_field_with_icon.dart';
+import 'package:checkup/views/components/label_button.dart';
+import 'package:checkup/views/components/logo_graphic_header.dart';
+import 'package:checkup/views/components/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class SignUpUI extends StatelessWidget {
-  final AuthController authController = AuthController.to;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   SignUpUI({Key? key}) : super(key: key);
+
+  final AuthController authController = AuthController.to;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +45,11 @@ class SignUpUI extends StatelessWidget {
                         authController.nameController.text = value!,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(height: 8.0),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: CupertinoIcons.mail,
-                    labelText: 'Email'.tr,
+                    labelText: 'Email',
                     validator: Validator().email,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => '',
@@ -54,11 +57,11 @@ class SignUpUI extends StatelessWidget {
                         authController.emailController.text = value!,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(height: 8.0),
                   FormInputFieldWithIcon(
                     controller: authController.passwordController,
                     iconPrefix: CupertinoIcons.lock,
-                    labelText: 'Password'.tr,
+                    labelText: 'Password',
                     validator: Validator().password,
                     obscureText: true,
                     onChanged: (value) => '',
@@ -67,9 +70,9 @@ class SignUpUI extends StatelessWidget {
                     maxLines: 1,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(height: 8.0),
                   PrimaryButton(
-                      labelText: 'Sign Up'.tr,
+                      labelText: 'Sign Up',
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           SystemChannels.textInput.invokeMethod(
@@ -77,10 +80,10 @@ class SignUpUI extends StatelessWidget {
                           authController.registerWithEmailAndPassword(context);
                         }
                       }),
-                  const FormVerticalSpace(),
+                  const SizedBox(height: 8.0),
                   LabelButton(
                     labelText: 'Already have an accound, sign in',
-                    onPressed: () => Get.to(() => SignInUI()),
+                    onPressed: () => Get.toNamed('/signin'),
                   ),
                 ],
               ),

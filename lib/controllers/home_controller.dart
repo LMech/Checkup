@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  var hr = '--'.obs;
-  var spo2 = '--'.obs;
+  RxString hr = '--'.obs;
+  RxString spo2 = '--'.obs;
 
   updateHR(String hr) {
     this.hr(hr);

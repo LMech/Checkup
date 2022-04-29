@@ -1,18 +1,21 @@
+import 'dart:core';
+
 import 'package:checkup/controllers/auth_controller.dart';
-import 'package:checkup/helpers/helpers.dart';
-import 'package:checkup/views/auth/auth.dart';
-import 'package:checkup/views/components/components.dart';
+import 'package:checkup/helpers/validator.dart';
+import 'package:checkup/views/components/form_input_field_with_icon.dart';
+import 'package:checkup/views/components/label_button.dart';
+import 'package:checkup/views/components/logo_graphic_header.dart';
+import 'package:checkup/views/components/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'dart:core';
 import 'package:get/get.dart';
 
 class SignInUI extends StatelessWidget {
-  final AuthController authController = AuthController.to;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   SignInUI({Key? key}) : super(key: key);
+
+  final AuthController authController = AuthController.to;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,7 @@ class SignInUI extends StatelessWidget {
                         authController.emailController.text = value!,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(height: 8.0),
                   FormInputFieldWithIcon(
                     controller: authController.passwordController,
                     iconPrefix: CupertinoIcons.lock,
@@ -57,22 +60,22 @@ class SignInUI extends StatelessWidget {
                     maxLines: 1,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(height: 8.0),
                   PrimaryButton(
-                      labelText: 'Sign in'.tr,
+                      labelText: 'Sign in',
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           authController.signInWithEmailAndPassword(context);
                         }
                       }),
-                  const FormVerticalSpace(),
+                  const SizedBox(height: 8.0),
                   LabelButton(
                     labelText: 'Reset password',
-                    onPressed: () => Get.to(() => ResetPasswordUI()),
+                    onPressed: () => Get.toNamed('/reset-password'),
                   ),
                   LabelButton(
                     labelText: 'Sign up',
-                    onPressed: () => Get.to(() => SignUpUI()),
+                    onPressed: () => Get.toNamed('/signup'),
                   ), /*  */
                 ],
               ),
