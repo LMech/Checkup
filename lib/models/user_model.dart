@@ -1,13 +1,4 @@
 class UserModel {
-  final String uid;
-  final String email;
-  final String name;
-  final String photoUrl;
-  String phoneNumber;
-  String dateOfBirth;
-  int height;
-  int weight;
-
   UserModel({
     required this.uid,
     required this.email,
@@ -32,14 +23,23 @@ class UserModel {
     );
   }
 
+  String dateOfBirth;
+  final String email;
+  int height;
+  final String name;
+  String phoneNumber;
+  final String photoUrl;
+  final String uid;
+  int weight;
+
   Map<String, dynamic> toJson() => {
-        "uid": uid,
-        "email": email,
-        "name": name,
-        "photoUrl": photoUrl,
-        "phoneNumber": phoneNumber,
+        'uid': uid,
+        'email': email,
+        'name': name,
+        'photoUrl': photoUrl,
+        'phoneNumber': phoneNumber,
         'dateOfBirth': dateOfBirth,
-        "height": height,
-        "weight": weight,
+        'height': height,
+        'weight': weight,
       };
 }

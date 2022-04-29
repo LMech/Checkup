@@ -9,53 +9,48 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TabbarUI extends StatelessWidget {
+  const TabbarUI({Key? key}) : super(key: key);
+
   static final tabbarController = Get.put(TabbarController());
 
-  const TabbarUI({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(
         init: AuthController(),
-        builder: (controller) => controller.firestoreUser.value!.uid == null
-            ? const SafeArea(
-                child: Center(
-                  child: CircularProgressIndicator(),
+        builder: (controller) => Obx(() => (Scaffold(
+            body: SafeArea(
+              child: IndexedStack(
+                index: tabbarController.tabIndex.value,
+                children: [
+                  const HomeUI(),
+                  const ChatbotUI(),
+                  ConnectionsUI(),
+                  ProfileUI(),
+                ],
+              ),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: tabbarController.tabIndex.value,
+              onTap: tabbarController.changeTabIndex,
+              type: BottomNavigationBarType.fixed,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.home),
+                  label: 'Home',
                 ),
-              )
-            : Obx(() => (Scaffold(
-                body: SafeArea(
-                  child: IndexedStack(
-                    index: tabbarController.tabIndex.value,
-                    children: [
-                      const HomeUI(),
-                      ChatbotUI(),
-                      ConnectionsUI(),
-                      ProfileUI(),
-                    ],
-                  ),
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.chat_bubble_2),
+                  label: 'Atouf',
                 ),
-                bottomNavigationBar: BottomNavigationBar(
-                  currentIndex: tabbarController.tabIndex.value,
-                  onTap: tabbarController.changeTabIndex,
-                  type: BottomNavigationBarType.fixed,
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(CupertinoIcons.home),
-                      label: 'Home',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(CupertinoIcons.chat_bubble_2),
-                      label: 'Atouf',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(CupertinoIcons.person_3_fill),
-                      label: 'Contacts',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(CupertinoIcons.profile_circled),
-                      label: 'Profile',
-                    ),
-                  ],
-                )))));
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.person_3_fill),
+                  label: 'Contacts',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.profile_circled),
+                  label: 'Profile',
+                ),
+              ],
+            )))));
   }
 }

@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConnectionsUI extends StatelessWidget {
-  final TextEditingController _connectionEmail = TextEditingController();
   ConnectionsUI({Key? key}) : super(key: key);
+
+  final TextEditingController _connectionEmail = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,8 @@ class ConnectionsUI extends StatelessWidget {
                 child: Obx(
                   (() => ListView(
                         children: [
-                          for (var connection in controller.userConnections)
+                          for (Map<String, dynamic>? connection
+                              in controller.userConnections)
                             ConnectionCard(
                                 connectionData: connection, isFriend: true),
                           Column(children: [
@@ -35,7 +37,8 @@ class ConnectionsUI extends StatelessWidget {
                                       textAlign: TextAlign.start,
                                     )))
                           ]),
-                          for (var requrests in controller.userRequests)
+                          for (Map<String, dynamic>? requrests
+                              in controller.userRequests)
                             ConnectionCard(
                                 connectionData: requrests, isFriend: false)
                         ],
@@ -45,32 +48,3 @@ class ConnectionsUI extends StatelessWidget {
             )));
   }
 }
-/*
-Obx(() => Expanded(
-                            flex: 5,
-                            child: ListView.builder(
-                                itemCount: controller.userConnections.length,
-                                itemBuilder: (_, index) {
-                                  return ConnectionCard(
-                                    connectionData:
-                                        controller.userConnections[index],
-                                    isFriend: true,
-                                  );
-                                }),
-                          )),
-                      const Divider(),
-                      Obx(
-                        () => Expanded(
-                          flex: 5,
-                          child: ListView.builder(
-                              itemCount: controller.userRequests.length,
-                              itemBuilder: (_, index) {
-                                return ConnectionCard(
-                                  connectionData:
-                                      controller.userRequests[index],
-                                  isFriend: false,
-                                );
-                              }),
-                        ),
-                      ),
-                      */

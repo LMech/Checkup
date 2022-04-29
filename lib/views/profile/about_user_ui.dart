@@ -1,6 +1,6 @@
 import 'package:checkup/controllers/profile_controller.dart';
 import 'package:checkup/helpers/validator.dart';
-import 'package:checkup/views/components/components.dart';
+import 'package:checkup/views/components/form_input_field_with_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,8 +13,8 @@ class AboutUserUI extends StatefulWidget {
 }
 
 class _AboutUserUIState extends State<AboutUserUI> {
-  final ProfileController profileController = ProfileController.to;
   String dropdownValue = 'Male';
+  final ProfileController profileController = ProfileController.to;
 
   Future<DateTime?> _presentDatePicker() async {
     DateTime? picked = await showDatePicker(
@@ -25,22 +25,12 @@ class _AboutUserUIState extends State<AboutUserUI> {
     return picked;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("About You"),
-      ),
-      body: SafeArea(child: _aboutYou()),
-    );
-  }
-
   _aboutYou() {
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Form(
             child: ListView(children: <Widget>[
-          const FormVerticalSpace(),
+          const SizedBox(),
           FormInputFieldWithIcon(
             controller: profileController.phoneNumberController,
             iconPrefix: CupertinoIcons.phone,
@@ -52,7 +42,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
                   'phoneNumber', profileController.phoneNumberController.text);
             },
           ),
-          const FormVerticalSpace(),
+          const SizedBox(),
           FormInputFieldWithIcon(
             controller: profileController.dataOfBirthController,
             iconPrefix: CupertinoIcons.calendar,
@@ -70,7 +60,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
             },
             onEditdingComplete: () async {},
           ),
-          const FormVerticalSpace(),
+          const SizedBox(),
           FormInputFieldWithIcon(
               controller: profileController.heightController,
               iconPrefix: Icons.home_outlined,
@@ -81,7 +71,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
                 await profileController.updateDB('dateOfBirth',
                     profileController.dataOfBirthController.text);
               }),
-          const FormVerticalSpace(),
+          const SizedBox(),
           DropdownButton<String>(
             value: dropdownValue,
             onChanged: (String? newValue) {
@@ -97,7 +87,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
               );
             }).toList(),
           ),
-          const FormVerticalSpace(),
+          const SizedBox(),
           FormInputFieldWithIcon(
               controller: profileController.heightController,
               iconPrefix: Icons.height_sharp,
@@ -108,7 +98,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
                 await profileController.updateDB('dateOfBirth',
                     profileController.dataOfBirthController.text);
               }),
-          const FormVerticalSpace(),
+          const SizedBox(),
           FormInputFieldWithIcon(
               controller: profileController.weightController,
               iconPrefix: Icons.monitor_weight,
@@ -119,7 +109,17 @@ class _AboutUserUIState extends State<AboutUserUI> {
                 await profileController.updateDB('dateOfBirth',
                     profileController.dataOfBirthController.text);
               }),
-          const FormVerticalSpace(),
+          const SizedBox(),
         ])));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("About You"),
+      ),
+      body: SafeArea(child: _aboutYou()),
+    );
   }
 }

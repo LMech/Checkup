@@ -6,20 +6,6 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class BackgroundCollectingTask extends Model {
-  final VitalsChange _vitalsChange = VitalsChange();
-  static BackgroundCollectingTask of(
-    BuildContext context, {
-    bool rebuildOnChange = false,
-  }) =>
-      ScopedModel.of<BackgroundCollectingTask>(
-        context,
-        rebuildOnChange: rebuildOnChange,
-      );
-
-  final BluetoothConnection _connection;
-
-  bool inProgress = false;
-
   BackgroundCollectingTask._fromConnection(this._connection) {
     _connection.input!.listen((data) {
       if (data.length == 2 && data.first.toInt() != 255) {
@@ -32,6 +18,20 @@ class BackgroundCollectingTask extends Model {
       notifyListeners();
     });
   }
+
+  bool inProgress = false;
+
+  final BluetoothConnection _connection;
+  final VitalsChange _vitalsChange = VitalsChange();
+
+  static BackgroundCollectingTask of(
+    BuildContext context, {
+    bool rebuildOnChange = false,
+  }) =>
+      ScopedModel.of<BackgroundCollectingTask>(
+        context,
+        rebuildOnChange: rebuildOnChange,
+      );
 
   static Future<BackgroundCollectingTask> connect(
       BluetoothDevice server) async {

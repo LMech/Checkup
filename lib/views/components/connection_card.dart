@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConnectionCard extends StatelessWidget {
-  final ConnectionsController connectionsController = Get.find();
-
-  final Map<String, dynamic>? connectionData;
-  final bool isFriend;
-
   ConnectionCard({
     Key? key,
     required this.connectionData,
     required this.isFriend,
   }) : super(key: key);
+
+  final Map<String, dynamic>? connectionData;
+  final ConnectionsController connectionsController = Get.find();
+  final bool isFriend;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -66,7 +66,7 @@ class ConnectionCard extends StatelessWidget {
                                         connectionData?['email'] ?? 'e');
                                   },
                                   child: const Text(
-                                    "Delete",
+                                    'Delete',
                                     style: TextStyle(color: Colors.red),
                                   ))
                               : Row(
@@ -78,7 +78,7 @@ class ConnectionCard extends StatelessWidget {
                                               connectionData?['email'] ?? 'e');
                                         },
                                         child: const Text(
-                                          "Accept",
+                                          'Accept',
                                           style: TextStyle(color: Colors.green),
                                         )),
                                     TextButton(
@@ -89,7 +89,7 @@ class ConnectionCard extends StatelessWidget {
                                                       'e');
                                         },
                                         child: const Text(
-                                          "Reject",
+                                          'Reject',
                                           style: TextStyle(color: Colors.red),
                                         )),
                                   ],

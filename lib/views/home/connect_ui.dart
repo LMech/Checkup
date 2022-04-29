@@ -1,6 +1,6 @@
-import 'package:checkup/views/home/bluetooth_search_ui.dart';
 import 'package:checkup/services/bluetooth_background_task.dart';
 import 'package:checkup/views/components/list_tile_with_icon.dart';
+import 'package:checkup/views/home/bluetooth_search_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
@@ -14,11 +14,40 @@ class ConnectUI extends StatefulWidget {
 class _ConnectUIState extends State<ConnectUI> {
   BackgroundCollectingTask? _collectingTask;
 
+  Future<void> _startBackgroundTask(
+    BuildContext context,
+    BluetoothDevice server,
+  ) async {
+    try {
+      _collectingTask = await BackgroundCollectingTask.connect(server);
+      await _collectingTask!.start();
+    } catch (ex) {
+      _collectingTask?.cancel();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error while connecting'),
+            content: Text(ex.toString()),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Choose method"),
+        title: const Text('Choose method'),
       ),
       body: ListView(children: [
         ListTileWithIcon(
@@ -57,34 +86,5 @@ class _ConnectUIState extends State<ConnectUI> {
         ),
       ]),
     );
-  }
-
-  Future<void> _startBackgroundTask(
-    BuildContext context,
-    BluetoothDevice server,
-  ) async {
-    try {
-      _collectingTask = await BackgroundCollectingTask.connect(server);
-      await _collectingTask!.start();
-    } catch (ex) {
-      _collectingTask?.cancel();
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Error while connecting'),
-            content: Text(ex.toString()),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("Close"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
   }
 }
