@@ -1,95 +1,21 @@
 import 'package:checkup/controllers/auth_controller.dart';
-import 'package:checkup/helpers/helpers.dart';
+import 'package:checkup/helpers/validator.dart';
 import 'package:checkup/models/user_model.dart';
 import 'package:checkup/views/auth/reset_password_ui.dart';
-import 'package:checkup/views/components/components.dart';
+import 'package:checkup/views/components/form_input_field_with_icon.dart';
+import 'package:checkup/views/components/label_button.dart';
+import 'package:checkup/views/components/logo_graphic_header.dart';
+import 'package:checkup/views/components/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class UpdateProfileUI extends StatelessWidget {
-  final AuthController authController = AuthController.to;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   UpdateProfileUI({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    //print('user.name: ' + user?.value?.name);
-    authController.nameController.text =
-        authController.firestoreUser.value!.name;
-    authController.emailController.text =
-        authController.firestoreUser.value!.email;
-    return Scaffold(
-      appBar: AppBar(title: Text('auth.updateProfileTitle'.tr)),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  const LogoGraphicHeader(
-                    radius: 20,
-                    height: 120,
-                    width: 200,
-                  ),
-                  const SizedBox(height: 48.0),
-                  FormInputFieldWithIcon(
-                    controller: authController.nameController,
-                    iconPrefix: Icons.person,
-                    labelText: 'Name',
-                    validator: Validator().name,
-                    onChanged: (value) => '',
-                    onSaved: (value) =>
-                        authController.nameController.text = value!,
-                    onEditdingComplete: () {},
-                  ),
-                  const FormVerticalSpace(),
-                  FormInputFieldWithIcon(
-                    controller: authController.emailController,
-                    iconPrefix: Icons.email,
-                    labelText: 'Email'.tr,
-                    validator: Validator().email,
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) => '',
-                    onSaved: (value) =>
-                        authController.emailController.text = value!,
-                    onEditdingComplete: () {},
-                  ),
-                  const FormVerticalSpace(),
-                  PrimaryButton(
-                      labelText: 'auth.updateUser'.tr,
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          SystemChannels.textInput
-                              .invokeMethod('TextInput.hide');
-                          UserModel _updatedUser = UserModel(
-                              uid: authController.firestoreUser.value!.uid,
-                              name: authController.nameController.text,
-                              email: authController.emailController.text,
-                              photoUrl:
-                                  authController.firestoreUser.value!.photoUrl);
-                          _updateUserConfirm(context, _updatedUser,
-                              authController.firestoreUser.value!.email);
-                        }
-                      }),
-                  const FormVerticalSpace(),
-                  LabelButton(
-                    labelText: 'auth.resetPasswordLabelButton'.tr,
-                    onPressed: () => Get.to(() => ResetPasswordUI()),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  final AuthController authController = AuthController.to;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> _updateUserConfirm(
       BuildContext context, UserModel updatedUser, String oldEmail) async {
@@ -137,6 +63,83 @@ class UpdateProfileUI extends StatelessWidget {
             },
           )
         ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    authController.nameController.text =
+        authController.firestoreUser.value!.name;
+    authController.emailController.text =
+        authController.firestoreUser.value!.email;
+    return Scaffold(
+      appBar: AppBar(title: Text('auth.updateProfileTitle'.tr)),
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  const LogoGraphicHeader(
+                    radius: 20,
+                    height: 120,
+                    width: 200,
+                  ),
+                  const SizedBox(height: 48.0),
+                  FormInputFieldWithIcon(
+                    controller: authController.nameController,
+                    iconPrefix: Icons.person,
+                    labelText: 'Name',
+                    validator: Validator().name,
+                    onChanged: (value) => '',
+                    onSaved: (value) =>
+                        authController.nameController.text = value!,
+                    onEditdingComplete: () {},
+                  ),
+                  const SizedBox(),
+                  FormInputFieldWithIcon(
+                    controller: authController.emailController,
+                    iconPrefix: Icons.email,
+                    labelText: 'Email'.tr,
+                    validator: Validator().email,
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) => '',
+                    onSaved: (value) =>
+                        authController.emailController.text = value!,
+                    onEditdingComplete: () {},
+                  ),
+                  const SizedBox(),
+                  PrimaryButton(
+                      labelText: 'auth.updateUser'.tr,
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          SystemChannels.textInput
+                              .invokeMethod('TextInput.hide');
+                          UserModel _updatedUser = UserModel(
+                              uid: authController.firestoreUser.value!.uid,
+                              name: authController.nameController.text,
+                              email: authController.emailController.text,
+                              photoUrl:
+                                  authController.firestoreUser.value!.photoUrl);
+                          _updateUserConfirm(context, _updatedUser,
+                              authController.firestoreUser.value!.email);
+                        }
+                      }),
+                  const SizedBox(),
+                  LabelButton(
+                    labelText: 'auth.resetPasswordLabelButton'.tr,
+                    onPressed: () => Get.to(() => ResetPasswordUI()),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

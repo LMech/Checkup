@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
 class UserImageAvatar extends StatelessWidget {
-  final String imageUrl;
-  final double height;
-  final double width;
-  final Function() onTap;
-
   const UserImageAvatar({
     Key? key,
     required this.imageUrl,
@@ -13,6 +8,12 @@ class UserImageAvatar extends StatelessWidget {
     this.height = 45.0,
     this.width = 45.0,
   }) : super(key: key);
+
+  final double height;
+  final String imageUrl;
+  final Function() onTap;
+  final double width;
+
   @override
   Widget build(BuildContext context) {
     return Container(

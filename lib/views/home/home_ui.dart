@@ -1,17 +1,16 @@
-import 'package:checkup/constants/text_constants.dart';
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/home_controller.dart';
-import 'package:checkup/views/home/connect_ui.dart';
 import 'package:checkup/views/components/avatar.dart';
+import 'package:checkup/views/components/feature_card.dart';
+import 'package:checkup/views/home/connect_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../components/feature_card.dart';
 
 class HomeUI extends StatefulWidget {
-  static final AuthController authController = Get.find();
-
   const HomeUI({Key? key}) : super(key: key);
+
+  static final AuthController authController = Get.find();
 
   @override
   State<HomeUI> createState() => _HomeUIState();
@@ -19,8 +18,96 @@ class HomeUI extends StatefulWidget {
 
 class _HomeUIState extends State<HomeUI> {
   HomeController homeController = Get.put(HomeController());
-
   final String photoUrl = '';
+
+  Widget _profileData() {
+    final String userName = HomeUI.authController.firestoreUser.value!.name;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            'Hi, $userName',
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 2),
+          const Text(
+            'Let\'s make a checkup',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ]),
+        GestureDetector(
+          child: photoUrl == ''
+              ? Avatar(
+                  HomeUI.authController.firestoreUser.value?.photoUrl ?? '',
+                  radius: 25.0,
+                  height: 120,
+                  width: 200,
+                )
+              : CircleAvatar(
+                  child: ClipOval(
+                      child: FadeInImage.assetNetwork(
+                          placeholder: '',
+                          image: photoUrl,
+                          fit: BoxFit.cover,
+                          width: 200,
+                          height: 120)),
+                  radius: 25),
+          onTap: () {},
+        )
+      ]),
+    );
+  }
+
+  Widget _featuresList() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Discover other features',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 15),
+        SizedBox(
+          height: 160,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              const SizedBox(width: 20),
+              FeatureCard(
+                color: Get.theme.focusColor,
+                icon: CupertinoIcons.rectangle_paperclip,
+                title: 'Report',
+                description: 'Export and share your data',
+                onTap: () {},
+              ),
+              const SizedBox(width: 15),
+              FeatureCard(
+                color: Get.theme.focusColor,
+                icon: CupertinoIcons.waveform_path_ecg,
+                title: 'Camera Oximeter',
+                description: 'Measure important vital using your phone camera',
+                onTap: () {},
+              ),
+              const SizedBox(width: 20),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +156,7 @@ class _HomeUIState extends State<HomeUI> {
                           ),
                           SizedBox(width: 10),
                           Text(
-                            "Heart Rate",
+                            'Heart Rate',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
@@ -85,7 +172,7 @@ class _HomeUIState extends State<HomeUI> {
                             )),
                       ),
                       const Text(
-                        "BPM",
+                        'BPM',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
@@ -119,7 +206,7 @@ class _HomeUIState extends State<HomeUI> {
                           ),
                           SizedBox(width: 10),
                           Text(
-                            "Oxygen\nSaturation",
+                            'Oxygen\nSaturation',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
@@ -135,7 +222,7 @@ class _HomeUIState extends State<HomeUI> {
                             )),
                       ),
                       const Text(
-                        "%",
+                        '%',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
@@ -152,95 +239,6 @@ class _HomeUIState extends State<HomeUI> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _profileData() {
-    final String userName = HomeUI.authController.firestoreUser.value!.name;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            'Hi, $userName',
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 2),
-          const Text(
-            TextConstants.checkup,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ]),
-        GestureDetector(
-          child: photoUrl == ''
-              ? Avatar(
-                  HomeUI.authController.firestoreUser.value?.photoUrl ?? '',
-                  radius: 25.0,
-                  height: 120,
-                  width: 200,
-                )
-              : CircleAvatar(
-                  child: ClipOval(
-                      child: FadeInImage.assetNetwork(
-                          placeholder: '',
-                          image: photoUrl,
-                          fit: BoxFit.cover,
-                          width: 200,
-                          height: 120)),
-                  radius: 25),
-          onTap: () {},
-        )
-      ]),
-    );
-  }
-
-  Widget _featuresList() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            TextConstants.discoverFeatures,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 15),
-        SizedBox(
-          height: 160,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              const SizedBox(width: 20),
-              FeatureCard(
-                color: Get.theme.focusColor,
-                icon: CupertinoIcons.rectangle_paperclip,
-                title: TextConstants.reportFeatureTitle,
-                description: TextConstants.reportFeatureDescription,
-                onTap: () {},
-              ),
-              const SizedBox(width: 15),
-              FeatureCard(
-                color: Get.theme.focusColor,
-                icon: CupertinoIcons.waveform_path_ecg,
-                title: TextConstants.oximeterFeatureTitle,
-                description: TextConstants.oximeterFeatureDescription,
-                onTap: () {},
-              ),
-              const SizedBox(width: 20),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

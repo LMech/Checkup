@@ -1,19 +1,23 @@
+import 'dart:core';
+
 import 'package:checkup/controllers/auth_controller.dart';
-import 'package:checkup/helpers/helpers.dart';
+import 'package:checkup/helpers/validator.dart';
 import 'package:checkup/views/auth/reset_password_ui.dart';
 import 'package:checkup/views/auth/sign_up_ui.dart';
-import 'package:checkup/views/components/components.dart';
+import 'package:checkup/views/components/form_input_field_with_icon.dart';
+import 'package:checkup/views/components/label_button.dart';
+import 'package:checkup/views/components/logo_graphic_header.dart';
+import 'package:checkup/views/components/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'dart:core';
 import 'package:get/get.dart';
 
 class SignInUI extends StatelessWidget {
-  final AuthController authController = AuthController.to;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   SignInUI({Key? key}) : super(key: key);
+
+  final AuthController authController = AuthController.to;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,7 @@ class SignInUI extends StatelessWidget {
                         authController.emailController.text = value!,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(),
                   FormInputFieldWithIcon(
                     controller: authController.passwordController,
                     iconPrefix: CupertinoIcons.lock,
@@ -58,7 +62,7 @@ class SignInUI extends StatelessWidget {
                     maxLines: 1,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(),
                   PrimaryButton(
                       labelText: 'Sign in'.tr,
                       onPressed: () async {
@@ -66,7 +70,7 @@ class SignInUI extends StatelessWidget {
                           authController.signInWithEmailAndPassword(context);
                         }
                       }),
-                  const FormVerticalSpace(),
+                  const SizedBox(),
                   LabelButton(
                     labelText: 'Reset password',
                     onPressed: () => Get.to(() => ResetPasswordUI()),

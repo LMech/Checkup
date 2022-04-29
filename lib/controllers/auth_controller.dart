@@ -1,26 +1,36 @@
-import 'package:checkup/helpers/helpers.dart';
+import 'dart:async';
+
+import 'package:checkup/helpers/gravatar.dart';
+import 'package:checkup/models/user_model.dart';
 import 'package:checkup/views/auth/sign_in_ui.dart';
-import 'package:checkup/views/components/components.dart';
+import 'package:checkup/views/components/loading.dart';
 import 'package:checkup/views/tabbar_ui.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-
-import '../models/user_model.dart';
 
 class AuthController extends GetxController {
   static AuthController to = Get.find();
-  TextEditingController nameController = TextEditingController();
+
+  final RxBool admin = false.obs;
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
   Rxn<User> firebaseUser = Rxn<User>();
   Rxn<UserModel> firestoreUser = Rxn<UserModel>();
-  final RxBool admin = false.obs;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  @override
+  void onClose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
+  }
 
   @override
   void onReady() async {
@@ -30,14 +40,6 @@ class AuthController extends GetxController {
     firebaseUser.bindStream(user);
 
     super.onReady();
-  }
-
-  @override
-  void onClose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
   }
 
   handleAuthChanged(_firebaseUser) async {
@@ -152,7 +154,7 @@ class AuthController extends GetxController {
         // print('Caught error: $err');
         //not yet working, see this issue https://github.com/delay/flutter_starter/issues/21
         if (err.toString() ==
-            "[firebase_auth/email-already-in-use] The email address is already in use by another account.") {
+            '[firebase_auth/email-already-in-use] The email address is already in use by another account.') {
           _authUpdateUserNoticeTitle = 'auth.updateUserEmailInUse'.tr;
           _authUpdateUserNotice = 'auth.updateUserEmailInUse'.tr;
         } else {
@@ -168,7 +170,7 @@ class AuthController extends GetxController {
           colorText: Get.theme.snackBarTheme.actionTextColor);
     } on PlatformException catch (error) {
       //List<String> errors = error.toString().split(',');
-      // print("Error: " + errors[1]);
+      // print('Error: ' + errors[1]);
       hideLoadingIndicator();
       // print(error.code);
       String authError;
@@ -186,24 +188,6 @@ class AuthController extends GetxController {
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     }
-  }
-
-  //updates the firestore user in users collection
-  void _updateUserFirestore(UserModel user, User _firebaseUser) {
-    _db.doc('/users/${_firebaseUser.uid}').update(user.toJson());
-    update();
-  }
-
-  //create the firestore user in users collection
-  void _createUserFirestore(UserModel user, User _firebaseUser) {
-    _db.doc('/users/${_firebaseUser.uid}').set(user.toJson());
-    update();
-  }
-
-  // create connections list in connections collection
-  void _createConnectionsListFirestore(String _email) {
-    _db.doc('/connections/$_email').set({'connections': []});
-    update();
   }
 
   //password reset email
@@ -248,5 +232,23 @@ class AuthController extends GetxController {
     emailController.clear();
     passwordController.clear();
     return _auth.signOut();
+  }
+
+  //updates the firestore user in users collection
+  void _updateUserFirestore(UserModel user, User _firebaseUser) {
+    _db.doc('/users/${_firebaseUser.uid}').update(user.toJson());
+    update();
+  }
+
+  //create the firestore user in users collection
+  void _createUserFirestore(UserModel user, User _firebaseUser) {
+    _db.doc('/users/${_firebaseUser.uid}').set(user.toJson());
+    update();
+  }
+
+  // create connections list in connections collection
+  void _createConnectionsListFirestore(String _email) {
+    _db.doc('/connections/$_email').set({'connections': []});
+    update();
   }
 }

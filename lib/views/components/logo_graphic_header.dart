@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class LogoGraphicHeader extends StatelessWidget {
-  final double width;
-  final double height;
-  final double radius;
   const LogoGraphicHeader({
     Key? key,
     required this.radius,
     required this.width,
     required this.height,
   }) : super(key: key);
+
+  final double height;
+  final double radius;
+  final double width;
 
   @override
   Widget build(BuildContext context) {

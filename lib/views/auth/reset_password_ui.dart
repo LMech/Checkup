@@ -1,16 +1,37 @@
 import 'package:checkup/controllers/auth_controller.dart';
-import 'package:checkup/helpers/helpers.dart';
+import 'package:checkup/helpers/validator.dart';
 import 'package:checkup/views/auth/sign_in_ui.dart';
-import 'package:checkup/views/components/components.dart';
+import 'package:checkup/views/components/form_input_field_with_icon.dart';
+import 'package:checkup/views/components/label_button.dart';
+import 'package:checkup/views/components/logo_graphic_header.dart';
+import 'package:checkup/views/components/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ResetPasswordUI extends StatelessWidget {
+  ResetPasswordUI({Key? key}) : super(key: key);
+
   final AuthController authController = AuthController.to;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  ResetPasswordUI({Key? key}) : super(key: key);
+  appBar(BuildContext context) {
+    if (authController.emailController.text == '') {
+      return null;
+    }
+    return AppBar(title: const Text('Reset'));
+  }
+
+  signInLink(BuildContext context) {
+    if (authController.emailController.text == '') {
+      return LabelButton(
+        labelText: 'Sign in',
+        onPressed: () => Get.offAll(() => SignInUI()),
+      );
+    }
+    return const SizedBox(width: 0, height: 0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +64,7 @@ class ResetPasswordUI extends StatelessWidget {
                         authController.emailController.text = value as String,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(),
                   PrimaryButton(
                       labelText: 'Reset',
                       onPressed: () async {
@@ -51,7 +72,7 @@ class ResetPasswordUI extends StatelessWidget {
                           await authController.sendPasswordResetEmail(context);
                         }
                       }),
-                  const FormVerticalSpace(),
+                  const SizedBox(),
                   signInLink(context),
                 ],
               ),
@@ -60,22 +81,5 @@ class ResetPasswordUI extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  appBar(BuildContext context) {
-    if (authController.emailController.text == '') {
-      return null;
-    }
-    return AppBar(title: const Text('Reset'));
-  }
-
-  signInLink(BuildContext context) {
-    if (authController.emailController.text == '') {
-      return LabelButton(
-        labelText: 'Sign in',
-        onPressed: () => Get.offAll(() => SignInUI()),
-      );
-    }
-    return const SizedBox(width: 0, height: 0);
   }
 }

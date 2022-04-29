@@ -1,6 +1,6 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/profile_controller.dart';
-import 'package:checkup/views/components/components.dart';
+import 'package:checkup/views/components/avatar.dart';
 import 'package:checkup/views/components/list_tile_with_icon.dart';
 import 'package:checkup/views/profile/about_user_ui.dart';
 import 'package:checkup/views/profile/settings_ui.dart';
@@ -9,35 +9,10 @@ import 'package:get/get.dart';
 
 @immutable
 class ProfileUI extends StatelessWidget {
-  final AuthController authController = AuthController.to;
-  final ProfileController profileController = Get.put(ProfileController());
-  var photoUrl = '';
-
   ProfileUI({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Profile"),
-          actions: [
-            IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  Get.to(() => const SettingsUI());
-                }),
-          ],
-        ),
-        body: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(children: <Widget>[
-            _profileData(),
-            const SizedBox(height: 10),
-            _listView(),
-          ]),
-        )));
-  }
+  final AuthController authController = AuthController.to;
+  final ProfileController profileController = Get.put(ProfileController());
 
   _profileData() {
     final String userName = authController.firestoreUser.value!.name;
@@ -47,9 +22,9 @@ class ProfileUI extends StatelessWidget {
       children: [
         const SizedBox(height: 10),
         GestureDetector(
-          child: photoUrl == ''
+          child: authController.firestoreUser.value!.photoUrl == ''
               ? Avatar(
-                  authController.firestoreUser.value?.photoUrl ?? '',
+                  authController.firestoreUser.value!.photoUrl,
                   radius: 50.0,
                   height: 120,
                   width: 200,
@@ -58,7 +33,7 @@ class ProfileUI extends StatelessWidget {
                   child: ClipOval(
                       child: FadeInImage.assetNetwork(
                           placeholder: '',
-                          image: photoUrl,
+                          image: authController.firestoreUser.value!.photoUrl,
                           fit: BoxFit.cover,
                           width: 200,
                           height: 120)),
@@ -99,5 +74,29 @@ class ProfileUI extends StatelessWidget {
             onTap: () => AuthController.to.signOut()),
       ]),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("Profile"),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  Get.to(() => const SettingsUI());
+                }),
+          ],
+        ),
+        body: SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(children: <Widget>[
+            _profileData(),
+            const SizedBox(height: 10),
+            _listView(),
+          ]),
+        )));
   }
 }

@@ -1,17 +1,21 @@
 import 'package:checkup/controllers/auth_controller.dart';
-import 'package:checkup/helpers/helpers.dart';
+import 'package:checkup/helpers/validator.dart';
 import 'package:checkup/views/auth/sign_in_ui.dart';
-import 'package:checkup/views/components/components.dart';
+import 'package:checkup/views/components/form_input_field_with_icon.dart';
+import 'package:checkup/views/components/label_button.dart';
+import 'package:checkup/views/components/logo_graphic_header.dart';
+import 'package:checkup/views/components/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class SignUpUI extends StatelessWidget {
-  final AuthController authController = AuthController.to;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   SignUpUI({Key? key}) : super(key: key);
+
+  final AuthController authController = AuthController.to;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,7 @@ class SignUpUI extends StatelessWidget {
                         authController.nameController.text = value!,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: CupertinoIcons.mail,
@@ -54,7 +58,7 @@ class SignUpUI extends StatelessWidget {
                         authController.emailController.text = value!,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(),
                   FormInputFieldWithIcon(
                     controller: authController.passwordController,
                     iconPrefix: CupertinoIcons.lock,
@@ -67,7 +71,7 @@ class SignUpUI extends StatelessWidget {
                     maxLines: 1,
                     onEditdingComplete: () {},
                   ),
-                  const FormVerticalSpace(),
+                  const SizedBox(),
                   PrimaryButton(
                       labelText: 'Sign Up'.tr,
                       onPressed: () async {
@@ -77,7 +81,7 @@ class SignUpUI extends StatelessWidget {
                           authController.registerWithEmailAndPassword(context);
                         }
                       }),
-                  const FormVerticalSpace(),
+                  const SizedBox(),
                   LabelButton(
                     labelText: 'Already have an accound, sign in',
                     onPressed: () => Get.to(() => SignInUI()),
