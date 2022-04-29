@@ -1,6 +1,5 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/helpers/validator.dart';
-import 'package:checkup/views/auth/sign_in_ui.dart';
 import 'package:checkup/views/components/form_input_field_with_icon.dart';
 import 'package:checkup/views/components/label_button.dart';
 import 'package:checkup/views/components/logo_graphic_header.dart';
@@ -27,7 +26,7 @@ class ResetPasswordUI extends StatelessWidget {
     if (authController.emailController.text == '') {
       return LabelButton(
         labelText: 'Sign in',
-        onPressed: () => Get.offAll(() => SignInUI()),
+        onPressed: () => Get.offAllNamed('/signin'),
       );
     }
     return const SizedBox(width: 0, height: 0);
@@ -64,7 +63,7 @@ class ResetPasswordUI extends StatelessWidget {
                         authController.emailController.text = value as String,
                     onEditdingComplete: () {},
                   ),
-                  const SizedBox(),
+                  const SizedBox(height: 8.0),
                   PrimaryButton(
                       labelText: 'Reset',
                       onPressed: () async {
@@ -72,7 +71,7 @@ class ResetPasswordUI extends StatelessWidget {
                           await authController.sendPasswordResetEmail(context);
                         }
                       }),
-                  const SizedBox(),
+                  const SizedBox(height: 8.0),
                   signInLink(context),
                 ],
               ),

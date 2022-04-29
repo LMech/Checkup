@@ -30,7 +30,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Form(
             child: ListView(children: <Widget>[
-          const SizedBox(),
+          const SizedBox(height: 8.0),
           FormInputFieldWithIcon(
             controller: profileController.phoneNumberController,
             iconPrefix: CupertinoIcons.phone,
@@ -42,7 +42,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
                   'phoneNumber', profileController.phoneNumberController.text);
             },
           ),
-          const SizedBox(),
+          const SizedBox(height: 8.0),
           FormInputFieldWithIcon(
             controller: profileController.dataOfBirthController,
             iconPrefix: CupertinoIcons.calendar,
@@ -60,7 +60,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
             },
             onEditdingComplete: () async {},
           ),
-          const SizedBox(),
+          const SizedBox(height: 8.0),
           FormInputFieldWithIcon(
               controller: profileController.heightController,
               iconPrefix: Icons.home_outlined,
@@ -71,7 +71,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
                 await profileController.updateDB('dateOfBirth',
                     profileController.dataOfBirthController.text);
               }),
-          const SizedBox(),
+          const SizedBox(height: 8.0),
           DropdownButton<String>(
             value: dropdownValue,
             onChanged: (String? newValue) {
@@ -87,7 +87,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
               );
             }).toList(),
           ),
-          const SizedBox(),
+          const SizedBox(height: 8.0),
           FormInputFieldWithIcon(
               controller: profileController.heightController,
               iconPrefix: Icons.height_sharp,
@@ -98,7 +98,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
                 await profileController.updateDB('dateOfBirth',
                     profileController.dataOfBirthController.text);
               }),
-          const SizedBox(),
+          const SizedBox(height: 8.0),
           FormInputFieldWithIcon(
               controller: profileController.weightController,
               iconPrefix: Icons.monitor_weight,
@@ -109,7 +109,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
                 await profileController.updateDB('dateOfBirth',
                     profileController.dataOfBirthController.text);
               }),
-          const SizedBox(),
+          const SizedBox(height: 8.0),
         ])));
   }
 

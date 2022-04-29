@@ -1,4 +1,3 @@
-import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/tabbar_controller.dart';
 import 'package:checkup/views/chat_ui.dart';
 import 'package:checkup/views/connections/connections_ui.dart';
@@ -11,18 +10,16 @@ import 'package:get/get.dart';
 class TabbarUI extends StatelessWidget {
   const TabbarUI({Key? key}) : super(key: key);
 
-  static final tabbarController = Get.put(TabbarController());
-
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AuthController>(
-        init: AuthController(),
+    return GetBuilder<TabbarController>(
+        init: TabbarController(),
         builder: (controller) => Obx(() => (Scaffold(
             body: SafeArea(
               child: IndexedStack(
-                index: tabbarController.tabIndex.value,
+                index: controller.tabIndex.value,
                 children: [
-                  const HomeUI(),
+                  HomeUI(),
                   const ChatbotUI(),
                   ConnectionsUI(),
                   ProfileUI(),
@@ -30,8 +27,8 @@ class TabbarUI extends StatelessWidget {
               ),
             ),
             bottomNavigationBar: BottomNavigationBar(
-              currentIndex: tabbarController.tabIndex.value,
-              onTap: tabbarController.changeTabIndex,
+              currentIndex: controller.tabIndex.value,
+              onTap: controller.changeTabIndex,
               type: BottomNavigationBarType.fixed,
               items: const [
                 BottomNavigationBarItem(

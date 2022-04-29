@@ -1,6 +1,5 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/helpers/validator.dart';
-import 'package:checkup/views/auth/sign_in_ui.dart';
 import 'package:checkup/views/components/form_input_field_with_icon.dart';
 import 'package:checkup/views/components/label_button.dart';
 import 'package:checkup/views/components/logo_graphic_header.dart';
@@ -46,7 +45,7 @@ class SignUpUI extends StatelessWidget {
                         authController.nameController.text = value!,
                     onEditdingComplete: () {},
                   ),
-                  const SizedBox(),
+                  const SizedBox(height: 8.0),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: CupertinoIcons.mail,
@@ -58,7 +57,7 @@ class SignUpUI extends StatelessWidget {
                         authController.emailController.text = value!,
                     onEditdingComplete: () {},
                   ),
-                  const SizedBox(),
+                  const SizedBox(height: 8.0),
                   FormInputFieldWithIcon(
                     controller: authController.passwordController,
                     iconPrefix: CupertinoIcons.lock,
@@ -71,9 +70,9 @@ class SignUpUI extends StatelessWidget {
                     maxLines: 1,
                     onEditdingComplete: () {},
                   ),
-                  const SizedBox(),
+                  const SizedBox(height: 8.0),
                   PrimaryButton(
-                      labelText: 'Sign Up'.tr,
+                      labelText: 'Sign Up',
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           SystemChannels.textInput.invokeMethod(
@@ -81,10 +80,10 @@ class SignUpUI extends StatelessWidget {
                           authController.registerWithEmailAndPassword(context);
                         }
                       }),
-                  const SizedBox(),
+                  const SizedBox(height: 8.0),
                   LabelButton(
                     labelText: 'Already have an accound, sign in',
-                    onPressed: () => Get.to(() => SignInUI()),
+                    onPressed: () => Get.toNamed('/signin'),
                   ),
                 ],
               ),
