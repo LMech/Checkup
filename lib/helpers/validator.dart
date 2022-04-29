@@ -1,6 +1,4 @@
 // matching various patterns for kinds of data
-import 'package:get/get.dart';
-
 class Validator {
   Validator();
 
@@ -8,7 +6,7 @@ class Validator {
     String pattern = r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
-      return 'validator.email'.tr;
+      return 'Please enter a valid email address.';
     } else {
       return null;
     }
@@ -18,7 +16,7 @@ class Validator {
     String pattern = r'^.{6,}$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
-      return 'validator.password'.tr;
+      return 'Password must be at least 6 characters.';
     } else {
       return null;
     }
@@ -28,7 +26,7 @@ class Validator {
     String pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
-      return 'validator.name'.tr;
+      return 'Please enter a name.';
     } else {
       return null;
     }
@@ -38,7 +36,7 @@ class Validator {
     String pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
-      return 'validator.number'.tr;
+      return 'Please enter a number.';
     } else {
       return null;
     }
@@ -48,7 +46,7 @@ class Validator {
     String pattern = r'^\d+$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
-      return 'validator.amount'.tr;
+      return 'Please enter a number i.e. 250 - no dollar symbol and no cents';
     } else {
       return null;
     }
@@ -58,7 +56,7 @@ class Validator {
     String pattern = r'^\S+$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
-      return 'validator.notEmpty'.tr;
+      return 'This is a required field.';
     } else {
       return null;
     }

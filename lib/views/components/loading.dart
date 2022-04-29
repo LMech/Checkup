@@ -15,11 +15,11 @@ bool isDarkTheme = false;
 bool _loaderShown = false;
 
 class Loading extends StatelessWidget {
-  final Widget? child;
-  final bool darkTheme;
-
   const Loading({Key? key, this.child, this.darkTheme = false})
       : super(key: key);
+
+  final Widget? child;
+  final bool darkTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +62,6 @@ Future<void> showLoadingIndicator(
     const _child = Center(
       child: SizedBox(
         child: CircularProgressIndicator(),
-        /*(Platform.isAndroid
-                ? CircularProgressIndicator()
-                : CupertinoActivityIndicator()),*/
         width: 30,
         height: 30,
       ),
@@ -105,7 +102,7 @@ Future<void> _showOverlay({required Widget child}) async {
 
     if (_loaderShown) {
       debugPrint('An overlay is already showing');
-      return Future.value(false);
+      Future.value(false);
     }
 
     final overlayEntry = OverlayEntry(

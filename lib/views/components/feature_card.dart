@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 
 class FeatureCard extends StatelessWidget {
-  final Color color;
-  final IconData icon;
-  final String title;
-  final String description;
-  final Function() onTap;
-  final double iconSize;
-
   const FeatureCard({
     Key? key,
     required this.color,
@@ -17,6 +10,14 @@ class FeatureCard extends StatelessWidget {
     required this.onTap,
     this.iconSize = 24,
   }) : super(key: key);
+
+  final Color color;
+  final String description;
+  final IconData icon;
+  final double iconSize;
+  final Function() onTap;
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;

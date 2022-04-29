@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 class SelectBondedDevicePage extends StatefulWidget {
+  const SelectBondedDevicePage({Key? key, this.checkAvailability = true})
+      : super(key: key);
+
   /// If true, on page start there is performed discovery upon the bonded devices.
   /// Then, if they are not avaliable, they would be disabled from the selection.
   final bool checkAvailability;
-
-  const SelectBondedDevicePage({Key? key, this.checkAvailability = true})
-      : super(key: key);
 
   @override
   _SelectBondedDevicePage createState() => _SelectBondedDevicePage();
@@ -21,22 +21,31 @@ enum _DeviceAvailability {
 }
 
 class _DeviceWithAvailability {
-  BluetoothDevice device;
-  _DeviceAvailability availability;
-  int? rssi;
-
   _DeviceWithAvailability(this.device, this.availability, [this.rssi]);
+
+  _DeviceAvailability availability;
+  BluetoothDevice device;
+  int? rssi;
 }
 
 class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
+  _SelectBondedDevicePage();
+
   List<_DeviceWithAvailability> devices =
       List<_DeviceWithAvailability>.empty(growable: true);
 
   // Availability
   StreamSubscription<BluetoothDiscoveryResult>? _discoveryStreamSubscription;
+
   bool _isDiscovering = false;
 
-  _SelectBondedDevicePage();
+  @override
+  void dispose() {
+    // Avoid memory leak (`setState` after dispose) and cancel discovery
+    _discoveryStreamSubscription?.cancel();
+
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -81,7 +90,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
       setState(() {
         Iterator i = devices.iterator;
         while (i.moveNext()) {
-          var _device = i.current;
+          dynamic _device = i.current;
           if (_device.device == r.device) {
             _device.availability = _DeviceAvailability.yes;
             _device.rssi = r.rssi;
@@ -95,14 +104,6 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
         _isDiscovering = false;
       });
     });
-  }
-
-  @override
-  void dispose() {
-    // Avoid memory leak (`setState` after dispose) and cancel discovery
-    _discoveryStreamSubscription?.cancel();
-
-    super.dispose();
   }
 
   @override
@@ -158,7 +159,7 @@ class BluetoothDeviceListEntry extends ListTile {
           enabled: enabled,
           leading: const Icon(
               Icons.devices), // @TODO . !BluetoothClass! class aware icon
-          title: Text(device.name ?? ""),
+          title: Text(device.name ?? ''),
           subtitle: Text(device.address.toString()),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,

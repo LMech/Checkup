@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-@immutable
 class FormInputFieldWithIcon extends StatelessWidget {
-  FormInputFieldWithIcon(
+  const FormInputFieldWithIcon(
       {Key? key,
       required this.controller,
       required this.iconPrefix,
@@ -18,18 +17,18 @@ class FormInputFieldWithIcon extends StatelessWidget {
       this.onEditdingComplete})
       : super(key: key);
 
+  final String? Function(String?)? validator;
+  final void Function()? onTap;
+  final void Function(String)? onChanged;
+  final void Function(String?)? onSaved;
+  final void Function()? onEditdingComplete;
   final TextEditingController controller;
   final IconData iconPrefix;
-  final String labelText;
-  final String? Function(String?)? validator;
   final TextInputType keyboardType;
-  final bool obscureText;
-  final int minLines;
+  final String labelText;
   final int? maxLines;
-  void Function()? onTap;
-  void Function(String)? onChanged;
-  void Function(String?)? onSaved;
-  void Function()? onEditdingComplete;
+  final int minLines;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
