@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 class ConnectionsController extends GetxController {
-  final AuthController authController = Get.find();
+  final AuthController authController = AuthController.to;
   Logger logger = Logger();
   RxList<Map<String, dynamic>?> userConnections = <Map<String, dynamic>?>[].obs;
   RxList<Map<String, dynamic>?> userRequests = <Map<String, dynamic>?>[].obs;

@@ -2,8 +2,6 @@ import 'dart:core';
 
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/helpers/validator.dart';
-import 'package:checkup/views/auth/reset_password_ui.dart';
-import 'package:checkup/views/auth/sign_up_ui.dart';
 import 'package:checkup/views/components/form_input_field_with_icon.dart';
 import 'package:checkup/views/components/label_button.dart';
 import 'package:checkup/views/components/logo_graphic_header.dart';
@@ -49,7 +47,7 @@ class SignInUI extends StatelessWidget {
                         authController.emailController.text = value!,
                     onEditdingComplete: () {},
                   ),
-                  const SizedBox(),
+                  const SizedBox(height: 8.0),
                   FormInputFieldWithIcon(
                     controller: authController.passwordController,
                     iconPrefix: CupertinoIcons.lock,
@@ -62,22 +60,22 @@ class SignInUI extends StatelessWidget {
                     maxLines: 1,
                     onEditdingComplete: () {},
                   ),
-                  const SizedBox(),
+                  const SizedBox(height: 8.0),
                   PrimaryButton(
-                      labelText: 'Sign in'.tr,
+                      labelText: 'Sign in',
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           authController.signInWithEmailAndPassword(context);
                         }
                       }),
-                  const SizedBox(),
+                  const SizedBox(height: 8.0),
                   LabelButton(
                     labelText: 'Reset password',
-                    onPressed: () => Get.to(() => ResetPasswordUI()),
+                    onPressed: () => Get.toNamed('/reset-password'),
                   ),
                   LabelButton(
                     labelText: 'Sign up',
-                    onPressed: () => Get.to(() => SignUpUI()),
+                    onPressed: () => Get.toNamed('/signup'),
                   ), /*  */
                 ],
               ),

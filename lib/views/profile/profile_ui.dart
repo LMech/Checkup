@@ -3,7 +3,6 @@ import 'package:checkup/controllers/profile_controller.dart';
 import 'package:checkup/views/components/avatar.dart';
 import 'package:checkup/views/components/list_tile_with_icon.dart';
 import 'package:checkup/views/profile/about_user_ui.dart';
-import 'package:checkup/views/profile/settings_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,9 +11,8 @@ class ProfileUI extends StatelessWidget {
   ProfileUI({Key? key}) : super(key: key);
 
   final AuthController authController = AuthController.to;
-  final ProfileController profileController = Get.put(ProfileController());
 
-  _profileData() {
+  Widget _profileData() {
     final String userName = authController.firestoreUser.value!.name;
     final String email = authController.firestoreUser.value!.email;
 
@@ -51,7 +49,7 @@ class ProfileUI extends StatelessWidget {
     );
   }
 
-  _listView() {
+  Widget _listView() {
     return Expanded(
       child: ListView(children: [
         ListTileWithIcon(
@@ -78,25 +76,17 @@ class ProfileUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Profile"),
-          actions: [
-            IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  Get.to(() => const SettingsUI());
-                }),
-          ],
-        ),
-        body: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(children: <Widget>[
-            _profileData(),
-            const SizedBox(height: 10),
-            _listView(),
-          ]),
-        )));
+    return GetBuilder<ProfileController>(
+        init: ProfileController(),
+        builder: (controller) => Scaffold(
+                body: SafeArea(
+                    child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(children: <Widget>[
+                _profileData(),
+                const SizedBox(height: 10),
+                _listView(),
+              ]),
+            ))));
   }
 }
