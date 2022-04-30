@@ -1,6 +1,7 @@
 import 'package:checkup/controllers/tabbar_controller.dart';
 import 'package:checkup/views/chatbot_ui.dart';
-import 'package:checkup/views/connections/connections_ui.dart';
+import 'package:checkup/views/components/app_icons.dart';
+import 'package:checkup/views/connections_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +15,14 @@ class TabbarUI extends StatelessWidget {
     return GetBuilder<TabbarController>(
         init: TabbarController(),
         builder: (controller) => Obx(() => (Scaffold(
-            body: SafeArea(
-              child: IndexedStack(
-                index: controller.tabIndex.value,
-                children: [
-                  HomeUI(),
-                  ChatbotUI(),
-                  ConnectionsUI(),
-                  ProfileUI(),
-                ],
-              ),
+            body: IndexedStack(
+              index: controller.tabIndex.value,
+              children: [
+                HomeUI(),
+                const ChatbotUI(),
+                ConnectionsUI(),
+                ProfileUI(),
+              ],
             ),
             bottomNavigationBar: BottomNavigationBar(
               showUnselectedLabels: false,
@@ -33,19 +32,19 @@ class TabbarUI extends StatelessWidget {
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_outlined),
-                  label: 'Home',
+                  label: '○',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.smart_toy_outlined),
-                  label: 'Atouf',
+                  icon: Icon(MyFlutterApp.atouf),
+                  label: '○',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.people_alt_outlined),
-                  label: 'Connections',
+                  label: '○',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.assignment_ind_outlined),
-                  label: 'Profile',
+                  label: '○',
                 ),
               ],
             )))));

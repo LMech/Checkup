@@ -1,5 +1,6 @@
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MessageContainer extends StatelessWidget {
   const MessageContainer({
@@ -19,7 +20,9 @@ class MessageContainer extends StatelessWidget {
         builder: (context, constrains) {
           return Container(
             decoration: BoxDecoration(
-              color: isUserMessage ? Colors.blue : Colors.grey[800],
+              color: isUserMessage
+                  ? Get.theme.primaryColor
+                  : Get.theme.backgroundColor,
               borderRadius: BorderRadius.circular(20),
             ),
             padding: const EdgeInsets.all(10),

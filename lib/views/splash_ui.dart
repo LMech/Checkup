@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SplashUI extends StatelessWidget {
   const SplashUI({Key? key}) : super(key: key);
@@ -8,34 +7,38 @@ class SplashUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [Colors.indigo, Colors.indigoAccent])),
-          child: Column(
-            children: [
-              Expanded(
-                child: SvgPicture.asset(
-                  'assets/logo.svg',
-                ),
+        body: SafeArea(
+      child: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [Colors.indigo, Colors.indigoAccent])),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: SvgPicture.asset(
+                'assets/logo.svg',
+                fit: BoxFit.scaleDown,
+                width: 200.0,
+                height: 200.0,
               ),
-              Expanded(
-                child: Text(
-                  'CHECKUP',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontFamily: GoogleFonts.montserrat().fontFamily,
-                      fontWeight: FontWeight.bold),
-                ),
-              )
-            ],
-          ),
+            ),
+            const Align(
+              alignment: Alignment(0.0, 0.9),
+              child: Text(
+                'CHECKUP',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontFamily: 'Montserrat',
+                    fontSize: 18.0),
+              ),
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
 }

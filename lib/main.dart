@@ -4,7 +4,7 @@ import 'package:checkup/views/auth/reset_password_ui.dart';
 import 'package:checkup/views/auth/sign_in_ui.dart';
 import 'package:checkup/views/auth/sign_up_ui.dart';
 import 'package:checkup/views/chatbot_ui.dart';
-import 'package:checkup/views/connections/connections_ui.dart';
+import 'package:checkup/views/connections_ui.dart';
 import 'package:checkup/views/home/connect_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
@@ -36,7 +36,9 @@ class MyApp extends StatelessWidget {
       // ],
       debugShowCheckedModeBanner: true,
       defaultTransition: Transition.fade,
-      themeMode: ThemeMode.system,
+      theme: ThemeData(primarySwatch: Colors.indigo),
+      darkTheme: ThemeData.dark().copyWith(primaryColor: Colors.teal),
+      themeMode: ThemeMode.light,
       initialRoute: '/',
       getPages: AppRoutes.routes,
     );
@@ -58,7 +60,7 @@ class AppRoutes {
 
     // /tabbar
     GetPage(name: '/tabbar/home', page: () => HomeUI()),
-    GetPage(name: '/tabbar/chat', page: () => ChatbotUI()),
+    GetPage(name: '/tabbar/chat', page: () => const ChatbotUI()),
     GetPage(name: '/tabbar/connections', page: () => ConnectionsUI()),
     GetPage(name: '/tabbar/profile', page: () => ProfileUI()),
 

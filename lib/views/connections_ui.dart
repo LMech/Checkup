@@ -1,4 +1,5 @@
 import 'package:checkup/controllers/connections_controller.dart';
+import 'package:checkup/views/components/anim_search_bar.dart';
 import 'package:checkup/views/components/connection_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,18 +20,20 @@ class ConnectionsUI extends StatelessWidget {
                 child: Obx(
                   (() => ListView(
                         children: [
-                          TextFormField(
-                            controller: _emailTextController,
-                            onChanged: (value) {},
-                            decoration: InputDecoration(
-                                labelText: 'Send Request',
-                                suffix: GestureDetector(
-                                    onTap: () {
-                                      controller.sendRequest(
-                                          _emailTextController.text.trim());
-                                      _emailTextController.clear();
-                                    },
-                                    child: const Icon(Icons.add))),
+                          AnimSearchBar(
+                            animationDurationInMilli: 4000,
+                            textController: _emailTextController,
+                            onSuffixTap: (() {
+                              controller.sendRequest(
+                                  _emailTextController.text.trim());
+                              _emailTextController.clear();
+                            }),
+                            width: Get.width,
+                            helpText: "Send request",
+                            suffixIcon:
+                                const Icon(Icons.person_add_alt_1_outlined),
+                            prefixIcon:
+                                const Icon(Icons.person_add_alt_1_outlined),
                           ),
                           for (Map<String, dynamic>? connection
                               in controller.userConnections)

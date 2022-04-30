@@ -47,8 +47,7 @@ dependencies:
   dialog_flowtter: ^0.3.3
   path_provider: ^2.0.9
   flutter_svg: ^1.0.3
-  google_fonts: ^2.3.2
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -93,7 +92,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: AppIcons
+      fonts: 
+        - asset: assets/fonts/AppIcons.ttf
+    - family: Montserrat
+      fonts: 
+        - asset: assets/fonts/Montserrat-Regular.ttf
+
+
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
