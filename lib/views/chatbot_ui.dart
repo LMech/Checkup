@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ChatbotUI extends StatelessWidget {
-  final TextEditingController _messageController = TextEditingController();
-
-  ChatbotUI({Key? key}) : super(key: key);
+  const ChatbotUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,38 +27,90 @@ class ChatbotUI extends StatelessWidget {
                       horizontal: 10,
                       vertical: 5,
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: _messageController,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              hintStyle: const TextStyle(
-                                fontSize: 15,
-                                fontStyle: FontStyle.italic,
-                              ),
-                              hintText: 'Send a message',
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.send_outlined),
-                          onPressed: () {
-                            controller.sendMessage(_messageController.text);
-                            _messageController.clear();
-                          },
-                        ),
-                      ],
-                    ),
                   ),
+                  _messagesBar(controller),
                 ],
               ),
             ),
           );
         });
   }
+}
+
+Widget _messagesBar(ChatController controller) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+    child: Row(
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
+            child: Container(
+              decoration: BoxDecoration(
+                /// can add custom color or the color will be white
+                color: Get.theme.bottomAppBarColor,
+                borderRadius: BorderRadius.circular(30.0),
+                boxShadow: const [
+                  BoxShadow(
+                    spreadRadius: -10.0,
+                    blurRadius: 10.0,
+                    offset: Offset(0.0, 10.0),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 16, right: 16, top: 4, bottom: 4),
+                child: TextField(
+                  controller: controller.messagesController,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            /// can add custom color or the color will be white
+            color: Get.theme.primaryColorLight,
+            borderRadius: BorderRadius.circular(30.0),
+            boxShadow: const [
+              BoxShadow(
+                spreadRadius: -10.0,
+                blurRadius: 10.0,
+                offset: Offset(0.0, 10.0),
+              ),
+            ],
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(32.0),
+              ),
+              onTap: () {
+                controller
+                    .sendMessage(controller.messagesController.text.trim());
+                controller.messagesController.clear();
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Icon(
+                  Icons.send,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    ),
+  );
 }
 
 Widget _body(List<Map<String, dynamic>> messages) {
@@ -89,48 +139,3 @@ Widget _body(List<Map<String, dynamic>> messages) {
         vertical: 20,
       ));
 }
-
-
-
-/*
-void sendMessage(String text) async {
-    if (text.isEmpty) return;
-    setState(() {
-      addMessage(
-        Message(text: DialogText(text: [text])),
-        true,
-      );
-    });
-
-    DetectIntentResponse response = await dialogFlowtter.detectIntent(
-      queryInput: QueryInput(text: TextInput(text: text)),
-    );
-
-    if (response.message == null) return;
-    setState(() {
-      addMessage(response.message!);
-    });
-  }
-
-  void addMessage(Message message, [bool isUserMessage = false]) {
-    messagesStorage.write(messagesCount.toString(),
-        message.text!.text.toString() + ' : ' + isUserMessage.toString());
-    messagesCount++;
-    messages.add({
-      'message': message,
-      'isUserMessage': isUserMessage,
-    });
-  }
-
-  Future<void> loadOldMessages() async {
-    Logger().e(messagesStorage.getValues());
-    for (dynamic msg in await messagesStorage.getValues()) {
-      List<String> split = msg.toString().split(' : ');
-      String first = split.first.substring(1, split.first.length - 1);
-      messages.add({
-        'message': Message(text: DialogText(text: first.split(','))),
-        'isUserMessage': split.last == 'true',
-      });
-    }
-  }
-  */

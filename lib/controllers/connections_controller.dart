@@ -8,7 +8,6 @@ class ConnectionsController extends GetxController {
   Logger logger = Logger();
   RxList<Map<String, dynamic>?> userConnections = <Map<String, dynamic>?>[].obs;
   RxList<Map<String, dynamic>?> userRequests = <Map<String, dynamic>?>[].obs;
-
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   late String _userEmail;
 
