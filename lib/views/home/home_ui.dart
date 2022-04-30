@@ -2,7 +2,6 @@ import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/home_controller.dart';
 import 'package:checkup/views/components/avatar.dart';
 import 'package:checkup/views/components/feature_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,7 +9,6 @@ class HomeUI extends StatelessWidget {
   HomeUI({Key? key}) : super(key: key);
 
   final AuthController authController = AuthController.to;
-  final String photoUrl = '';
 
   Widget _profileData() {
     final String userName = authController.firestoreUser.value!.name;
@@ -34,25 +32,12 @@ class HomeUI extends StatelessWidget {
             ),
           ),
         ]),
-        GestureDetector(
-          child: photoUrl == ''
-              ? Avatar(
-                  authController.firestoreUser.value?.photoUrl ?? '',
-                  radius: 25.0,
-                  height: 120,
-                  width: 200,
-                )
-              : CircleAvatar(
-                  child: ClipOval(
-                      child: FadeInImage.assetNetwork(
-                          placeholder: '',
-                          image: photoUrl,
-                          fit: BoxFit.cover,
-                          width: 200,
-                          height: 120)),
-                  radius: 25),
-          onTap: () {},
-        )
+        Avatar(
+          authController.firestoreUser.value!.photoUrl,
+          radius: 60.0,
+          height: 200,
+          width: 200,
+        ),
       ]),
     );
   }
@@ -80,7 +65,7 @@ class HomeUI extends StatelessWidget {
               const SizedBox(width: 20),
               FeatureCard(
                 color: Get.theme.focusColor,
-                icon: CupertinoIcons.rectangle_paperclip,
+                icon: Icons.assessment_outlined,
                 title: 'Report',
                 description: 'Export and share your data',
                 onTap: () {},
@@ -88,7 +73,7 @@ class HomeUI extends StatelessWidget {
               const SizedBox(width: 15),
               FeatureCard(
                 color: Get.theme.focusColor,
-                icon: CupertinoIcons.waveform_path_ecg,
+                icon: Icons.monitor_heart_outlined,
                 title: 'Camera Oximeter',
                 description: 'Measure important vital using your phone camera',
                 onTap: () {},
@@ -151,7 +136,7 @@ class HomeUI extends StatelessWidget {
                                 Row(
                                   children: const [
                                     Icon(
-                                      CupertinoIcons.heart,
+                                      Icons.favorite_border_outlined,
                                       color: Colors.red,
                                     ),
                                     SizedBox(width: 10),

@@ -4,7 +4,6 @@ import 'package:checkup/views/components/form_input_field_with_icon.dart';
 import 'package:checkup/views/components/label_button.dart';
 import 'package:checkup/views/components/logo_graphic_header.dart';
 import 'package:checkup/views/components/primary_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -47,14 +46,12 @@ class ResetPasswordUI extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   const LogoGraphicHeader(
-                    radius: 20,
-                    height: 120,
-                    width: 200,
+                    radius: 73.0,
                   ),
                   const SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
-                    iconPrefix: CupertinoIcons.mail,
+                    iconPrefix: Icons.alternate_email_outlined,
                     labelText: 'Email',
                     validator: Validator().email,
                     keyboardType: TextInputType.emailAddress,

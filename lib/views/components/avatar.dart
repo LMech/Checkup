@@ -20,24 +20,19 @@ class Avatar extends StatelessWidget {
     if (user == '') {
       return LogoGraphicHeader(
         radius: radius,
-        width: width,
-        height: height,
       );
     }
-    return Hero(
-      tag: 'User Avatar Image $radius',
-      child: CircleAvatar(
-          foregroundColor: Colors.blue,
-          backgroundColor: Colors.white,
-          radius: radius,
-          child: ClipOval(
-            child: Image.network(
-              user,
-              fit: BoxFit.cover,
-              width: width,
-              height: height,
-            ),
-          )),
-    );
+    return CircleAvatar(
+        foregroundColor: Colors.blue,
+        backgroundColor: Colors.white,
+        radius: radius,
+        child: ClipOval(
+          child: Image.network(
+            user,
+            fit: BoxFit.cover,
+            width: width,
+            height: height,
+          ),
+        ));
   }
 }
