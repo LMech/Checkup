@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class ConnectionsUI extends StatelessWidget {
   ConnectionsUI({Key? key}) : super(key: key);
 
-  final TextEditingController _connectionEmail = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +19,19 @@ class ConnectionsUI extends StatelessWidget {
                 child: Obx(
                   (() => ListView(
                         children: [
+                          TextFormField(
+                            controller: _emailTextController,
+                            onChanged: (value) {},
+                            decoration: InputDecoration(
+                                labelText: 'Send Request',
+                                suffix: GestureDetector(
+                                    onTap: () {
+                                      controller.sendRequest(
+                                          _emailTextController.text.trim());
+                                      _emailTextController.clear();
+                                    },
+                                    child: const Icon(Icons.add))),
+                          ),
                           for (Map<String, dynamic>? connection
                               in controller.userConnections)
                             ConnectionCard(
