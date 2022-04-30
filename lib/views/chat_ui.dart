@@ -20,7 +20,6 @@ class ChatbotUI extends StatelessWidget {
                 children: [
                   Expanded(child: Obx(() {
                     if (controller.messages.isEmpty) {
-                      print('here');
                       controller.loadOldMessages();
                     }
                     return _body(controller.messages.toList());

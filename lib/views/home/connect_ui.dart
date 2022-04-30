@@ -12,7 +12,7 @@ class ConnectUI extends StatefulWidget {
 }
 
 class _ConnectUIState extends State<ConnectUI> {
-  BackgroundCollectingTask? _collectingTask;
+  static BackgroundCollectingTask? _collectingTask;
 
   Future<void> _startBackgroundTask(
     BuildContext context,
