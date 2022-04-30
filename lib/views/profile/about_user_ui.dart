@@ -1,7 +1,6 @@
 import 'package:checkup/controllers/profile_controller.dart';
 import 'package:checkup/helpers/validator.dart';
 import 'package:checkup/views/components/form_input_field_with_icon.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -33,7 +32,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
           const SizedBox(height: 8.0),
           FormInputFieldWithIcon(
             controller: profileController.phoneNumberController,
-            iconPrefix: CupertinoIcons.phone,
+            iconPrefix: Icons.phone_android_outlined,
             keyboardType: TextInputType.datetime,
             labelText: "Phone Number",
             validator: Validator().name,
@@ -45,7 +44,7 @@ class _AboutUserUIState extends State<AboutUserUI> {
           const SizedBox(height: 8.0),
           FormInputFieldWithIcon(
             controller: profileController.dataOfBirthController,
-            iconPrefix: CupertinoIcons.calendar,
+            iconPrefix: Icons.cake_outlined,
             keyboardType: TextInputType.none,
             labelText: "Date of Birth",
             validator: Validator().name,

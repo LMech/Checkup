@@ -3,7 +3,7 @@ import 'package:checkup/firebase_options.dart';
 import 'package:checkup/views/auth/reset_password_ui.dart';
 import 'package:checkup/views/auth/sign_in_ui.dart';
 import 'package:checkup/views/auth/sign_up_ui.dart';
-import 'package:checkup/views/chat_ui.dart';
+import 'package:checkup/views/chatbot_ui.dart';
 import 'package:checkup/views/connections/connections_ui.dart';
 import 'package:checkup/views/home/connect_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
@@ -58,7 +58,7 @@ class AppRoutes {
 
     // /tabbar
     GetPage(name: '/tabbar/home', page: () => HomeUI()),
-    GetPage(name: '/tabbar/chat', page: () => const ChatbotUI()),
+    GetPage(name: '/tabbar/chat', page: () => ChatbotUI()),
     GetPage(name: '/tabbar/connections', page: () => ConnectionsUI()),
     GetPage(name: '/tabbar/profile', page: () => ProfileUI()),
 
