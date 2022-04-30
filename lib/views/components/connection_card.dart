@@ -24,22 +24,12 @@ class ConnectionCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Row(children: [
             Expanded(
-              child: connectionData?['photoUrl'] == ''
-                  ? Avatar(
-                      connectionData?['photoUrl'] ?? '',
-                      radius: 33,
-                      height: 150,
-                      width: 150,
-                    )
-                  : CircleAvatar(
-                      child: ClipOval(
-                          child: FadeInImage.assetNetwork(
-                              placeholder: '',
-                              image: connectionData?['photoUrl'],
-                              fit: BoxFit.cover,
-                              width: 150,
-                              height: 150)),
-                      radius: 33),
+              child: Avatar(
+                connectionData?['photoUrl'] ?? '',
+                radius: 35,
+                height: 100,
+                width: 100,
+              ),
               flex: 2,
             ),
             Expanded(

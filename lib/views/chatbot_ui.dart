@@ -46,7 +46,7 @@ class ChatbotUI extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.send),
+                          icon: const Icon(Icons.send_outlined),
                           onPressed: () {
                             controller.sendMessage(_messageController.text);
                             _messageController.clear();

@@ -1,9 +1,8 @@
 import 'package:checkup/controllers/tabbar_controller.dart';
-import 'package:checkup/views/chat_ui.dart';
+import 'package:checkup/views/chatbot_ui.dart';
 import 'package:checkup/views/connections/connections_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,24 +26,25 @@ class TabbarUI extends StatelessWidget {
               ),
             ),
             bottomNavigationBar: BottomNavigationBar(
+              showUnselectedLabels: false,
               currentIndex: controller.tabIndex.value,
               onTap: controller.changeTabIndex,
               type: BottomNavigationBarType.fixed,
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.home),
+                  icon: Icon(Icons.home_outlined),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.chat_bubble_2),
+                  icon: Icon(Icons.smart_toy_outlined),
                   label: 'Atouf',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.person_3_fill),
-                  label: 'Contacts',
+                  icon: Icon(Icons.people_alt_outlined),
+                  label: 'Connections',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.profile_circled),
+                  icon: Icon(Icons.assignment_ind_outlined),
                   label: 'Profile',
                 ),
               ],

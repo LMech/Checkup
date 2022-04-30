@@ -3,7 +3,7 @@ import 'package:checkup/firebase_options.dart';
 import 'package:checkup/views/auth/reset_password_ui.dart';
 import 'package:checkup/views/auth/sign_in_ui.dart';
 import 'package:checkup/views/auth/sign_up_ui.dart';
-import 'package:checkup/views/chat_ui.dart';
+import 'package:checkup/views/chatbot_ui.dart';
 import 'package:checkup/views/connections/connections_ui.dart';
 import 'package:checkup/views/home/connect_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
