@@ -37,16 +37,19 @@ dependencies:
   firebase: ^9.0.2
   firebase_core: ^1.15.0
   firebase_auth: ^3.3.16
+  firebase_database: ^9.0.12
   cloud_firestore: ^3.1.13
 
   # Bluetooth Packages
   flutter_bluetooth_serial: ^0.4.0
   scoped_model: ^2.0.0-nullsafety.0
+  
 
   # Dialogflow Packages
   dialog_flowtter: ^0.3.3
   path_provider: ^2.0.9
   flutter_svg: ^1.0.3
+  unicons: ^2.1.0
   
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,8 @@ class ProfileController extends GetxController {
         .doc('/users/${_authController.firebaseUser.value!.uid}');
     UserModel data = await _authController.streamFirestoreUser().first;
     phoneNumberController = TextEditingController(text: data.phoneNumber);
-    dataOfBirthController = TextEditingController(text: data.dateOfBirth);
+    dataOfBirthController =
+        TextEditingController(text: data.dateOfBirth.toString());
     heightController = TextEditingController(
         text: data.height == -1 ? '' : data.height.toString());
     weightController = TextEditingController(

@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
   UserModel({
     required this.uid,
     required this.email,
     required this.name,
     required this.photoUrl,
-    this.dateOfBirth = '',
+    required this.dateOfBirth,
     this.phoneNumber = '',
     this.height = 0,
     this.weight = 0,
@@ -23,14 +25,14 @@ class UserModel {
     );
   }
 
-  String dateOfBirth;
+  final Timestamp dateOfBirth;
   final String email;
-  int height;
+  final int height;
   final String name;
-  String phoneNumber;
+  final String phoneNumber;
   final String photoUrl;
   final String uid;
-  int weight;
+  final int weight;
 
   Map<String, dynamic> toJson() => {
         'uid': uid,

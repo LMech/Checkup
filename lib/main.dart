@@ -37,8 +37,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: true,
       defaultTransition: Transition.fade,
       theme: ThemeData(primarySwatch: Colors.indigo),
-      darkTheme: ThemeData.dark().copyWith(primaryColor: Colors.teal),
-      themeMode: ThemeMode.light,
+      darkTheme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Colors.grey[900],
+          primaryColor: Colors.indigoAccent,
+          colorScheme:
+              ColorScheme.fromSwatch().copyWith(primary: Colors.indigoAccent)),
+      themeMode: ThemeMode.dark,
       initialRoute: '/',
       getPages: AppRoutes.routes,
     );

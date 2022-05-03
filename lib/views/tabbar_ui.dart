@@ -1,11 +1,11 @@
 import 'package:checkup/controllers/tabbar_controller.dart';
 import 'package:checkup/views/chatbot_ui.dart';
-import 'package:checkup/views/components/app_icons.dart';
 import 'package:checkup/views/connections_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unicons/unicons.dart';
 
 class TabbarUI extends StatelessWidget {
   const TabbarUI({Key? key}) : super(key: key);
@@ -31,19 +31,19 @@ class TabbarUI extends StatelessWidget {
               type: BottomNavigationBarType.fixed,
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined),
+                  icon: Icon(UniconsLine.home_alt),
                   label: '○',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(MyFlutterApp.atouf),
+                  icon: Icon(UniconsLine.robot),
                   label: '○',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.people_alt_outlined),
+                  icon: Icon(UniconsLine.users_alt),
                   label: '○',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.assignment_ind_outlined),
+                  icon: Icon(UniconsLine.user_square),
                   label: '○',
                 ),
               ],

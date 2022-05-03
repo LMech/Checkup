@@ -52,6 +52,17 @@ class Validator {
     }
   }
 
+  String? date(String? value) {
+    String pattern = r'^\S+$';
+    // r'^([0-2][0-9]|(3)[0-1])(\/-)(((0)[0-9])|((1)[0-2]))(\/-)\d{4}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value!)) {
+      return 'Please, enter a valid date format';
+    } else {
+      return null;
+    }
+  }
+
   String? notEmpty(String? value) {
     String pattern = r'^\S+$';
     RegExp regex = RegExp(pattern);
