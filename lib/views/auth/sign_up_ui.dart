@@ -7,6 +7,7 @@ import 'package:checkup/views/components/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:unicons/unicons.dart';
 
 class SignUpUI extends StatelessWidget {
   SignUpUI({Key? key}) : super(key: key);
@@ -37,6 +38,17 @@ class SignUpUI extends StatelessWidget {
                     iconPrefix: Icons.person_outline,
                     labelText: 'Name',
                     validator: Validator().name,
+                    onChanged: (value) => '',
+                    onSaved: (value) =>
+                        authController.nameController.text = value!,
+                    onEditdingComplete: () {},
+                  ),
+                  const SizedBox(height: 48.0),
+                  FormInputFieldWithIcon(
+                    controller: authController.dobController,
+                    iconPrefix: UniconsLine.calendar_alt,
+                    labelText: 'Date of Birth',
+                    validator: Validator().date,
                     onChanged: (value) => '',
                     onSaved: (value) =>
                         authController.nameController.text = value!,

@@ -18,9 +18,11 @@ class AuthController extends GetxController {
   Rxn<UserModel> firestoreUser = Rxn<UserModel>();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseFirestore _fsDB = FirebaseFirestore.instance;
+  // final _rtRef = FirebaseDatabase.instance.ref();
 
   @override
   void onClose() {
@@ -62,7 +64,7 @@ class AuthController extends GetxController {
 
   //Streams the firestore user from the firestore collection
   Stream<UserModel> streamFirestoreUser() {
-    return _db
+    return _fsDB
         .doc('/users/${firebaseUser.value!.uid}')
         .snapshots()
         .map((snapshot) => UserModel.fromJson(snapshot.data()!));
@@ -70,7 +72,7 @@ class AuthController extends GetxController {
 
   //get the firestore user from the firestore collection
   Future<UserModel> getFirestoreUser() {
-    return _db.doc('/users/${firebaseUser.value!.uid}').get().then(
+    return _fsDB.doc('/users/${firebaseUser.value!.uid}').get().then(
         (documentSnapshot) => UserModel.fromJson(documentSnapshot.data()!));
   }
 
@@ -84,7 +86,8 @@ class AuthController extends GetxController {
       emailController.clear();
       passwordController.clear();
       hideLoadingIndicator();
-    } catch (error) {
+    } catch (e) {
+      Logger().e(e);
       hideLoadingIndicator();
       Get.snackbar(
           'Sign In Error', 'Login failed: email or password incorrect.',
@@ -110,24 +113,27 @@ class AuthController extends GetxController {
           rating: GravatarRating.pg,
           fileExtension: true,
         );
-        Logger().e(gravatarUrl);
         //create the new user object
         UserModel _newUser = UserModel(
-          uid: result.user!.uid,
-          email: result.user!.email!,
-          name: nameController.text,
-          photoUrl: gravatarUrl,
-        );
+            uid: result.user!.uid,
+            email: result.user!.email!,
+            name: nameController.text,
+            photoUrl: gravatarUrl,
+            dateOfBirth:
+                Timestamp.fromDate(DateTime.parse(dobController.text)));
         //create the user in firestore
         _createUserFirestore(_newUser, result.user!);
-        _createConnectionsListFirestore(emailController.text);
         emailController.clear();
         passwordController.clear();
+        nameController.clear();
+        dobController.clear();
         hideLoadingIndicator();
       });
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException catch (e) {
       hideLoadingIndicator();
-      Get.snackbar('Sign In Error', error.message!,
+      Logger().e(e);
+
+      Get.snackbar('Sign In Error', e.message!,
           snackPosition: SnackPosition.BOTTOM,
           duration: const Duration(seconds: 10),
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
@@ -147,9 +153,10 @@ class AuthController extends GetxController {
           duration: const Duration(seconds: 5),
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
           colorText: Get.theme.snackBarTheme.actionTextColor);
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException catch (e) {
+      Logger().e(e);
       hideLoadingIndicator();
-      Get.snackbar('Password Reset Email Failed', error.message!,
+      Get.snackbar('Password Reset Email Failed', e.message!,
           snackPosition: SnackPosition.BOTTOM,
           duration: const Duration(seconds: 10),
           backgroundColor: Get.theme.snackBarTheme.backgroundColor,
@@ -161,7 +168,7 @@ class AuthController extends GetxController {
   isAdmin() async {
     await getUser.then((user) async {
       DocumentSnapshot adminRef =
-          await _db.collection('admin').doc(user.uid).get();
+          await _fsDB.collection('admin').doc(user.uid).get();
       if (adminRef.exists) {
         admin.value = true;
       } else {
@@ -181,13 +188,16 @@ class AuthController extends GetxController {
 
   //create the firestore user in users collection
   void _createUserFirestore(UserModel user, User _firebaseUser) {
-    _db.doc('/users/${_firebaseUser.uid}').set(user.toJson());
-    update();
-  }
+    try {
+      _fsDB.doc('/users/${_firebaseUser.uid}').set(user.toJson());
+    } catch (e) {
+      Logger().e(e);
+    }
 
-  // create connections list in connections collection
-  void _createConnectionsListFirestore(String _email) {
-    _db.doc('/connections/$_email').set({'connections': []});
-    update();
+    try {
+      _fsDB.doc('/connections/${_firebaseUser.email}').set({'connections': []});
+    } catch (e) {
+      Logger().e(e);
+    }
   }
 }

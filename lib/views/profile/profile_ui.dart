@@ -90,3 +90,69 @@ class ProfileUI extends StatelessWidget {
             ))));
   }
 }
+
+    
+
+// class ProfileListItems extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Expanded(
+//       child: ListView(
+//         children: const <Widget>[
+//           ProfileListItem(
+//             icon: Icons.abc,
+//             text: 'Privacy',
+//           ),
+//           ProfileListItem(
+//             icon: Icons.abc,
+//             text: 'Purchase History',
+//           ),
+//           ProfileListItem(
+//             icon: Icons.abc,
+//             text: 'Help & Support',
+//           ),
+//           ProfileListItem(
+//             icon: Icons.abc,
+//             text: 'Settings',
+//           ),
+//           ProfileListItem(
+//             icon: Icons.abc,
+//             text: 'Invite a Friend',
+//           ),
+//           ProfileListItem(
+//             icon: Icons.abc,
+//             text: 'Logout',
+//             hasNavigation: false,
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class AppBarButton extends StatelessWidget {
+//   final IconData icon;
+
+//   const AppBarButton({required this.icon});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 55,
+//       height: 55,
+//       decoration: const BoxDecoration(shape: BoxShape.circle, boxShadow: [
+//         BoxShadow(
+//           offset: Offset(1, 1),
+//           blurRadius: 10,
+//         ),
+//         BoxShadow(
+//           offset: Offset(-1, -1),
+//           blurRadius: 10,
+//         ),
+//       ]),
+//       child: Icon(
+//         icon,
+//       ),
+//     );
+//   }
+// }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:unicons/unicons.dart';
 
 class AnimSearchBar extends StatefulWidget {
   ///  width - double ,isRequired : Yes
@@ -167,7 +168,7 @@ class _AnimSearchBarState extends State<AnimSearchBar>
                       ///suffixIcon is of type Icon
                       child: widget.suffixIcon ??
                           const Icon(
-                            Icons.close,
+                            UniconsLine.icons,
                             size: 20.0,
                           ),
                     ),
@@ -247,7 +248,7 @@ class _AnimSearchBarState extends State<AnimSearchBar>
                 ///prefixIcon is of type Icon
                 icon: widget.prefixIcon != null
                     ? toggle == 1
-                        ? const Icon(Icons.arrow_back_ios)
+                        ? const Icon(UniconsLine.angle_left_b)
                         : widget.prefixIcon!
                     : Icon(
                         toggle == 1 ? Icons.arrow_back_ios : Icons.search,

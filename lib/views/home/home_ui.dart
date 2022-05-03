@@ -1,4 +1,3 @@
-import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/home_controller.dart';
 import 'package:checkup/views/components/avatar.dart';
 import 'package:checkup/views/components/feature_card.dart';
@@ -6,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeUI extends StatelessWidget {
-  HomeUI({Key? key}) : super(key: key);
+  const HomeUI({Key? key}) : super(key: key);
 
-  final AuthController authController = AuthController.to;
-
-  Widget _profileData() {
-    final String userName = authController.firestoreUser.value!.name;
+  Widget _profileData(String name, String photoUrl) {
+    final String userName = name;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -33,7 +30,7 @@ class HomeUI extends StatelessWidget {
           ),
         ]),
         Avatar(
-          authController.firestoreUser.value!.photoUrl,
+          photoUrl,
           radius: 60.0,
           height: 200,
           width: 200,
@@ -112,7 +109,10 @@ class HomeUI extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   children: <Widget>[
                     const SizedBox(height: 35),
-                    _profileData(),
+                    _profileData(
+                        controller.authController.firestoreUser.value!.name,
+                        controller
+                            .authController.firestoreUser.value!.photoUrl),
                     const SizedBox(height: 35),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -223,6 +223,9 @@ class HomeUI extends StatelessWidget {
                   ],
                 ),
               ),
+              floatingActionButton: FloatingActionButton(onPressed: () {
+                controller.updateSpo2('80');
+              }),
             ));
   }
 }

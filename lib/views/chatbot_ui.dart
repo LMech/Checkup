@@ -3,6 +3,7 @@ import 'package:checkup/views/components/message_container.dart';
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unicons/unicons.dart';
 
 class ChatbotUI extends StatelessWidget {
   const ChatbotUI({Key? key}) : super(key: key);
@@ -77,7 +78,7 @@ Widget _messagesBar(ChatController controller) {
         Container(
           decoration: BoxDecoration(
             /// can add custom color or the color will be white
-            color: Get.theme.primaryColorLight,
+            color: Get.theme.primaryColor,
             borderRadius: BorderRadius.circular(30.0),
             boxShadow: const [
               BoxShadow(
@@ -94,14 +95,12 @@ Widget _messagesBar(ChatController controller) {
                 Radius.circular(32.0),
               ),
               onTap: () {
-                controller
-                    .sendMessage(controller.messagesController.text.trim());
                 controller.messagesController.clear();
               },
               child: const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Icon(
-                  Icons.send,
+                  UniconsLine.message,
                   size: 20,
                 ),
               ),
