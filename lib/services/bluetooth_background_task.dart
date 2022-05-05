@@ -1,15 +1,17 @@
 import 'dart:convert';
 
 import 'package:checkup/services/vitals_change.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter/material.dart' show BuildContext;
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart'
+    show BluetoothConnection, BluetoothDevice;
+import 'package:logger/logger.dart' show Logger;
+import 'package:scoped_model/scoped_model.dart' show Model, ScopedModel;
 
 class BackgroundCollectingTask extends Model {
   BackgroundCollectingTask._fromConnection(this._connection) {
     _connection.input!.listen((data) {
       if (data.length == 2 && data.first != 255) {
-        debugPrint(data.toString());
+        Logger().e(data.toString());
         _vitalsChange.changeHome(
           hr: data.first.toString(),
           spo2: data.last.toString(),
