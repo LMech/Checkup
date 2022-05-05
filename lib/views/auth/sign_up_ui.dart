@@ -14,8 +14,6 @@ class SignUpUI extends StatelessWidget {
 
   final AuthController authController = AuthController.to;
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,4 +102,6 @@ class SignUpUI extends StatelessWidget {
       ),
     );
   }
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 }

@@ -7,6 +7,7 @@ class ConnectionsController extends GetxController {
   final AuthController authController = AuthController.to;
   RxList<Map<String, dynamic>> userConnections = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>> userRequests = <Map<String, dynamic>>[].obs;
+
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   late String _userEmail;
 
@@ -15,22 +16,6 @@ class ConnectionsController extends GetxController {
     super.onInit();
     _userEmail = authController.firestoreUser.value!.email;
     _updateConnections();
-  }
-
-  // TODO: Add other exceptions
-  Future<void> sendRequest(String connectionEmail) async {
-    final int isExist = await _isUserExist(connectionEmail);
-    if (isExist == 1) {
-      try {
-        await _db
-            .doc('connections/$connectionEmail')
-            .update({_encodeEmail(_userEmail): false});
-      } catch (e) {
-        Logger().e(e);
-      }
-      _updateConnections();
-    }
-    Logger().e(isExist);
   }
 
   Future<void> acceptRequest(String connectionEmail) async {
@@ -49,24 +34,6 @@ class ConnectionsController extends GetxController {
       Logger().e(e);
     }
     _updateConnections();
-  }
-
-  Future<List<String>> getList({bool isConnection = false}) async {
-    final List<String> allConnections = [];
-    List<MapEntry<String, dynamic>> allEntries = [];
-    try {
-      await _db.doc('/connections/$_userEmail').get().then((value) {
-        allEntries = value.data()!.entries.toList();
-      });
-    } catch (e) {
-      Get.snackbar('Error', e.toString());
-    }
-    for (final MapEntry<String, dynamic> entry in allEntries) {
-      if (entry.value.toString() == getList.toString()) {
-        allConnections.add(_decodeEmail(entry.key));
-      }
-    }
-    return allConnections;
   }
 
   Future<Map<String, dynamic>> getConnectionData(String connectionEmail) async {
@@ -92,6 +59,24 @@ class ConnectionsController extends GetxController {
     return usersMapList;
   }
 
+  Future<List<String>> getList({bool isConnection = false}) async {
+    final List<String> allConnections = [];
+    List<MapEntry<String, dynamic>> allEntries = [];
+    try {
+      await _db.doc('/connections/$_userEmail').get().then((value) {
+        allEntries = value.data()!.entries.toList();
+      });
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    }
+    for (final MapEntry<String, dynamic> entry in allEntries) {
+      if (entry.value.toString() == getList.toString()) {
+        allConnections.add(_decodeEmail(entry.key));
+      }
+    }
+    return allConnections;
+  }
+
   Future<void> removeConnection(String connectionEmail) async {
     try {
       await _db
@@ -112,14 +97,25 @@ class ConnectionsController extends GetxController {
     _updateConnections();
   }
 
-  Future<void> _updateConnections() async {
-    userConnections(
-      await getConnectionsData(
-        await getList(isConnection: true),
-      ),
-    );
-    userRequests(await getConnectionsData(await getList()));
+  // TODO: Add other exceptions
+  Future<void> sendRequest(String connectionEmail) async {
+    final int isExist = await _isUserExist(connectionEmail);
+    if (isExist == 1) {
+      try {
+        await _db
+            .doc('connections/$connectionEmail')
+            .update({_encodeEmail(_userEmail): false});
+      } catch (e) {
+        Logger().e(e);
+      }
+      _updateConnections();
+    }
+    Logger().e(isExist);
   }
+
+  String _decodeEmail(String email) => email.replaceAll('(period)', '.');
+
+  String _encodeEmail(String email) => email.replaceAll('.', '(period)');
 
   Future<int> _isUserExist(String email) async {
     int _isExist = 0;
@@ -148,7 +144,12 @@ class ConnectionsController extends GetxController {
     return _isExist;
   }
 
-  String _encodeEmail(String email) => email.replaceAll('.', '(period)');
-
-  String _decodeEmail(String email) => email.replaceAll('(period)', '.');
+  Future<void> _updateConnections() async {
+    userConnections(
+      await getConnectionsData(
+        await getList(isConnection: true),
+      ),
+    );
+    userRequests(await getConnectionsData(await getList()));
+  }
 }

@@ -34,6 +34,47 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
   List<_DeviceWithAvailability> devices =
       List<_DeviceWithAvailability>.empty(growable: true);
 
+  @override
+  Widget build(BuildContext context) {
+    final List<BluetoothDeviceListEntry> list = devices
+        .map(
+          (_device) => BluetoothDeviceListEntry(
+            device: _device.device,
+            rssi: _device.rssi,
+            enabled: _device.availability == _DeviceAvailability.yes,
+            onTap: () {
+              // TODO: Change to go to home
+              Navigator.of(context).pop(_device.device);
+            },
+          ),
+        )
+        .toList();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Select device'),
+        actions: <Widget>[
+          if (_isDiscovering)
+            FittedBox(
+              child: Container(
+                margin: const EdgeInsets.all(16.0),
+                child: const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.white,
+                  ),
+                ),
+              ),
+            )
+          else
+            IconButton(
+              icon: const Icon(Icons.replay_outlined),
+              onPressed: _restartDiscovery,
+            ),
+        ],
+      ),
+      body: ListView(children: list),
+    );
+  }
+
   // Availability
   StreamSubscription<BluetoothDiscoveryResult>? _discoveryStreamSubscription;
 
@@ -104,47 +145,6 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
         _isDiscovering = false;
       });
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final List<BluetoothDeviceListEntry> list = devices
-        .map(
-          (_device) => BluetoothDeviceListEntry(
-            device: _device.device,
-            rssi: _device.rssi,
-            enabled: _device.availability == _DeviceAvailability.yes,
-            onTap: () {
-              // TODO: Change to go to home
-              Navigator.of(context).pop(_device.device);
-            },
-          ),
-        )
-        .toList();
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Select device'),
-        actions: <Widget>[
-          if (_isDiscovering)
-            FittedBox(
-              child: Container(
-                margin: const EdgeInsets.all(16.0),
-                child: const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.white,
-                  ),
-                ),
-              ),
-            )
-          else
-            IconButton(
-              icon: const Icon(Icons.replay_outlined),
-              onPressed: _restartDiscovery,
-            ),
-        ],
-      ),
-      body: ListView(children: list),
-    );
   }
 }
 

@@ -12,37 +12,6 @@ class ConnectUI extends StatefulWidget {
 }
 
 class _ConnectUIState extends State<ConnectUI> {
-  static BackgroundCollectingTask? _collectingTask;
-
-  Future<void> _startBackgroundTask(
-    BuildContext context,
-    BluetoothDevice server,
-  ) async {
-    try {
-      _collectingTask = await BackgroundCollectingTask.connect(server);
-      await _collectingTask!.start();
-    } catch (ex) {
-      _collectingTask?.cancel();
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Error while connecting'),
-            content: Text(ex.toString()),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,5 +58,36 @@ class _ConnectUIState extends State<ConnectUI> {
         ],
       ),
     );
+  }
+
+  static BackgroundCollectingTask? _collectingTask;
+
+  Future<void> _startBackgroundTask(
+    BuildContext context,
+    BluetoothDevice server,
+  ) async {
+    try {
+      _collectingTask = await BackgroundCollectingTask.connect(server);
+      await _collectingTask!.start();
+    } catch (e) {
+      _collectingTask?.cancel();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error while connecting'),
+            content: Text(e.toString()),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }

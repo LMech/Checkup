@@ -40,8 +40,10 @@ class AuthController extends GetxController {
     super.onReady();
   }
 
+  // ignore: type_annotate_public_apis
   Future<void> handleAuthChanged(_firebaseUser) async {
     //get user data from firestore
+    // ignore: avoid_dynamic_calls
     if (_firebaseUser?.uid != null) {
       firestoreUser.bindStream(streamFirestoreUser());
       await getFirestoreUser();

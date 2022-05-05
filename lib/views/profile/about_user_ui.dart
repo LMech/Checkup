@@ -15,6 +15,16 @@ class _AboutUserUIState extends State<AboutUserUI> {
   String dropdownValue = 'Male';
   final ProfileController profileController = ProfileController.to;
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("About You"),
+      ),
+      body: SafeArea(child: _aboutYou()),
+    );
+  }
+
   Future<DateTime?> _presentDatePicker() async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -127,16 +137,6 @@ class _AboutUserUIState extends State<AboutUserUI> {
           ],
         ),
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("About You"),
-      ),
-      body: SafeArea(child: _aboutYou()),
     );
   }
 }
