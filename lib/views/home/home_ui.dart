@@ -1,5 +1,4 @@
 import 'package:checkup/controllers/home_controller.dart';
-import 'package:checkup/views/core/components/avatar.dart';
 import 'package:checkup/views/core/components/feature_card.dart';
 import 'package:checkup/views/core/components/vital_chart.dart';
 import 'package:flutter/material.dart';
@@ -11,85 +10,6 @@ import 'package:unicons/unicons.dart';
 
 class HomeUI extends StatelessWidget {
   const HomeUI({Key? key}) : super(key: key);
-
-  Widget _profileData(String name, String photoUrl) {
-    final String userName = name;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Hi, $userName',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 2),
-            const Text(
-              "Let's make a checkup",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-        Avatar(
-          photoUrl,
-          radius: 60.0,
-          height: 200,
-          width: 200,
-        ),
-      ],
-    );
-  }
-
-  Widget _featuresList() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            'Discover other features',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 15),
-        SizedBox(
-          height: 160,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              const SizedBox(width: 20),
-              FeatureCard(
-                color: Get.theme.focusColor,
-                icon: Icons.assessment_outlined,
-                title: 'Report',
-                description: 'Export and share your data',
-                onTap: () {},
-              ),
-              const SizedBox(width: 15),
-              FeatureCard(
-                color: Get.theme.focusColor,
-                icon: Icons.monitor_heart_outlined,
-                title: 'Camera Oximeter',
-                description: 'Measure important vital using your phone camera',
-                onTap: () {},
-              ),
-              const SizedBox(width: 20),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +64,50 @@ class HomeUI extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Widget _featuresList() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Discover other features',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 15),
+        SizedBox(
+          height: 160,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              const SizedBox(width: 20),
+              FeatureCard(
+                color: Get.theme.focusColor,
+                icon: Icons.assessment_outlined,
+                title: 'Report',
+                description: 'Export and share your data',
+                onTap: () {},
+              ),
+              const SizedBox(width: 15),
+              FeatureCard(
+                color: Get.theme.focusColor,
+                icon: Icons.monitor_heart_outlined,
+                title: 'Camera Oximeter',
+                description: 'Measure important vital using your phone camera',
+                onTap: () {},
+              ),
+              const SizedBox(width: 20),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

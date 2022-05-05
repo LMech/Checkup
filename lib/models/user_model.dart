@@ -5,16 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:collection/collection.dart";
 
 class UserModel {
-  final String name;
-  final List<Connection> connections;
-  final String phoneNumber;
-  final DateTime dateOfBirth;
-  final int height;
-  final String uid;
-  final String email;
-  final int? weight;
-  final String photoUrl;
-
   const UserModel({
     required this.name,
     this.connections = const <Connection>[],
@@ -27,9 +17,11 @@ class UserModel {
     required this.photoUrl,
   });
 
-  @override
-  String toString() {
-    return 'UserModel(name: $name, connections: $connections, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, height: $height, uid: $uid, email: $email, weight: $weight, photoUrl: $photoUrl)';
+  /// `dart:convert`
+  ///
+  /// Parses the string and returns the resulting Json object as [UserModel].
+  factory UserModel.fromJson(String data) {
+    return UserModel.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   factory UserModel.fromMap(Map<String, dynamic> data) => UserModel(
@@ -46,29 +38,15 @@ class UserModel {
         photoUrl: data['photoUrl'] as String,
       );
 
-  Map<String, dynamic> toMap() => {
-        'name': name,
-        'connections': connections.map((e) => e.toMap()).toList(),
-        'phoneNumber': phoneNumber,
-        'dateOfBirth': DateTime.parse(dateOfBirth.toIso8601String()),
-        'height': height,
-        'uid': uid,
-        'email': email,
-        'weight': weight,
-        'photoUrl': photoUrl,
-      };
-
-  /// `dart:convert`
-  ///
-  /// Parses the string and returns the resulting Json object as [UserModel].
-  factory UserModel.fromJson(String data) {
-    return UserModel.fromMap(json.decode(data) as Map<String, dynamic>);
-  }
-
-  /// `dart:convert`
-  ///
-  /// Converts [UserModel] to a JSON string.
-  String toJson() => json.encode(toMap());
+  final List<Connection> connections;
+  final DateTime dateOfBirth;
+  final String email;
+  final int height;
+  final String name;
+  final String phoneNumber;
+  final String photoUrl;
+  final String uid;
+  final int? weight;
 
   @override
   bool operator ==(Object other) {
@@ -89,4 +67,26 @@ class UserModel {
       email.hashCode ^
       weight.hashCode ^
       photoUrl.hashCode;
+
+  @override
+  String toString() {
+    return 'UserModel(name: $name, connections: $connections, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, height: $height, uid: $uid, email: $email, weight: $weight, photoUrl: $photoUrl)';
+  }
+
+  Map<String, dynamic> toMap() => {
+        'name': name,
+        'connections': connections.map((e) => e.toMap()).toList(),
+        'phoneNumber': phoneNumber,
+        'dateOfBirth': DateTime.parse(dateOfBirth.toIso8601String()),
+        'height': height,
+        'uid': uid,
+        'email': email,
+        'weight': weight,
+        'photoUrl': photoUrl,
+      };
+
+  /// `dart:convert`
+  ///
+  /// Converts [UserModel] to a JSON string.
+  String toJson() => json.encode(toMap());
 }

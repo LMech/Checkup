@@ -26,6 +26,8 @@ Future<void> main() async {
 }
 
 class AppRoutes {
+  AppRoutes._(); //this is to prevent anyone from instantiating this object
+
   static final routes = [
     // Initial Path
     GetPage(name: '/', page: () => const SplashUI()),
@@ -45,8 +47,6 @@ class AppRoutes {
     // /tabbar/home
     GetPage(name: '/tabbar/home/connect', page: () => const ConnectUI()),
   ];
-
-  AppRoutes._(); //this is to prevent anyone from instantiating this object
 }
 
 class MyApp extends StatelessWidget {

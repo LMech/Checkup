@@ -8,8 +8,6 @@ import 'package:unicons/unicons.dart';
 class ConnectionsUI extends StatelessWidget {
   ConnectionsUI({Key? key}) : super(key: key);
 
-  final TextEditingController _emailTextController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ConnectionsController>(
@@ -70,4 +68,6 @@ class ConnectionsUI extends StatelessWidget {
       ),
     );
   }
+
+  final TextEditingController _emailTextController = TextEditingController();
 }

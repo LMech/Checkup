@@ -12,25 +12,6 @@ class ResetPasswordUI extends StatelessWidget {
 
   final AuthController authController = AuthController.to;
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  AppBar? appBar(BuildContext context) {
-    if (authController.emailController.text == '') {
-      return null;
-    }
-    return AppBar(title: const Text('Reset'));
-  }
-
-  Widget signInLink(BuildContext context) {
-    if (authController.emailController.text == '') {
-      return LabelButton(
-        labelText: 'Sign in',
-        onPressed: () => Get.offAllNamed('/signin'),
-      );
-    }
-    return const SizedBox(width: 0, height: 0);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,5 +58,24 @@ class ResetPasswordUI extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  AppBar? appBar(BuildContext context) {
+    if (authController.emailController.text == '') {
+      return null;
+    }
+    return AppBar(title: const Text('Reset'));
+  }
+
+  Widget signInLink(BuildContext context) {
+    if (authController.emailController.text == '') {
+      return LabelButton(
+        labelText: 'Sign in',
+        onPressed: () => Get.offAllNamed('/signin'),
+      );
+    }
+    return const SizedBox(width: 0, height: 0);
   }
 }

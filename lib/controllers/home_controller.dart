@@ -7,12 +7,12 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   final AuthController authController = AuthController.to;
-  late final DatabaseReference _ref;
-  late final String _uid;
   RxString hr = '--'.obs;
+  RxList<VitalModel> newHR = <VitalModel>[].obs;
   RxString spo2 = '--'.obs;
 
-  RxList<VitalModel> newHR = <VitalModel>[].obs;
+  late final DatabaseReference _ref;
+  late final String _uid;
 
   @override
   void onInit() {
@@ -43,6 +43,9 @@ class HomeController extends GetxController {
     updateSpo2(spo2);
   }
 
+  // DateTime _toDateTime(String unixTime) =>
+  //     DateTime.fromMillisecondsSinceEpoch(int.parse(unixTime));
+
   List<String> _getNowUnixTime() {
     final DateTime now = DateTime.now();
     final String nowS = now.millisecondsSinceEpoch.toString();
@@ -50,7 +53,4 @@ class HomeController extends GetxController {
 
     return [nowS, today.millisecondsSinceEpoch.toString()];
   }
-
-  // DateTime _toDateTime(String unixTime) =>
-  //     DateTime.fromMillisecondsSinceEpoch(int.parse(unixTime));
 }

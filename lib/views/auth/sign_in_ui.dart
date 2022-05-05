@@ -14,8 +14,6 @@ class SignInUI extends StatelessWidget {
 
   final AuthController authController = AuthController.to;
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,4 +81,6 @@ class SignInUI extends StatelessWidget {
       ),
     );
   }
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 }

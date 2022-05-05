@@ -117,9 +117,8 @@ Widget _body(List<Map<String, dynamic>> messages) {
   return ListView.separated(
     itemBuilder: (_, i) {
       final Map<String, dynamic> obj = messages[messages.length - 1 - i];
-      final Message message =
-          Message(text: DialogText(text: obj['message'].toString().split(',')));
-      final bool isUserMessage = obj['isUserMessage'].toString() == 'true';
+      final Message message = obj['message'] as Message;
+      final bool isUserMessage = obj['isUserMessage'] as bool;
       return Row(
         mainAxisAlignment:
             isUserMessage ? MainAxisAlignment.end : MainAxisAlignment.start,

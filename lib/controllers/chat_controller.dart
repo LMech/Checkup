@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ChatController extends GetxController {
-  int messagesCount = 0;
   late DialogFlowtter dialogFlowtter;
-  RxList<Map<String, dynamic>> messages = <Map<String, dynamic>>[].obs;
   RxBool loaded = false.obs;
-  GetStorage messagesStorage = GetStorage('messagesStorage');
+  RxList<Map<String, dynamic>> messages = <Map<String, dynamic>>[].obs;
   TextEditingController messagesController = TextEditingController();
+  int messagesCount = 0;
+  GetStorage messagesStorage = GetStorage('messagesStorage');
 
   @override
   void dispose() {
