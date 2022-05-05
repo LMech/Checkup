@@ -88,9 +88,9 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
     _discoveryStreamSubscription =
         FlutterBluetoothSerial.instance.startDiscovery().listen((r) {
       setState(() {
-        Iterator i = devices.iterator;
+        final Iterator i = devices.iterator;
         while (i.moveNext()) {
-          dynamic _device = i.current;
+          final dynamic _device = i.current;
           if (_device.device == r.device) {
             _device.availability = _DeviceAvailability.yes;
             _device.rssi = r.rssi;
@@ -108,36 +108,39 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<BluetoothDeviceListEntry> list = devices
-        .map((_device) => BluetoothDeviceListEntry(
-              device: _device.device,
-              rssi: _device.rssi,
-              enabled: _device.availability == _DeviceAvailability.yes,
-              onTap: () {
-                // TODO: Change to go to home
-                Navigator.of(context).pop(_device.device);
-              },
-            ))
+    final List<BluetoothDeviceListEntry> list = devices
+        .map(
+          (_device) => BluetoothDeviceListEntry(
+            device: _device.device,
+            rssi: _device.rssi,
+            enabled: _device.availability == _DeviceAvailability.yes,
+            onTap: () {
+              // TODO: Change to go to home
+              Navigator.of(context).pop(_device.device);
+            },
+          ),
+        )
         .toList();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select device'),
         actions: <Widget>[
-          _isDiscovering
-              ? FittedBox(
-                  child: Container(
-                    margin: const EdgeInsets.all(16.0),
-                    child: const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.white,
-                      ),
-                    ),
+          if (_isDiscovering)
+            FittedBox(
+              child: Container(
+                margin: const EdgeInsets.all(16.0),
+                child: const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.white,
                   ),
-                )
-              : IconButton(
-                  icon: const Icon(Icons.replay_outlined),
-                  onPressed: _restartDiscovery,
                 ),
+              ),
+            )
+          else
+            IconButton(
+              icon: const Icon(Icons.replay_outlined),
+              onPressed: _restartDiscovery,
+            ),
         ],
       ),
       body: ListView(children: list),
@@ -159,30 +162,34 @@ class BluetoothDeviceListEntry extends ListTile {
           onLongPress: onLongPress,
           enabled: enabled,
           leading: const Icon(
-              Icons.devices), // @TODO . !BluetoothClass! class aware icon
+            Icons.devices,
+          ), // @TODO . !BluetoothClass! class aware icon
           title: Text(device.name ?? ''),
-          subtitle: Text(device.address.toString()),
+          subtitle: Text(device.address),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              rssi != null
-                  ? Container(
-                      margin: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(rssi.toString()),
-                          const Text('dBm'),
-                        ],
-                      ),
-                    )
-                  : const SizedBox(width: 0, height: 0),
-              device.isConnected
-                  ? const Icon(Icons.import_export)
-                  : const SizedBox(width: 0, height: 0),
-              device.isBonded
-                  ? const Icon(Icons.link)
-                  : const SizedBox(width: 0, height: 0),
+              if (rssi != null)
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(rssi.toString()),
+                      const Text('dBm'),
+                    ],
+                  ),
+                )
+              else
+                const SizedBox(width: 0, height: 0),
+              if (device.isConnected)
+                const Icon(Icons.import_export)
+              else
+                const SizedBox(width: 0, height: 0),
+              if (device.isBonded)
+                const Icon(Icons.link)
+              else
+                const SizedBox(width: 0, height: 0),
             ],
           ),
         );

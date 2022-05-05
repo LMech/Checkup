@@ -1,5 +1,5 @@
 import 'package:checkup/services/bluetooth_background_task.dart';
-import 'package:checkup/views/components/list_tile_with_icon.dart';
+import 'package:checkup/views/core/components/list_tile_with_icon.dart';
 import 'package:checkup/views/home/bluetooth_search_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -49,42 +49,45 @@ class _ConnectUIState extends State<ConnectUI> {
       appBar: AppBar(
         title: const Text('Choose method'),
       ),
-      body: ListView(children: [
-        ListTileWithIcon(
-          title: ((_collectingTask?.inProgress ?? false)
-              ? 'Disconnect and stop background collecting'
-              : 'Connect to start background collecting'),
-          icon: Icons.arrow_forward_ios_outlined,
-          size: 20.0,
-          onTap: () async {
-            {
-              if (_collectingTask?.inProgress ?? false) {
-                await _collectingTask!.cancel();
-                setState(() {
-                  /* Update for `_collectingTask.inProgress` */
-                });
-              } else {
-                final BluetoothDevice? selectedDevice =
-                    await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const SelectBondedDevicePage(
-                          checkAvailability: false);
-                    },
-                  ),
-                );
-
-                if (selectedDevice != null) {
-                  await _startBackgroundTask(context, selectedDevice);
+      body: ListView(
+        children: [
+          ListTileWithIcon(
+            title: (_collectingTask?.inProgress ?? false)
+                ? 'Disconnect and stop background collecting'
+                : 'Connect to start background collecting',
+            icon: Icons.arrow_forward_ios_outlined,
+            size: 20.0,
+            onTap: () async {
+              {
+                if (_collectingTask?.inProgress ?? false) {
+                  await _collectingTask!.cancel();
                   setState(() {
                     /* Update for `_collectingTask.inProgress` */
                   });
+                } else {
+                  final BluetoothDevice? selectedDevice =
+                      await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const SelectBondedDevicePage(
+                          checkAvailability: false,
+                        );
+                      },
+                    ),
+                  );
+
+                  if (selectedDevice != null) {
+                    await _startBackgroundTask(context, selectedDevice);
+                    setState(() {
+                      /* Update for `_collectingTask.inProgress` */
+                    });
+                  }
                 }
               }
-            }
-          },
-        ),
-      ]),
+            },
+          ),
+        ],
+      ),
     );
   }
 }

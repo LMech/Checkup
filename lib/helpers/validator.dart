@@ -3,8 +3,8 @@ class Validator {
   Validator();
 
   String? email(String? value) {
-    String pattern = r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
-    RegExp regex = RegExp(pattern);
+    const String pattern = r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
+    final RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
       return 'Please enter a valid email address.';
     } else {
@@ -13,8 +13,8 @@ class Validator {
   }
 
   String? password(String? value) {
-    String pattern = r'^.{6,}$';
-    RegExp regex = RegExp(pattern);
+    const String pattern = r'^.{6,}$';
+    final RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
       return 'Password must be at least 6 characters.';
     } else {
@@ -23,8 +23,8 @@ class Validator {
   }
 
   String? name(String? value) {
-    String pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-    RegExp regex = RegExp(pattern);
+    const String pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+    final RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
       return 'Please enter a name.';
     } else {
@@ -33,8 +33,8 @@ class Validator {
   }
 
   String? number(String? value) {
-    String pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
-    RegExp regex = RegExp(pattern);
+    const String pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
+    final RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
       return 'Please enter a number.';
     } else {
@@ -43,8 +43,8 @@ class Validator {
   }
 
   String? amount(String? value) {
-    String pattern = r'^\d+$';
-    RegExp regex = RegExp(pattern);
+    const String pattern = r'^\d+$';
+    final RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
       return 'Please enter a number i.e. 250 - no dollar symbol and no cents';
     } else {
@@ -53,9 +53,9 @@ class Validator {
   }
 
   String? date(String? value) {
-    String pattern = r'^\S+$';
+    const String pattern = r'^\S+$';
     // r'^([0-2][0-9]|(3)[0-1])(\/-)(((0)[0-9])|((1)[0-2]))(\/-)\d{4}$';
-    RegExp regex = RegExp(pattern);
+    final RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
       return 'Please, enter a valid date format';
     } else {
@@ -64,8 +64,8 @@ class Validator {
   }
 
   String? notEmpty(String? value) {
-    String pattern = r'^\S+$';
-    RegExp regex = RegExp(pattern);
+    const String pattern = r'^\S+$';
+    final RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
       return 'This is a required field.';
     } else {

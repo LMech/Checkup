@@ -8,10 +8,12 @@ import 'package:scoped_model/scoped_model.dart';
 class BackgroundCollectingTask extends Model {
   BackgroundCollectingTask._fromConnection(this._connection) {
     _connection.input!.listen((data) {
-      if (data.length == 2 && data.first.toInt() != 255) {
+      if (data.length == 2 && data.first != 255) {
         debugPrint(data.toString());
         _vitalsChange.changeHome(
-            hr: data.first.toString(), spo2: data.last.toString());
+          hr: data.first.toString(),
+          spo2: data.last.toString(),
+        );
       }
     }).onDone(() {
       inProgress = false;
@@ -34,7 +36,8 @@ class BackgroundCollectingTask extends Model {
       );
 
   static Future<BackgroundCollectingTask> connect(
-      BluetoothDevice server) async {
+    BluetoothDevice server,
+  ) async {
     final BluetoothConnection connection =
         await BluetoothConnection.toAddress(server.address);
     return BackgroundCollectingTask._fromConnection(connection);

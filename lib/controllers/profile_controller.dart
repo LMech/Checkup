@@ -16,17 +16,17 @@ class ProfileController extends GetxController {
   late final DocumentReference<Map<String, dynamic>> _userData;
 
   @override
-  void onInit() async {
+  Future<void> onInit() async {
     _userData = FirebaseFirestore.instance
         .doc('/users/${_authController.firebaseUser.value!.uid}');
-    UserModel data = await _authController.streamFirestoreUser().first;
+    final UserModel data = await _authController.streamFirestoreUser().first;
     phoneNumberController = TextEditingController(text: data.phoneNumber);
-    dataOfBirthController =
-        TextEditingController(text: data.dateOfBirth.toString());
     heightController = TextEditingController(
-        text: data.height == -1 ? '' : data.height.toString());
+      text: data.height == -1 ? '' : data.height.toString(),
+    );
     weightController = TextEditingController(
-        text: data.weight == -1 ? '' : data.weight.toString());
+      text: data.weight == -1 ? '' : data.weight.toString(),
+    );
     super.onInit();
   }
 

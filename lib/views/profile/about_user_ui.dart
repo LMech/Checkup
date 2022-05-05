@@ -1,8 +1,8 @@
 import 'package:checkup/controllers/profile_controller.dart';
 import 'package:checkup/helpers/validator.dart';
-import 'package:checkup/views/components/form_input_field_with_icon.dart';
+import 'package:checkup/views/core/components/form_input_field_with_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' show DateFormat;
 
 class AboutUserUI extends StatefulWidget {
   const AboutUserUI({Key? key}) : super(key: key);
@@ -16,100 +16,118 @@ class _AboutUserUIState extends State<AboutUserUI> {
   final ProfileController profileController = ProfileController.to;
 
   Future<DateTime?> _presentDatePicker() async {
-    DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime(2000),
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now());
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime(2000),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
     return picked;
   }
 
-  _aboutYou() {
+  Container _aboutYou() {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: Form(
-            child: ListView(children: <Widget>[
-          const SizedBox(height: 8.0),
-          FormInputFieldWithIcon(
-            controller: profileController.phoneNumberController,
-            iconPrefix: Icons.phone_android_outlined,
-            keyboardType: TextInputType.datetime,
-            labelText: "Phone Number",
-            validator: Validator().name,
-            onEditdingComplete: () async {
-              await profileController.updateDB(
-                  'phoneNumber', profileController.phoneNumberController.text);
-            },
-          ),
-          const SizedBox(height: 8.0),
-          FormInputFieldWithIcon(
-            controller: profileController.dataOfBirthController,
-            iconPrefix: Icons.cake_outlined,
-            keyboardType: TextInputType.none,
-            labelText: "Date of Birth",
-            validator: Validator().name,
-            onTap: () async {
-              DateTime? picked = await _presentDatePicker();
-              if (picked != null) {
-                String formated = DateFormat.yMd().format(picked);
-                profileController.dataOfBirthController.text = formated;
-                await profileController.updateDB('dateOfBirth',
-                    profileController.dataOfBirthController.text);
-              }
-            },
-            onEditdingComplete: () async {},
-          ),
-          const SizedBox(height: 8.0),
-          FormInputFieldWithIcon(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Form(
+        child: ListView(
+          children: <Widget>[
+            const SizedBox(height: 8.0),
+            FormInputFieldWithIcon(
+              controller: profileController.phoneNumberController,
+              iconPrefix: Icons.phone_android_outlined,
+              keyboardType: TextInputType.datetime,
+              labelText: "Phone Number",
+              validator: Validator().name,
+              onEditdingComplete: () async {
+                await profileController.updateDB(
+                  'phoneNumber',
+                  profileController.phoneNumberController.text,
+                );
+              },
+            ),
+            const SizedBox(height: 8.0),
+            FormInputFieldWithIcon(
+              controller: profileController.dataOfBirthController,
+              iconPrefix: Icons.cake_outlined,
+              keyboardType: TextInputType.none,
+              labelText: "Date of Birth",
+              validator: Validator().name,
+              onTap: () async {
+                final DateTime? picked = await _presentDatePicker();
+                if (picked != null) {
+                  final String formated = DateFormat.yMd().format(picked);
+                  profileController.dataOfBirthController.text = formated;
+                  await profileController.updateDB(
+                    'dateOfBirth',
+                    profileController.dataOfBirthController.text,
+                  );
+                }
+              },
+              onEditdingComplete: () async {},
+            ),
+            const SizedBox(height: 8.0),
+            FormInputFieldWithIcon(
               controller: profileController.heightController,
               iconPrefix: Icons.home_outlined,
               keyboardType: TextInputType.streetAddress,
               labelText: "Address",
               validator: Validator().number,
               onEditdingComplete: () async {
-                await profileController.updateDB('dateOfBirth',
-                    profileController.dataOfBirthController.text);
-              }),
-          const SizedBox(height: 8.0),
-          DropdownButton<String>(
-            value: dropdownValue,
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownValue = newValue!;
-              });
-            },
-            items: ['Male', 'Female']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 8.0),
-          FormInputFieldWithIcon(
+                await profileController.updateDB(
+                  'dateOfBirth',
+                  profileController.dataOfBirthController.text,
+                );
+              },
+            ),
+            const SizedBox(height: 8.0),
+            DropdownButton<String>(
+              value: dropdownValue,
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+              items: ['Male', 'Female']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 8.0),
+            FormInputFieldWithIcon(
               controller: profileController.heightController,
               iconPrefix: Icons.height_sharp,
               keyboardType: TextInputType.number,
               labelText: "Height",
               validator: Validator().number,
               onEditdingComplete: () async {
-                await profileController.updateDB('dateOfBirth',
-                    profileController.dataOfBirthController.text);
-              }),
-          const SizedBox(height: 8.0),
-          FormInputFieldWithIcon(
+                await profileController.updateDB(
+                  'dateOfBirth',
+                  profileController.dataOfBirthController.text,
+                );
+              },
+            ),
+            const SizedBox(height: 8.0),
+            FormInputFieldWithIcon(
               controller: profileController.weightController,
               iconPrefix: Icons.monitor_weight,
               keyboardType: TextInputType.datetime,
               labelText: "Weight",
               validator: Validator().number,
               onEditdingComplete: () async {
-                await profileController.updateDB('dateOfBirth',
-                    profileController.dataOfBirthController.text);
-              }),
-          const SizedBox(height: 8.0),
-        ])));
+                await profileController.updateDB(
+                  'dateOfBirth',
+                  profileController.dataOfBirthController.text,
+                );
+              },
+            ),
+            const SizedBox(height: 8.0),
+          ],
+        ),
+      ),
+    );
   }
 
   @override

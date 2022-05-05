@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
+// ignore: avoid_classes_with_only_static_members
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
@@ -43,7 +44,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '322833193189',
     projectId: 'gradprjct2022-bb1c0',
     authDomain: 'gradprjct2022-bb1c0.firebaseapp.com',
-    databaseURL: 'https://gradprjct2022-bb1c0-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://gradprjct2022-bb1c0-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gradprjct2022-bb1c0.appspot.com',
     measurementId: 'G-7C1K7402CZ',
   );
@@ -53,7 +55,8 @@ class DefaultFirebaseOptions {
     appId: '1:322833193189:android:7340b815fdb8244355dc0c',
     messagingSenderId: '322833193189',
     projectId: 'gradprjct2022-bb1c0',
-    databaseURL: 'https://gradprjct2022-bb1c0-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://gradprjct2022-bb1c0-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gradprjct2022-bb1c0.appspot.com',
   );
 
@@ -62,10 +65,13 @@ class DefaultFirebaseOptions {
     appId: '1:322833193189:ios:61439aa892d5a1a355dc0c',
     messagingSenderId: '322833193189',
     projectId: 'gradprjct2022-bb1c0',
-    databaseURL: 'https://gradprjct2022-bb1c0-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://gradprjct2022-bb1c0-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gradprjct2022-bb1c0.appspot.com',
-    androidClientId: '322833193189-d1cugticm29367vc9i5r6k345c4grrig.apps.googleusercontent.com',
-    iosClientId: '322833193189-tlnf6mrp56qd2gg30vjs3n3sqhbbpcfk.apps.googleusercontent.com',
+    androidClientId:
+        '322833193189-d1cugticm29367vc9i5r6k345c4grrig.apps.googleusercontent.com',
+    iosClientId:
+        '322833193189-tlnf6mrp56qd2gg30vjs3n3sqhbbpcfk.apps.googleusercontent.com',
     iosBundleId: 'io.github.lmech',
   );
 }

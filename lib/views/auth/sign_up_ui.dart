@@ -1,9 +1,9 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/helpers/validator.dart';
-import 'package:checkup/views/components/form_input_field_with_icon.dart';
-import 'package:checkup/views/components/label_button.dart';
-import 'package:checkup/views/components/logo_graphic_header.dart';
-import 'package:checkup/views/components/primary_button.dart';
+import 'package:checkup/views/core/components/form_input_field_with_icon.dart';
+import 'package:checkup/views/core/components/label_button.dart';
+import 'package:checkup/views/core/components/logo_graphic_header.dart';
+import 'package:checkup/views/core/components/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -81,14 +81,16 @@ class SignUpUI extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0),
                   PrimaryButton(
-                      labelText: 'Sign Up',
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          SystemChannels.textInput.invokeMethod(
-                              'TextInput.hide'); //to hide the keyboard - if any
-                          authController.registerWithEmailAndPassword(context);
-                        }
-                      }),
+                    labelText: 'Sign Up',
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        SystemChannels.textInput.invokeMethod(
+                          'TextInput.hide',
+                        ); //to hide the keyboard - if any
+                        authController.registerWithEmailAndPassword(context);
+                      }
+                    },
+                  ),
                   const SizedBox(height: 8.0),
                   LabelButton(
                     labelText: 'Already have an accound, sign in',
