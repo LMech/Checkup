@@ -1,0 +1,17 @@
+{
+    "r@name": "Michael George",
+    "d@connections": [
+        {
+            "connectionKey": {
+                "booleanValue": true
+            }
+        }
+    ],
+    "d@phoneNumber": "",
+    "r@dateOfBirth": "2001-01-15T22:00:00Z",
+    "d@height": 0,
+    "r@uid": "UxdZxCOtcsOJcqHXRq22LySNWdY2",
+    "r@email": "michaelgeorge@duck.com",
+    "weight": 0,
+    "r@photoUrl": "https://www.gravatar.com/avatar/3ee5460b335c4b1160195fad998aa114.png?s=200&d=retro&r=pg"
+}
