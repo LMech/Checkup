@@ -1,41 +1,49 @@
 import 'package:checkup/controllers/home_controller.dart';
-import 'package:checkup/views/components/avatar.dart';
-import 'package:checkup/views/components/feature_card.dart';
+import 'package:checkup/views/core/components/avatar.dart';
+import 'package:checkup/views/core/components/feature_card.dart';
+import 'package:checkup/views/core/components/vital_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/utils.dart';
+import 'package:unicons/unicons.dart';
 
 class HomeUI extends StatelessWidget {
   const HomeUI({Key? key}) : super(key: key);
 
   Widget _profileData(String name, String photoUrl) {
     final String userName = name;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            'Hi, $userName',
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Hi, $userName',
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 2),
-          const Text(
-            'Let\'s make a checkup',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
+            const SizedBox(height: 2),
+            const Text(
+              "Let's make a checkup",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
         Avatar(
           photoUrl,
           radius: 60.0,
           height: 200,
           width: 200,
         ),
-      ]),
+      ],
     );
   }
 
@@ -85,147 +93,64 @@ class HomeUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = Get.width;
     return GetBuilder<HomeController>(
-        init: HomeController(),
-        builder: (controller) => Scaffold(
-              appBar: AppBar(
-                backgroundColor: Get.theme.scaffoldBackgroundColor,
-                elevation: 0.0,
-                actions: [
-                  IconButton(
-                      icon: Icon(
-                        Icons.add,
-                        size: 40.0,
-                        color: Get.theme.iconTheme.color,
-                      ),
-                      onPressed: () {
-                        Get.toNamed('/tabbar/home/connect');
-                      }),
-                ],
+      init: HomeController(),
+      builder: (controller) => Scaffold(
+        appBar: AppBar(
+          backgroundColor: Get.theme.scaffoldBackgroundColor,
+          elevation: 0.0,
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.add,
+                size: 40.0,
+                color: Get.theme.iconTheme.color,
               ),
-              body: SafeArea(
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  children: <Widget>[
-                    const SizedBox(height: 35),
-                    _profileData(
-                        controller.authController.firestoreUser.value!.name,
-                        controller
-                            .authController.firestoreUser.value!.photoUrl),
-                    const SizedBox(height: 35),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(15),
-                            height: 220,
-                            width: _screenWidth * .42,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Get.theme.cardColor,
-                              boxShadow: const [
-                                BoxShadow(
-                                  blurRadius: 5.0,
-                                  spreadRadius: 1.1,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.favorite_border_outlined,
-                                      color: Colors.red,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      'Heart Rate',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Obx(
-                                  () => Text(controller.hr.value,
-                                      style: const TextStyle(
-                                        fontSize: 48,
-                                        fontWeight: FontWeight.w700,
-                                      )),
-                                ),
-                                const Text(
-                                  'BPM',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(15),
-                            height: 220,
-                            width: _screenWidth * .42,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Get.theme.cardColor,
-                              boxShadow: const [
-                                BoxShadow(
-                                  blurRadius: 5.0,
-                                  spreadRadius: 1.1,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.bubble_chart_outlined,
-                                      color: Colors.blueAccent,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      'Oxygen\nSaturation',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Obx(
-                                  () => Text(controller.spo2.value,
-                                      style: const TextStyle(
-                                        fontSize: 48,
-                                        fontWeight: FontWeight.w700,
-                                      )),
-                                ),
-                                const Text(
-                                  '%',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]),
-                    const SizedBox(height: 35),
-                    _featuresList(),
-                  ],
+              onPressed: () {
+                Get.toNamed('/tabbar/home/connect');
+              },
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            children: <Widget>[
+              const SizedBox(height: 35),
+              Obx(
+                () => VitalChart(
+                  data: controller.newHR.toList(),
+                  color: Colors.red[800] ?? Colors.red,
+                  icon: UniconsLine.heartbeat,
                 ),
               ),
-              floatingActionButton: FloatingActionButton(onPressed: () {
-                controller.updateSpo2('80');
-              }),
-            ));
+              const SizedBox(height: 35),
+              Obx(
+                () => VitalChart(
+                  data: controller.newHR.toList(),
+                  color: Colors.blueAccent[800] ?? Colors.blue,
+                  icon: UniconsLine.raindrops,
+                  rtl: true,
+                ),
+              ),
+              const SizedBox(height: 35),
+              _featuresList(),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            controller.updateNewHR();
+          },
+        ),
+      ),
+    );
   }
+}
+
+class ChartSampleData {
+  ChartSampleData({this.x, this.yValue});
+
+  final DateTime? x;
+  final double? yValue;
 }

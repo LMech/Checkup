@@ -2,10 +2,10 @@ import 'dart:core';
 
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/helpers/validator.dart';
-import 'package:checkup/views/components/form_input_field_with_icon.dart';
-import 'package:checkup/views/components/label_button.dart';
-import 'package:checkup/views/components/logo_graphic_header.dart';
-import 'package:checkup/views/components/primary_button.dart';
+import 'package:checkup/views/core/components/form_input_field_with_icon.dart';
+import 'package:checkup/views/core/components/label_button.dart';
+import 'package:checkup/views/core/components/logo_graphic_header.dart';
+import 'package:checkup/views/core/components/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -59,12 +59,13 @@ class SignInUI extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0),
                   PrimaryButton(
-                      labelText: 'Sign in',
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          authController.signInWithEmailAndPassword(context);
-                        }
-                      }),
+                    labelText: 'Sign in',
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        authController.signInWithEmailAndPassword(context);
+                      }
+                    },
+                  ),
                   const SizedBox(height: 8.0),
                   LabelButton(
                     labelText: 'Reset password',
