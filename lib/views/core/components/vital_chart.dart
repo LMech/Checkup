@@ -37,7 +37,7 @@ class VitalChart extends StatelessWidget {
                   color: color,
                 ),
                 Text(
-                  data.isNotEmpty ? data.last.yValue.toStringAsFixed(0) : '--',
+                  data.isNotEmpty ? data.last.value.toStringAsFixed(0) : '--',
                   style:
                       const TextStyle(fontSize: 60, fontFamily: 'Montserrat'),
                 )
@@ -66,8 +66,9 @@ class VitalChart extends StatelessWidget {
                     series: <ChartSeries<VitalModel, DateTime>>[
                       SplineAreaSeries<VitalModel, DateTime>(
                         dataSource: data,
-                        xValueMapper: (VitalModel sales, _) => sales.x,
-                        yValueMapper: (VitalModel sales, _) => sales.yValue,
+                        xValueMapper: (VitalModel sales, _) =>
+                            sales.measuringTime,
+                        yValueMapper: (VitalModel sales, _) => sales.value,
                         splineType: SplineType.cardinal,
                         borderWidth: 2,
                         borderColor: color,

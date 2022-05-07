@@ -1,6 +1,10 @@
 class VitalModel {
-  VitalModel({required this.x, required this.yValue});
+  VitalModel({required this.measuringTime, required this.value});
 
-  final DateTime x;
-  final double yValue;
+  final DateTime measuringTime;
+  final int value;
+  @override
+  String toString() {
+    return 'UserModel(x: $measuringTime, yValue: $value)';
+  }
 }

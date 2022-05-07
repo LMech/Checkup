@@ -19,11 +19,8 @@ class ConnectionsUI extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               children: [
                 AnimSearchBar(
-                  animationDurationInMilli: 4000,
                   textController: _emailTextController,
                   onSuffixTap: () {
-                    controller
-                        .getConnectionData('samaatalaatelsersy@gmail.com');
                     controller.sendRequest(_emailTextController.text.trim());
                     _emailTextController.clear();
                   },
@@ -32,11 +29,10 @@ class ConnectionsUI extends StatelessWidget {
                   suffixIcon: const Icon(UniconsLine.user_plus),
                   prefixIcon: const Icon(UniconsLine.user_plus),
                 ),
-                for (Map<String, dynamic> connection
-                    in controller.userConnections)
+                for (String connectionEamil in controller.userConnections)
                   ConnectionCard(
-                    connectionData: connection,
                     isFriend: true,
+                    connectionEmail: connectionEamil,
                   ),
                 Column(
                   children: [
@@ -56,10 +52,10 @@ class ConnectionsUI extends StatelessWidget {
                     )
                   ],
                 ),
-                for (Map<String, dynamic> requrests in controller.userRequests)
+                for (String request in controller.userRequests)
                   ConnectionCard(
-                    connectionData: requrests,
                     isFriend: false,
+                    connectionEmail: request,
                   )
               ],
             ),

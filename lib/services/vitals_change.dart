@@ -9,8 +9,4 @@ class VitalsChange {
   final homeController = Get.find<HomeController>();
 
   static final VitalsChange _vitalsChange = VitalsChange._internal();
-
-  void changeHome({String hr = '', String spo2 = ''}) {
-    homeController.updateAll(hr, spo2);
-  }
 }

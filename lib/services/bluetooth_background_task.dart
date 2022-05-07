@@ -12,10 +12,7 @@ class BackgroundCollectingTask extends Model {
     _connection.input!.listen((data) {
       if (data.length == 2 && data.first != 255) {
         Logger().e(data.toString());
-        _vitalsChange.changeHome(
-          hr: data.first.toString(),
-          spo2: data.last.toString(),
-        );
+        // TODO: update the ui
       }
     }).onDone(() {
       inProgress = false;
