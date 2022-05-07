@@ -1,19 +1,18 @@
 import 'dart:convert';
 
-import 'package:checkup/models/connection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:collection/collection.dart";
 
 class UserModel {
   const UserModel({
     required this.name,
-    this.connections = const <Connection>[],
+    this.connections = const <String, dynamic>{},
     this.phoneNumber = '',
     required this.dateOfBirth,
     this.height = 0,
     required this.uid,
     required this.email,
-    this.weight,
+    this.weight = 0,
     required this.photoUrl,
   });
 
@@ -26,9 +25,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> data) => UserModel(
         name: data['name'] as String,
-        connections: (data['connections'] as List<dynamic>)
-            .map((e) => Connection.fromMap(e as Map<String, dynamic>))
-            .toList(),
+        connections: data['connections'] as Map<String, dynamic>,
         phoneNumber: data['phoneNumber'] as String,
         dateOfBirth: (data['dateOfBirth'] as Timestamp).toDate(),
         height: data['height'] as int,
@@ -38,7 +35,7 @@ class UserModel {
         photoUrl: data['photoUrl'] as String,
       );
 
-  final List<Connection> connections;
+  final Map<String, dynamic> connections;
   final DateTime dateOfBirth;
   final String email;
   final int height;
@@ -75,7 +72,7 @@ class UserModel {
 
   Map<String, dynamic> toMap() => {
         'name': name,
-        'connections': connections.map((e) => e.toMap()).toList(),
+        'connections': connections,
         'phoneNumber': phoneNumber,
         'dateOfBirth': DateTime.parse(dateOfBirth.toIso8601String()),
         'height': height,

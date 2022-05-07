@@ -19,7 +19,7 @@ class AuthController extends GetxController {
   TextEditingController passwordController = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _fsDB = FirebaseFirestore.instance;
+  final FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   void onClose() {
@@ -64,7 +64,7 @@ class AuthController extends GetxController {
 
   //Streams the firestore user from the firestore collection
   Stream<UserModel> streamFirestoreUser() {
-    return _fsDB
+    return db
         .doc('/users/${firebaseUser.value!.uid}')
         .snapshots()
         .map((snapshot) => UserModel.fromMap(snapshot.data()!));
@@ -72,7 +72,7 @@ class AuthController extends GetxController {
 
   //get the firestore user from the firestore collection
   Future<UserModel> getFirestoreUser() {
-    return _fsDB.doc('/users/${firebaseUser.value!.uid}').get().then(
+    return db.doc('/users/${firebaseUser.value!.uid}').get().then(
           (documentSnapshot) => UserModel.fromMap(documentSnapshot.data()!),
         );
   }
@@ -180,7 +180,7 @@ class AuthController extends GetxController {
   //create the firestore user in users collection
   void _createUserFirestore(UserModel user, User _firebaseUser) {
     try {
-      _fsDB.doc('/users/${_firebaseUser.uid}').set(user.toMap());
+      db.doc('/users/${_firebaseUser.uid}').set(user.toMap());
     } catch (e) {
       Logger().e(e);
     }

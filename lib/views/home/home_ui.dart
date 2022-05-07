@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:checkup/controllers/home_controller.dart';
 import 'package:checkup/views/core/components/feature_card.dart';
 import 'package:checkup/views/core/components/vital_chart.dart';
@@ -39,7 +41,7 @@ class HomeUI extends StatelessWidget {
               const SizedBox(height: 35),
               Obx(
                 () => VitalChart(
-                  data: controller.newHR.toList(),
+                  data: controller.hr.toList(),
                   color: Colors.red[800] ?? Colors.red,
                   icon: UniconsLine.heartbeat,
                 ),
@@ -47,7 +49,7 @@ class HomeUI extends StatelessWidget {
               const SizedBox(height: 35),
               Obx(
                 () => VitalChart(
-                  data: controller.newHR.toList(),
+                  data: controller.spo2.toList(),
                   color: Colors.blueAccent[800] ?? Colors.blue,
                   icon: UniconsLine.raindrops,
                   rtl: true,
@@ -60,7 +62,12 @@ class HomeUI extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            controller.updateNewHR();
+            print('here');
+
+            controller.updateAll(
+              Random().nextInt(20) + 60,
+              Random().nextInt(10) + 90,
+            );
           },
         ),
       ),
