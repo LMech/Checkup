@@ -4,7 +4,8 @@ import 'package:checkup/views/auth/reset_password_ui.dart';
 import 'package:checkup/views/auth/sign_in_ui.dart';
 import 'package:checkup/views/auth/sign_up_ui.dart';
 import 'package:checkup/views/chatbot_ui.dart';
-import 'package:checkup/views/connections_ui.dart';
+import 'package:checkup/views/connections/connection_ui.dart';
+import 'package:checkup/views/connections/connections_list_ui.dart';
 import 'package:checkup/views/core/splash_ui.dart';
 import 'package:checkup/views/core/tabbar_ui.dart';
 import 'package:checkup/views/home/connect_ui.dart';
@@ -41,11 +42,17 @@ class AppRoutes {
     // /tabbar
     GetPage(name: '/tabbar/home', page: () => const HomeUI()),
     GetPage(name: '/tabbar/chat', page: () => const ChatbotUI()),
-    GetPage(name: '/tabbar/connections', page: () => ConnectionsUI()),
+    GetPage(name: '/tabbar/connections_list', page: () => ConnectionsListUI()),
     GetPage(name: '/tabbar/profile', page: () => ProfileUI()),
 
     // /tabbar/home
     GetPage(name: '/tabbar/home/connect', page: () => const ConnectUI()),
+
+    // /tabbar/connections_list/connection
+    GetPage(
+      name: '/tabbar/connections_list/connection',
+      page: () => const ConnectionUI(),
+    ),
   ];
 }
 

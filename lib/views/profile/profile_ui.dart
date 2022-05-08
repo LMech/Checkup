@@ -16,16 +16,14 @@ class ProfileUI extends StatelessWidget {
     return GetBuilder<ProfileController>(
       init: ProfileController(),
       builder: (controller) => Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: <Widget>[
-                _profileData(),
-                const SizedBox(height: 10),
-                _listView(),
-              ],
-            ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: <Widget>[
+              _profileData(),
+              const SizedBox(height: 10),
+              _listView(),
+            ],
           ),
         ),
       ),

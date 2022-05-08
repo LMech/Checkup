@@ -1,6 +1,6 @@
 import 'package:checkup/controllers/tabbar_controller.dart';
 import 'package:checkup/views/chatbot_ui.dart';
-import 'package:checkup/views/connections_ui.dart';
+import 'package:checkup/views/connections/connections_list_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class TabbarUI extends StatelessWidget {
             children: [
               const HomeUI(),
               const ChatbotUI(),
-              ConnectionsUI(),
+              ConnectionsListUI(),
               ProfileUI(),
             ],
           ),

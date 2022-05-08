@@ -14,28 +14,26 @@ class ChatbotUI extends StatelessWidget {
       init: ChatController(),
       builder: (controller) {
         return Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Obx(() {
-                      if (controller.messages.isEmpty) {
-                        controller.loadOldMessages();
-                      }
-                      return _body(controller.messages.toList());
-                    }),
-                  ),
-                  Container(
-                      // padding: const EdgeInsets.symmetric(
-                      //   horizontal: 10,
-                      //   vertical: 5,
-                      // ),
-                      ),
-                  _messagesBar(controller),
-                ],
-              ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Obx(() {
+                    if (controller.messages.isEmpty) {
+                      controller.loadOldMessages();
+                    }
+                    return _body(controller.messages.toList());
+                  }),
+                ),
+                Container(
+                    // padding: const EdgeInsets.symmetric(
+                    //   horizontal: 10,
+                    //   vertical: 5,
+                    // ),
+                    ),
+                _messagesBar(controller),
+              ],
             ),
           ),
         );

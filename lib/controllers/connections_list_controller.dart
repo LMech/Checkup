@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
-class ConnectionsController extends GetxController {
+class ConnectionsListController extends GetxController {
   final AuthController authController = AuthController.to;
   RxSet<String> userConnections = <String>{}.obs;
   RxSet<String> userRequests = <String>{}.obs;
