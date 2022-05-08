@@ -14,44 +14,46 @@ class ResetPasswordUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  const LogoGraphicHeader(
-                    radius: 73.0,
-                  ),
-                  const SizedBox(height: 48.0),
-                  FormInputFieldWithIcon(
-                    controller: authController.emailController,
-                    iconPrefix: Icons.alternate_email_outlined,
-                    labelText: 'Email',
-                    validator: Validator().email,
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) => '',
-                    onSaved: (value) =>
-                        authController.emailController.text = value.toString(),
-                    onEditdingComplete: () {},
-                  ),
-                  const SizedBox(height: 8.0),
-                  PrimaryButton(
-                    labelText: 'Reset',
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        await authController.sendPasswordResetEmail(context);
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 8.0),
-                  signInLink(context),
-                ],
+    return SafeArea(
+      child: Scaffold(
+        body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const LogoGraphicHeader(
+                      radius: 73.0,
+                    ),
+                    const SizedBox(height: 48.0),
+                    FormInputFieldWithIcon(
+                      controller: authController.emailController,
+                      iconPrefix: Icons.alternate_email_outlined,
+                      labelText: 'Email',
+                      validator: Validator().email,
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (value) => '',
+                      onSaved: (value) => authController.emailController.text =
+                          value.toString(),
+                      onEditdingComplete: () {},
+                    ),
+                    const SizedBox(height: 8.0),
+                    PrimaryButton(
+                      labelText: 'Reset',
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await authController.sendPasswordResetEmail(context);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 8.0),
+                    signInLink(context),
+                  ],
+                ),
               ),
             ),
           ),

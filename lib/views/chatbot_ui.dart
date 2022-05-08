@@ -14,8 +14,7 @@ class ChatbotUI extends StatelessWidget {
       init: ChatController(),
       builder: (controller) {
         return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          body: SafeArea(
             child: Column(
               children: [
                 Expanded(
@@ -26,12 +25,6 @@ class ChatbotUI extends StatelessWidget {
                     return _body(controller.messages.toList());
                   }),
                 ),
-                Container(
-                    // padding: const EdgeInsets.symmetric(
-                    //   horizontal: 10,
-                    //   vertical: 5,
-                    // ),
-                    ),
                 _messagesBar(controller),
               ],
             ),

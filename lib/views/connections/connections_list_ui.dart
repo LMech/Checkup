@@ -12,51 +12,53 @@ class ConnectionsListUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ConnectionsListController>(
       init: ConnectionsListController(),
-      builder: (controller) => Scaffold(
-        body: Obx(
-          () => ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            children: [
-              AnimSearchBar(
-                textController: _emailTextController,
-                onSuffixTap: () {
-                  controller.sendRequest(_emailTextController.text.trim());
-                  _emailTextController.clear();
-                },
-                width: Get.width,
-                helpText: "Send request",
-                suffixIcon: const Icon(UniconsLine.user_plus),
-                prefixIcon: const Icon(UniconsLine.user_plus),
-              ),
-              for (String connectionEamil in controller.userConnections)
-                ConnectionCard(
-                  isFriend: true,
-                  connectionEmail: connectionEamil,
+      builder: (controller) => SafeArea(
+        child: Scaffold(
+          body: Obx(
+            () => ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              children: [
+                AnimSearchBar(
+                  textController: _emailTextController,
+                  onSuffixTap: () {
+                    controller.sendRequest(_emailTextController.text.trim());
+                    _emailTextController.clear();
+                  },
+                  width: Get.width,
+                  helpText: "Send request",
+                  suffixIcon: const Icon(UniconsLine.user_plus),
+                  prefixIcon: const Icon(UniconsLine.user_plus),
                 ),
-              Column(
-                children: [
-                  const Divider(indent: 16),
-                  Container(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Connections Requests',
-                        style: TextStyle(
-                          fontSize: 12.0,
+                for (String connectionEamil in controller.userConnections)
+                  ConnectionCard(
+                    isFriend: true,
+                    connectionEmail: connectionEamil,
+                  ),
+                Column(
+                  children: [
+                    const Divider(indent: 16),
+                    Container(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Connections Requests',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                          ),
+                          textAlign: TextAlign.start,
                         ),
-                        textAlign: TextAlign.start,
                       ),
-                    ),
+                    )
+                  ],
+                ),
+                for (String request in controller.userRequests)
+                  ConnectionCard(
+                    isFriend: false,
+                    connectionEmail: request,
                   )
-                ],
-              ),
-              for (String request in controller.userRequests)
-                ConnectionCard(
-                  isFriend: false,
-                  connectionEmail: request,
-                )
-            ],
+              ],
+            ),
           ),
         ),
       ),

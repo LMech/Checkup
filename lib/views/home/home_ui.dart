@@ -6,6 +6,9 @@ import 'package:checkup/views/core/components/feature_card.dart';
 import 'package:checkup/views/core/components/vital_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:health/health.dart';
+import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:unicons/unicons.dart';
 
 class HomeUI extends StatelessWidget {
@@ -16,38 +19,40 @@ class HomeUI extends StatelessWidget {
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) => Scaffold(
-        body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          children: <Widget>[
-            IconButton(
-              onPressed: () {
-                Get.bottomSheet(
-                  _bottomSheet(),
-                  backgroundColor: Get.theme.scaffoldBackgroundColor,
-                );
-              },
-              icon: const Icon(Icons.plus_one),
-            ),
-            const SizedBox(height: 35),
-            Obx(
-              () => VitalChart(
-                data: controller.hr.toList(),
-                color: Colors.red[800] ?? Colors.red,
-                icon: UniconsLine.heartbeat,
+        body: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            children: <Widget>[
+              IconButton(
+                onPressed: () {
+                  Get.bottomSheet(
+                    _bottomSheet(),
+                    backgroundColor: Get.theme.scaffoldBackgroundColor,
+                  );
+                },
+                icon: const Icon(Icons.plus_one),
               ),
-            ),
-            const SizedBox(height: 35),
-            Obx(
-              () => VitalChart(
-                data: controller.spo2.toList(),
-                color: Colors.blueAccent[800] ?? Colors.blue,
-                icon: UniconsLine.raindrops,
-                rtl: true,
+              const SizedBox(height: 35),
+              Obx(
+                () => VitalChart(
+                  data: controller.hr.toList(),
+                  color: Colors.red[800] ?? Colors.red,
+                  icon: UniconsLine.heartbeat,
+                ),
               ),
-            ),
-            const SizedBox(height: 35),
-            _featuresList(),
-          ],
+              const SizedBox(height: 35),
+              Obx(
+                () => VitalChart(
+                  data: controller.spo2.toList(),
+                  color: Colors.blueAccent[800] ?? Colors.blue,
+                  icon: UniconsLine.raindrops,
+                  rtl: true,
+                ),
+              ),
+              const SizedBox(height: 35),
+              _featuresList(),
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -89,6 +94,33 @@ class HomeUI extends StatelessWidget {
               Get.toNamed('/tabbar/home/bluetooth_search');
             },
           ),
+        ListTile(
+          leading: const Icon(
+            Icons.watch,
+          ),
+          title: const Text('Google Fit'),
+          onTap: () async {
+            await Permission.activityRecognition.request();
+            final HealthFactory health = HealthFactory();
+
+            final bool requested =
+                await health.requestAuthorization([HealthDataType.HEART_RATE]);
+            final now = DateTime.now();
+            final types = [
+              HealthDataType.STEPS,
+              HealthDataType.WEIGHT,
+              HealthDataType.HEIGHT,
+              HealthDataType.BLOOD_GLUCOSE,
+            ];
+            final List<HealthDataPoint> healthData =
+                await health.getHealthDataFromTypes(
+              now.subtract(const Duration(days: 1)),
+              now,
+              types,
+            );
+            Logger().e(healthData.toString());
+          },
+        )
       ],
     );
   }

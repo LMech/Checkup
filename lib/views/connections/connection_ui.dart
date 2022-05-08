@@ -15,28 +15,30 @@ class ConnectionUI extends StatelessWidget {
         return Scaffold(
           appBar:
               AppBar(title: Text(controller.argumentData!['name'] as String)),
-          body: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            children: <Widget>[
-              const SizedBox(height: 35),
-              Obx(
-                () => VitalChart(
-                  data: controller.hr.toList(),
-                  color: Colors.red[800] ?? Colors.red,
-                  icon: UniconsLine.heartbeat,
+          body: SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              children: <Widget>[
+                const SizedBox(height: 35),
+                Obx(
+                  () => VitalChart(
+                    data: controller.hr.toList(),
+                    color: Colors.red[800] ?? Colors.red,
+                    icon: UniconsLine.heartbeat,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 35),
-              Obx(
-                () => VitalChart(
-                  data: controller.spo2.toList(),
-                  color: Colors.blueAccent[800] ?? Colors.blue,
-                  icon: UniconsLine.raindrops,
-                  rtl: true,
+                const SizedBox(height: 35),
+                Obx(
+                  () => VitalChart(
+                    data: controller.spo2.toList(),
+                    color: Colors.blueAccent[800] ?? Colors.blue,
+                    icon: UniconsLine.raindrops,
+                    rtl: true,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 35),
-            ],
+                const SizedBox(height: 35),
+              ],
+            ),
           ),
         );
       },
