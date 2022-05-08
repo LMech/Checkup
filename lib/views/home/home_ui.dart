@@ -34,31 +34,29 @@ class HomeUI extends StatelessWidget {
             ),
           ],
         ),
-        body: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            children: <Widget>[
-              const SizedBox(height: 35),
-              Obx(
-                () => VitalChart(
-                  data: controller.hr.toList(),
-                  color: Colors.red[800] ?? Colors.red,
-                  icon: UniconsLine.heartbeat,
-                ),
+        body: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          children: <Widget>[
+            const SizedBox(height: 35),
+            Obx(
+              () => VitalChart(
+                data: controller.hr.toList(),
+                color: Colors.red[800] ?? Colors.red,
+                icon: UniconsLine.heartbeat,
               ),
-              const SizedBox(height: 35),
-              Obx(
-                () => VitalChart(
-                  data: controller.spo2.toList(),
-                  color: Colors.blueAccent[800] ?? Colors.blue,
-                  icon: UniconsLine.raindrops,
-                  rtl: true,
-                ),
+            ),
+            const SizedBox(height: 35),
+            Obx(
+              () => VitalChart(
+                data: controller.spo2.toList(),
+                color: Colors.blueAccent[800] ?? Colors.blue,
+                icon: UniconsLine.raindrops,
+                rtl: true,
               ),
-              const SizedBox(height: 35),
-              _featuresList(),
-            ],
-          ),
+            ),
+            const SizedBox(height: 35),
+            _featuresList(),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
