@@ -12,6 +12,7 @@ import 'package:checkup/views/home/bluetooth_devices_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -67,14 +68,28 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       smartManagement: SmartManagement.onlyBuilder,
       defaultTransition: Transition.fade,
-      theme: ThemeData(primarySwatch: Colors.indigo),
-      darkTheme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.grey[900],
-        primaryColor: Colors.indigoAccent,
-        colorScheme:
-            ColorScheme.fromSwatch().copyWith(primary: Colors.indigoAccent),
+      theme: FlexThemeData.light(
+        scheme: FlexScheme.deepBlue,
+        surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+        blendLevel: 20,
+        appBarOpacity: 0.95,
+        visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        useMaterial3: true,
+        // To use the playground font, add GoogleFonts package and uncomment
+        // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
-      themeMode: ThemeMode.dark,
+      darkTheme: FlexThemeData.dark(
+        scheme: FlexScheme.deepBlue,
+        surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+        blendLevel: 15,
+        appBarStyle: FlexAppBarStyle.background,
+        appBarOpacity: 0.90,
+        visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        useMaterial3: true,
+        // To use the playground font, add GoogleFonts package and uncomment
+        // fontFamily: GoogleFonts.notoSans().fontFamily,
+      ),
+      themeMode: ThemeMode.light,
       initialRoute: '/',
       getPages: AppRoutes.routes,
     );

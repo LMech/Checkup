@@ -192,6 +192,7 @@ class _AnimSearchBarState extends State<AnimSearchBar>
 
                     ///style is of type TextStyle, the default is just a color black
                     decoration: InputDecoration(
+                      fillColor: Get.theme.backgroundColor,
                       contentPadding: const EdgeInsets.only(bottom: 5),
                       isDense: true,
                       floatingLabelBehavior: FloatingLabelBehavior.never,

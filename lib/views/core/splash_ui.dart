@@ -10,7 +10,10 @@ class SplashUI extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.indigo, Colors.indigoAccent],
+            colors: [
+              Color.fromARGB(255, 59, 73, 147),
+              Color.fromARGB(255, 45, 19, 83)
+            ],
           ),
         ),
         child: Stack(
