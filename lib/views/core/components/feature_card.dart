@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class FeatureCard extends StatelessWidget {
   const FeatureCard({
@@ -33,7 +34,7 @@ class FeatureCard extends StatelessWidget {
         width: screenWidth * 0.6,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: color,
+          color: Get.theme.cardColor,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -43,10 +43,9 @@ dependencies:
   get: ^4.6.1
   intl: ^0.17.0
   logger: ^1.1.0
-  path_provider: ^2.0.9
-  scoped_model: ^2.0.0-nullsafety.0
   syncfusion_flutter_charts: ^20.1.52
   unicons: ^2.1.0
+  flex_color_scheme: ^5.0.1
   
 dev_dependencies:
   flutter_test:

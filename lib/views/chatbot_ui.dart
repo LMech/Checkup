@@ -48,28 +48,17 @@ Widget _messagesBar(ChatController controller) {
       Expanded(
         child: Padding(
           padding: const EdgeInsets.all(8),
-          child: Container(
-            decoration: BoxDecoration(
-              /// can add custom color or the color will be white
-              color: Get.theme.bottomAppBarColor,
-              borderRadius: BorderRadius.circular(30.0),
-              boxShadow: const [
-                BoxShadow(
-                  spreadRadius: -10.0,
-                  blurRadius: 10.0,
-                  offset: Offset(0.0, 10.0),
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(4),
-              child: TextField(
-                controller: controller.messagesController,
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
+          child: Padding(
+            padding: const EdgeInsets.all(4),
+            child: TextField(
+              controller: controller.messagesController,
+              style: const TextStyle(
+                fontSize: 14,
+              ),
+              decoration: InputDecoration(
+                fillColor: Get.theme.colorScheme.background,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
             ),
@@ -80,13 +69,6 @@ Widget _messagesBar(ChatController controller) {
         decoration: BoxDecoration(
           color: Get.theme.primaryColor,
           borderRadius: BorderRadius.circular(30.0),
-          boxShadow: const [
-            BoxShadow(
-              spreadRadius: -10.0,
-              blurRadius: 10.0,
-              offset: Offset(0.0, 10.0),
-            ),
-          ],
         ),
         child: Material(
           color: Colors.transparent,

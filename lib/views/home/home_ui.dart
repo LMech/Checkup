@@ -16,10 +16,6 @@ class HomeUI extends StatelessWidget {
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Get.theme.scaffoldBackgroundColor,
-          elevation: 0.0,
-        ),
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           children: <Widget>[
@@ -84,9 +80,8 @@ class HomeUI extends StatelessWidget {
           )
         else
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.bluetooth,
-              color: Get.theme.primaryColor,
             ),
             title: const Text('Connect'),
             onTap: () {
