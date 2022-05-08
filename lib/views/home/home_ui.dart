@@ -1,13 +1,11 @@
 import 'dart:math';
 
+import 'package:checkup/controllers/bluetooth_controller.dart';
 import 'package:checkup/controllers/home_controller.dart';
 import 'package:checkup/views/core/components/feature_card.dart';
 import 'package:checkup/views/core/components/vital_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:get/utils.dart';
+import 'package:get/get.dart';
 import 'package:unicons/unicons.dart';
 
 class HomeUI extends StatelessWidget {
@@ -21,22 +19,19 @@ class HomeUI extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Get.theme.scaffoldBackgroundColor,
           elevation: 0.0,
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.add,
-                size: 40.0,
-                color: Get.theme.iconTheme.color,
-              ),
-              onPressed: () {
-                Get.toNamed('/tabbar/home/connect');
-              },
-            ),
-          ],
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           children: <Widget>[
+            IconButton(
+              onPressed: () {
+                Get.bottomSheet(
+                  _bottomSheet(),
+                  backgroundColor: Get.theme.scaffoldBackgroundColor,
+                );
+              },
+              icon: const Icon(Icons.plus_one),
+            ),
             const SizedBox(height: 35),
             Obx(
               () => VitalChart(
@@ -60,8 +55,6 @@ class HomeUI extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            print('here');
-
             controller.updateAll(
               Random().nextInt(20) + 60,
               Random().nextInt(10) + 90,
@@ -69,6 +62,39 @@ class HomeUI extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Widget _bottomSheet() {
+    final bool isBluetoothRegistered = Get.isRegistered<BluetoothController>();
+    return Wrap(
+      children: [
+        if (isBluetoothRegistered)
+          ListTile(
+            leading: Icon(
+              Icons.bluetooth_disabled,
+              color: Get.theme.errorColor,
+            ),
+            title: const Text('Disconnect'),
+            onTap: () {
+              Get.find<BluetoothController>().endBackgroundTask();
+              Get.delete<BluetoothController>();
+              Get.back();
+            },
+          )
+        else
+          ListTile(
+            leading: Icon(
+              Icons.bluetooth,
+              color: Get.theme.primaryColor,
+            ),
+            title: const Text('Connect'),
+            onTap: () {
+              Get.back();
+              Get.toNamed('/tabbar/home/bluetooth_search');
+            },
+          ),
+      ],
     );
   }
 

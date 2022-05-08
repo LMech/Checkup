@@ -8,7 +8,7 @@ import 'package:checkup/views/connections/connection_ui.dart';
 import 'package:checkup/views/connections/connections_list_ui.dart';
 import 'package:checkup/views/core/splash_ui.dart';
 import 'package:checkup/views/core/tabbar_ui.dart';
-import 'package:checkup/views/home/connect_ui.dart';
+import 'package:checkup/views/home/bluetooth_devices_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -45,8 +45,11 @@ class AppRoutes {
     GetPage(name: '/tabbar/connections_list', page: () => ConnectionsListUI()),
     GetPage(name: '/tabbar/profile', page: () => ProfileUI()),
 
-    // /tabbar/home
-    GetPage(name: '/tabbar/home/connect', page: () => const ConnectUI()),
+    // /tabbar/home/bluetooth_search
+    GetPage(
+      name: '/tabbar/home/bluetooth_search',
+      page: () => BluetoothDevicesUI(),
+    ),
 
     // /tabbar/connections_list/connection
     GetPage(
@@ -62,6 +65,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      smartManagement: SmartManagement.onlyBuilder,
       defaultTransition: Transition.fade,
       theme: ThemeData(primarySwatch: Colors.indigo),
       darkTheme: ThemeData.dark().copyWith(
