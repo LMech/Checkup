@@ -25,21 +25,21 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  Future<void> updateHR(int newHR) async {
-    final DateTime now = DateTime.now();
-    hr.add(VitalModel(measuringTime: now, value: newHR));
+  Future<void> updateHR(int newHR, {DateTime? measuringTime}) async {
+    measuringTime ??= DateTime.now().toLocal();
+    hr.add(VitalModel(measuringTime: measuringTime, value: newHR));
     await _ref
         .child('$_today/hr')
-        .update({now.millisecondsSinceEpoch.toString(): newHR});
+        .update({measuringTime.millisecondsSinceEpoch.toString(): newHR});
   }
 
-  Future<void> updateSpo2(int newSpo2) async {
-    final DateTime now = DateTime.now();
-    spo2.add(VitalModel(measuringTime: now, value: newSpo2));
+  Future<void> updateSpo2(int newSpo2, {DateTime? measuringTime}) async {
+    measuringTime ??= DateTime.now().toLocal();
+    spo2.add(VitalModel(measuringTime: measuringTime, value: newSpo2));
 
     await _ref
         .child('$_today/spo2')
-        .update({now.millisecondsSinceEpoch.toString(): newSpo2});
+        .update({measuringTime.millisecondsSinceEpoch.toString(): newSpo2});
   }
 
   void updateAll(int hr, int spo2) {

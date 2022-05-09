@@ -1,13 +1,12 @@
 import 'dart:math';
 
 import 'package:checkup/controllers/bluetooth_controller.dart';
+import 'package:checkup/controllers/google_fit_controller.dart';
 import 'package:checkup/controllers/home_controller.dart';
 import 'package:checkup/views/core/components/feature_card.dart';
 import 'package:checkup/views/core/components/vital_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:health/health.dart';
-import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:unicons/unicons.dart';
 
@@ -23,21 +22,23 @@ class HomeUI extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             children: <Widget>[
-              IconButton(
-                onPressed: () {
-                  Get.bottomSheet(
-                    _bottomSheet(),
-                    backgroundColor: Get.theme.scaffoldBackgroundColor,
-                  );
-                },
-                icon: const Icon(Icons.plus_one),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  onPressed: () {
+                    Get.bottomSheet(
+                      _bottomSheet(),
+                      backgroundColor: Get.theme.scaffoldBackgroundColor,
+                    );
+                  },
+                  icon: const Icon(UniconsLine.plus),
+                ),
               ),
-              const SizedBox(height: 35),
               Obx(
                 () => VitalChart(
                   data: controller.hr.toList(),
                   color: Colors.red[800] ?? Colors.red,
-                  icon: UniconsLine.heartbeat,
+                  icon: Icons.favorite,
                 ),
               ),
               const SizedBox(height: 35),
@@ -45,7 +46,7 @@ class HomeUI extends StatelessWidget {
                 () => VitalChart(
                   data: controller.spo2.toList(),
                   color: Colors.blueAccent[800] ?? Colors.blue,
-                  icon: UniconsLine.raindrops,
+                  icon: Icons.invert_colors,
                   rtl: true,
                 ),
               ),
@@ -67,19 +68,22 @@ class HomeUI extends StatelessWidget {
   }
 
   Widget _bottomSheet() {
-    final bool isBluetoothRegistered = Get.isRegistered<BluetoothController>();
+    final BluetoothController bluetoothController =
+        Get.find<BluetoothController>();
+    final GoogleFitController googleFitController =
+        Get.find<GoogleFitController>();
     return Wrap(
       children: [
-        if (isBluetoothRegistered)
+        if (bluetoothController.connection != null &&
+            bluetoothController.connection!.isConnected)
           ListTile(
             leading: Icon(
               Icons.bluetooth_disabled,
               color: Get.theme.errorColor,
             ),
-            title: const Text('Disconnect'),
+            title: const Text('Disconnect from Bluetooth'),
             onTap: () {
               Get.find<BluetoothController>().endBackgroundTask();
-              Get.delete<BluetoothController>();
               Get.back();
             },
           )
@@ -88,39 +92,37 @@ class HomeUI extends StatelessWidget {
             leading: const Icon(
               Icons.bluetooth,
             ),
-            title: const Text('Connect'),
+            title: const Text('Connect to Bluetooth'),
             onTap: () {
               Get.back();
               Get.toNamed('/tabbar/home/bluetooth_search');
             },
           ),
-        ListTile(
-          leading: const Icon(
-            Icons.watch,
-          ),
-          title: const Text('Google Fit'),
-          onTap: () async {
-            await Permission.activityRecognition.request();
-            final HealthFactory health = HealthFactory();
-
-            final bool requested =
-                await health.requestAuthorization([HealthDataType.HEART_RATE]);
-            final now = DateTime.now();
-            final types = [
-              HealthDataType.STEPS,
-              HealthDataType.WEIGHT,
-              HealthDataType.HEIGHT,
-              HealthDataType.BLOOD_GLUCOSE,
-            ];
-            final List<HealthDataPoint> healthData =
-                await health.getHealthDataFromTypes(
-              now.subtract(const Duration(days: 1)),
-              now,
-              types,
-            );
-            Logger().e(healthData.toString());
-          },
-        )
+        if (googleFitController.periodicTime == null ||
+            !googleFitController.periodicTime!.isActive)
+          ListTile(
+            leading: const Icon(
+              Icons.watch_outlined,
+            ),
+            title: const Text('Conntect to Google Fit'),
+            onTap: () async {
+              await Permission.activityRecognition.request();
+              googleFitController.startStream();
+              Get.back();
+            },
+          )
+        else
+          ListTile(
+            leading: Icon(
+              Icons.watch_off_outlined,
+              color: Get.theme.errorColor,
+            ),
+            title: const Text('Disconnect from Google Fit'),
+            onTap: () async {
+              googleFitController.endtream();
+              Get.back();
+            },
+          )
       ],
     );
   }

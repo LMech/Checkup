@@ -153,13 +153,14 @@ void loop()  {
   }
   if ((now - previous > 3000) && placed) {
     previous = now;
-    Serial.print(beatAvg);
-    Serial.print("  ");
-    Serial.println(SPO2);
+//    Serial.print(beatAvg);
+//    Serial.print("  ");
+//    Serial.println(SPO2);
     String cBeatAvg = (String)(char)beatAvg;
     String cSPO2 = (String)(char)SPO2;
     String s = cBeatAvg + cSPO2;
-    Serial.println(s);
+//    Serial.println(s);
+    Serial.println(bluetooth.available());
     bluetooth.write(-1);
     bluetooth.print(s);
   }
