@@ -9,7 +9,7 @@ class BluetoothDevicesUI extends StatelessWidget {
   BluetoothDevicesUI({Key? key}) : super(key: key);
 
   final BluetoothController bluetoothSearchController =
-      Get.put(BluetoothController());
+      Get.find<BluetoothController>();
 
   @override
   Widget build(BuildContext context) {

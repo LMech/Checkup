@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:checkup/controllers/home_controller.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -8,6 +9,7 @@ class BluetoothController extends GetxController {
   final FlutterBluetoothSerial _bluetoothSerial =
       FlutterBluetoothSerial.instance;
   BluetoothConnection? connection;
+  final HomeController homeController = Get.find<HomeController>();
 
   Future<List<BluetoothDevice>> getBondedDeviceList() async {
     final List<BluetoothDevice> bodedDevices =
@@ -31,6 +33,10 @@ class BluetoothController extends GetxController {
   void stream() {
     return connection!.input!.listen((event) {
       Logger().e(event.toString());
+      final List<int> packet = event.toList();
+      if (packet.length == 2 && packet.first != 255) {
+        homeController.updateAll(packet.first, packet.last);
+      }
     }).onDone(() {
       connection!.close();
     });
