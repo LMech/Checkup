@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "322833193189",
+    "firebase_url": "https://gradprjct2022-bb1c0-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "gradprjct2022-bb1c0",
+    "storage_bucket": "gradprjct2022-bb1c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322833193189:android:7340b815fdb8244355dc0c",
+        "android_client_info": {
+          "package_name": "io.github.lmech.checkup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFRacOZaAWzz-amBkrHA36bQPpGjOjjq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

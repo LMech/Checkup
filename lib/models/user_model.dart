@@ -14,6 +14,7 @@ class UserModel {
     required this.email,
     this.weight = 0,
     required this.photoUrl,
+    required this.fcm,
   });
 
   /// `dart:convert`
@@ -33,6 +34,7 @@ class UserModel {
         email: data['email'] as String,
         weight: data['weight'] as int,
         photoUrl: data['photoUrl'] as String,
+        fcm: data['fcm'] as String,
       );
 
   final Map<String, dynamic> connections;
@@ -44,6 +46,7 @@ class UserModel {
   final String photoUrl;
   final String uid;
   final int? weight;
+  final String fcm;
 
   @override
   bool operator ==(Object other) {
@@ -63,11 +66,12 @@ class UserModel {
       uid.hashCode ^
       email.hashCode ^
       weight.hashCode ^
-      photoUrl.hashCode;
+      photoUrl.hashCode ^
+      fcm.hashCode;
 
   @override
   String toString() {
-    return 'UserModel(name: $name, connections: $connections, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, height: $height, uid: $uid, email: $email, weight: $weight, photoUrl: $photoUrl)';
+    return 'UserModel(name: $name, connections: $connections, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, height: $height, uid: $uid, email: $email, weight: $weight, photoUrl: $photoUrl, fcm: $fcm)';
   }
 
   Map<String, dynamic> toMap() => {
@@ -80,6 +84,7 @@ class UserModel {
         'email': email,
         'weight': weight,
         'photoUrl': photoUrl,
+        'fcm': fcm,
       };
 
   /// `dart:convert`
