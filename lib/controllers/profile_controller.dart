@@ -1,36 +1,10 @@
 import 'package:checkup/controllers/auth_controller.dart';
-import 'package:checkup/models/user_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
-  static ProfileController to = Get.find();
-
-  late TextEditingController dataOfBirthController;
-  late TextEditingController heightController;
-  late TextEditingController phoneNumberController;
-  late TextEditingController weightController;
-
-  final AuthController _authController = AuthController.to;
-  late final DocumentReference<Map<String, dynamic>> _userData;
-
-  @override
-  Future<void> onInit() async {
-    _userData = FirebaseFirestore.instance
-        .doc('/users/${_authController.firebaseUser.value!.uid}');
-    final UserModel data = await _authController.streamFirestoreUser().first;
-    phoneNumberController = TextEditingController(text: data.phoneNumber);
-    heightController = TextEditingController(
-      text: data.height == -1 ? '' : data.height.toString(),
-    );
-    weightController = TextEditingController(
-      text: data.weight == -1 ? '' : data.weight.toString(),
-    );
-    super.onInit();
-  }
-
-  Future<void> updateDB(String field, String newText) async {
-    await _userData.update({field: newText});
-  }
+  static final AuthController authController = AuthController.to;
+  String name = authController.firestoreUser.value!.name;
+  String email = authController.firestoreUser.value!.email;
+  String photoUrl = authController.firestoreUser.value!.photoUrl;
+  Future<void> Function() signout = authController.signOut;
 }

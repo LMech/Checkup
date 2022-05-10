@@ -1,4 +1,3 @@
-import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/profile_controller.dart';
 import 'package:checkup/views/core/components/avatar.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +7,7 @@ import 'package:unicons/unicons.dart';
 
 @immutable
 class ProfileUI extends StatelessWidget {
-  ProfileUI({Key? key}) : super(key: key);
-
-  final AuthController authController = AuthController.to;
+  const ProfileUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +19,13 @@ class ProfileUI extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: ListView(
               children: <Widget>[
-                _profileData(),
+                _profileData(
+                  controller.name,
+                  controller.email,
+                  controller.photoUrl,
+                ),
                 const SizedBox(height: 10),
-                _listView(),
+                _listView(controller.signout),
               ],
             ),
           ),
@@ -33,10 +34,7 @@ class ProfileUI extends StatelessWidget {
     );
   }
 
-  Widget _profileData() {
-    final String userName = authController.firestoreUser.value!.name;
-    final String email = authController.firestoreUser.value!.email;
-
+  Widget _profileData(String name, String email, String photoUrl) {
     return Column(
       children: [
         // TODO: make a white space component
@@ -44,7 +42,7 @@ class ProfileUI extends StatelessWidget {
           height: 8.0,
         ),
         Avatar(
-          authController.firestoreUser.value!.photoUrl,
+          photoUrl,
           radius: 110.0,
           height: 50.0,
           width: 50.0,
@@ -53,7 +51,7 @@ class ProfileUI extends StatelessWidget {
           height: 8.0,
         ),
         Text(
-          userName,
+          name,
           style: const TextStyle(fontSize: 28.0),
         ),
         const SizedBox(height: 8),
@@ -62,36 +60,37 @@ class ProfileUI extends StatelessWidget {
     );
   }
 
-  Widget _listView() {
+  Widget _listView(Future<void> Function() signout) {
     return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Get.theme.backgroundColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            children: [
-              InkWell(
-                child: const ListTile(
-                  leading: Icon(UniconsLine.user_circle),
-                  trailing: Icon(UniconsLine.angle_right),
-                  title: Text('About you'),
+        Material(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Get.theme.backgroundColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const Icon(UniconsLine.user_circle),
+                  trailing: const Icon(UniconsLine.angle_right),
+                  title: const Text('About you'),
+                  onTap: () => Get.toNamed('/tabbar/profile/about_you'),
                 ),
-                onTap: () => Logger().e('here'),
-              ),
-              const InkWell(
-                child: ListTile(
-                  leading: Icon(UniconsLine.sign_alt),
-                  trailing: Icon(UniconsLine.signout),
-                  title: Text('Sign out'),
-                ),
-              )
-            ],
+                ListTile(
+                  leading: const Icon(UniconsLine.sign_alt),
+                  trailing: Icon(
+                    UniconsLine.signout,
+                    color: Get.theme.errorColor,
+                  ),
+                  title: const Text('Sign out'),
+                  onTap: () => signout(),
+                )
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 16.0),
-
         // Medical ID container
         Container(
           decoration: BoxDecoration(
@@ -146,6 +145,7 @@ class ProfileUI extends StatelessWidget {
             ],
           ),
         ),
+        const SizedBox(height: 16),
       ],
     );
   }

@@ -7,8 +7,8 @@ class ConnectionController extends GetxController {
   RxList<VitalModel> hr = <VitalModel>[].obs;
   RxList<VitalModel> spo2 = <VitalModel>[].obs;
 
-  late final String _today;
   late final DatabaseReference _ref;
+  late final String _today;
   late final String _uid;
 
   @override
