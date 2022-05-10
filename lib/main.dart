@@ -1,6 +1,7 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/firebase_options.dart';
 import 'package:checkup/helpers/routes_bindings.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ Future<void> main() async {
   );
   await GetStorage.init();
   Get.put<AuthController>(AuthController());
+
   runApp(const MyApp());
 }
 
@@ -46,6 +48,9 @@ class MyApp extends StatelessWidget {
         // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
       themeMode: ThemeMode.light,
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+      ],
       initialRoute: '/',
       getPages: AppRoutes.routes,
     );

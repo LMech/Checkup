@@ -13,11 +13,11 @@ class GoogleFitController extends GetxController {
 
   Future<void> startStream() async {
     await health.requestAuthorization(types);
-    periodicTime = Timer.periodic(const Duration(seconds: 30), (timer) async {
+    periodicTime = Timer.periodic(const Duration(minutes: 2), (timer) async {
       final now = DateTime.now();
       final List<HealthDataPoint> healthData =
           await health.getHealthDataFromTypes(
-        now.subtract(const Duration(days: 1)),
+        now.subtract(const Duration(minutes: 2)),
         now,
         types,
       );

@@ -48,6 +48,9 @@ dependencies:
   flex_color_scheme: ^5.0.1
   health: ^3.4.4
   permission_handler: ^9.2.0
+  firebase_messaging: ^11.3.0
+  firebase_analytics: ^9.1.7
+  http: ^0.13.4
   
 dev_dependencies:
   flutter_test:

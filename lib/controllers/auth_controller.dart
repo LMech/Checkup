@@ -4,6 +4,7 @@ import 'package:checkup/helpers/gravatar.dart';
 import 'package:checkup/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart' show Logger;
@@ -115,6 +116,8 @@ class AuthController extends GetxController {
           rating: GravatarRating.pg,
           fileExtension: true,
         );
+        final String fcmToken =
+            await FirebaseMessaging.instance.getToken() ?? '';
         //create the new user object
         final UserModel _newUser = UserModel(
           uid: result.user!.uid,
@@ -122,7 +125,9 @@ class AuthController extends GetxController {
           name: nameController.text,
           photoUrl: gravatarUrl,
           dateOfBirth: DateTime.parse(dobController.text),
+          fcm: fcmToken,
         );
+
         //create the user in firestore
         _createUserFirestore(_newUser, result.user!);
         emailController.clear();

@@ -1,12 +1,12 @@
-import 'dart:math';
-
 import 'package:checkup/controllers/bluetooth_controller.dart';
 import 'package:checkup/controllers/google_fit_controller.dart';
 import 'package:checkup/controllers/home_controller.dart';
+import 'package:checkup/services/vitals_change.dart';
 import 'package:checkup/views/core/components/feature_card.dart';
 import 'package:checkup/views/core/components/vital_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:unicons/unicons.dart';
 
@@ -56,11 +56,8 @@ class HomeUI extends StatelessWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            controller.updateAll(
-              Random().nextInt(20) + 60,
-              Random().nextInt(10) + 90,
-            );
+          onPressed: () async {
+            VitalsClassifier.instance.spo2Classifier(89);
           },
         ),
       ),

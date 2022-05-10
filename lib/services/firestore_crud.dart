@@ -42,7 +42,6 @@ class FirestoreOperations {
       await db
           .collection('users/')
           .where('email', isEqualTo: key)
-          .limit(1)
           .get()
           .then((value) {
         userMap = value.docs[0].data();
