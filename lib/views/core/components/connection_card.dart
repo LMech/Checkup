@@ -17,6 +17,7 @@ class ConnectionCard extends StatelessWidget {
     return connectionsController.getConnectionData(connectionEmail);
   }
 
+  // TODO: User the new firestore service to return all the users data at once
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

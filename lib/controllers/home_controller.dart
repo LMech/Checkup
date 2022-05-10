@@ -1,5 +1,6 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/models/vital_model.dart';
+import 'package:checkup/services/vitals_change.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
@@ -7,9 +8,10 @@ class HomeController extends GetxController {
   final AuthController authController = AuthController.to;
   RxList<VitalModel> hr = <VitalModel>[].obs;
   RxList<VitalModel> spo2 = <VitalModel>[].obs;
+  final VitalsClassifier vitalsClassifier = VitalsClassifier.instance;
 
-  late final String _today;
   late final DatabaseReference _ref;
+  late final String _today;
   late final String _uid;
 
   @override
@@ -31,6 +33,7 @@ class HomeController extends GetxController {
     await _ref
         .child('$_today/hr')
         .update({measuringTime.millisecondsSinceEpoch.toString(): newHR});
+    vitalsClassifier.hrClassifier(newHR);
   }
 
   Future<void> updateSpo2(int newSpo2, {DateTime? measuringTime}) async {
@@ -40,6 +43,7 @@ class HomeController extends GetxController {
     await _ref
         .child('$_today/spo2')
         .update({measuringTime.millisecondsSinceEpoch.toString(): newSpo2});
+    vitalsClassifier.spo2Classifier(newSpo2);
   }
 
   void updateAll(int hr, int spo2) {
