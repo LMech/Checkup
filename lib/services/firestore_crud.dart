@@ -41,7 +41,10 @@ class FirestoreOperations {
     try {
       await db
           .collection('users/')
-          .where('email', isEqualTo: key)
+          .where(
+            'email',
+            isEqualTo: key,
+          )
           .get()
           .then((value) {
         userMap = value.docs[0].data();
@@ -50,6 +53,27 @@ class FirestoreOperations {
       Logger().e(e);
     }
     return userMap;
+  }
+
+  Future<List<Map<String, dynamic>>> getDocuments(List<String> keys) async {
+    final List<Map<String, dynamic>> userMapList = <Map<String, dynamic>>[];
+    try {
+      await db
+          .collection('users/')
+          .where(
+            'email',
+            whereIn: keys,
+          )
+          .get()
+          .then((value) {
+        for (final element in value.docs) {
+          userMapList.add(element.data());
+        }
+      });
+    } catch (e) {
+      Logger().e(e);
+    }
+    return userMapList;
   }
 
   Future<void> updateDocumentWithkey(
