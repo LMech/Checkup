@@ -5,20 +5,18 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  final AuthController authController = AuthController.to;
+  static final AuthController authController = AuthController.to;
   RxList<VitalModel> hr = <VitalModel>[].obs;
   RxList<VitalModel> spo2 = <VitalModel>[].obs;
   final VitalsClassifier vitalsClassifier = VitalsClassifier.instance;
 
-  late final DatabaseReference _ref;
+  late final DatabaseReference _ref =
+      FirebaseDatabase.instance.ref('users/$_uid/');
   late final String _today;
-  late final String _uid;
+  final String _uid = authController.firestoreUser.value!.uid;
 
   @override
   Future<void> onInit() async {
-    _uid = authController.firestoreUser.value!.uid;
-    _ref = FirebaseDatabase.instance.ref('users/$_uid/');
-
     final DateTime now = DateTime.now();
     _today = DateTime(now.year, now.month, now.day)
         .millisecondsSinceEpoch

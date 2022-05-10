@@ -10,6 +10,7 @@ import 'package:checkup/views/core/splash_ui.dart';
 import 'package:checkup/views/core/tabbar_ui.dart';
 import 'package:checkup/views/home/bluetooth_devices_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
+import 'package:checkup/views/profile/about_you_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:get/get.dart';
 
@@ -49,6 +50,12 @@ class AppRoutes {
     GetPage(
       name: '/tabbar/connections_list/connection',
       page: () => const ConnectionUI(),
+    ),
+
+    // /tabbar/profile/about_you
+    GetPage(
+      name: '/tabbar/profile/about_you',
+      page: () => const AbouYouUI(),
     ),
   ];
 }

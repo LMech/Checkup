@@ -5,21 +5,19 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 class ConnectionsListController extends GetxController {
-  final AuthController authController = AuthController.to;
+  static final AuthController authController = AuthController.to;
   RxSet<String> userConnections = <String>{}.obs;
   RxSet<String> userRequests = <String>{}.obs;
 
   FirestoreOperations firestoreOperations = FirestoreOperations.instance;
 
-  late String _userEmail;
-  late String _userId;
+  final String _userEmail = authController.firestoreUser.value!.email;
+  final String _userId = authController.firestoreUser.value!.uid;
   late Map<String, dynamic> _connectionsList;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    _userEmail = authController.firestoreUser.value!.email;
-    _userId = authController.firestoreUser.value!.uid;
     final docRef = firestoreOperations.db.collection("users").doc(_userId);
     docRef.snapshots().listen(
       (event) {

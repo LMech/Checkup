@@ -5,20 +5,17 @@ import 'package:checkup/services/firestore_crud.dart';
 import 'package:checkup/services/push_notification_servicice.dart';
 
 class VitalsClassifier {
-  VitalsClassifier._internal() {
-    _name = authController.firestoreUser.value!.name;
-    _fcm = authController.firestoreUser.value!.fcm;
-  }
+  VitalsClassifier._internal();
 
   static final VitalsClassifier instance = VitalsClassifier._internal();
 
-  final AuthController authController = AuthController.to;
+  static final AuthController authController = AuthController.to;
   final FirestoreOperations firestoreOperations = FirestoreOperations.instance;
   final NotificationProvider notificationProvider =
       NotificationProvider.instance;
 
-  late String _fcm;
-  late String _name;
+  final String _fcm = authController.firestoreUser.value!.fcm;
+  final String _name = authController.firestoreUser.value!.name;
 
   Future<void> spo2Classifier(int value) async {
     final List<String> fcmList = await _getFcm();
