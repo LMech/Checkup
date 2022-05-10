@@ -1,9 +1,10 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/profile_controller.dart';
-import 'package:checkup/views/core/components/list_tile_with_icon.dart';
-import 'package:checkup/views/profile/about_user_ui.dart';
+import 'package:checkup/views/core/components/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
+import 'package:unicons/unicons.dart';
 
 @immutable
 class ProfileUI extends StatelessWidget {
@@ -18,8 +19,8 @@ class ProfileUI extends StatelessWidget {
       builder: (controller) => Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: ListView(
               children: <Widget>[
                 _profileData(),
                 const SizedBox(height: 10),
@@ -38,43 +39,114 @@ class ProfileUI extends StatelessWidget {
 
     return Column(
       children: [
-        const SizedBox(height: 10),
-        const SizedBox(height: 10),
+        // TODO: make a white space component
+        const SizedBox(
+          height: 8.0,
+        ),
+        Avatar(
+          authController.firestoreUser.value!.photoUrl,
+          radius: 110.0,
+          height: 50.0,
+          width: 50.0,
+        ),
+        const SizedBox(
+          height: 8.0,
+        ),
         Text(
           userName,
           style: const TextStyle(fontSize: 28.0),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 8),
         Text(email),
       ],
     );
   }
 
   Widget _listView() {
-    return Expanded(
-      child: ListView(
-        children: [
-          ListTileWithIcon(
-            title: "About Me",
-            icon: Icons.arrow_forward_ios_outlined,
-            size: 20.0,
-            onTap: () => Get.to(() => const AboutUserUI()),
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Get.theme.backgroundColor,
+            borderRadius: BorderRadius.circular(10),
           ),
-          ListTileWithIcon(
-            title: "Medical ID",
-            icon: Icons.arrow_forward_ios_outlined,
-            size: 20.0,
-            onTap: () => Get.to(() => const AboutUserUI()),
+          child: Column(
+            children: [
+              InkWell(
+                child: const ListTile(
+                  leading: Icon(UniconsLine.user_circle),
+                  trailing: Icon(UniconsLine.angle_right),
+                  title: Text('About you'),
+                ),
+                onTap: () => Logger().e('here'),
+              ),
+              const InkWell(
+                child: ListTile(
+                  leading: Icon(UniconsLine.sign_alt),
+                  trailing: Icon(UniconsLine.signout),
+                  title: Text('Sign out'),
+                ),
+              )
+            ],
           ),
-          ListTileWithIcon(
-            title: "Sign Out",
-            color: const Color.fromARGB(71, 232, 88, 88),
-            icon: Icons.logout_sharp,
-            size: 20.0,
-            onTap: () => AuthController.to.signOut(),
+        ),
+        const SizedBox(height: 16.0),
+
+        // Medical ID container
+        Container(
+          decoration: BoxDecoration(
+            color: Get.theme.backgroundColor,
+            borderRadius: BorderRadius.circular(10),
           ),
-        ],
-      ),
+          child: Column(
+            children: [
+              InkWell(
+                child: const ListTile(
+                  leading: Icon(UniconsLine.head_side_cough),
+                  trailing: Icon(UniconsLine.angle_right),
+                  title: Text('Allergies'),
+                ),
+                onTap: () => Logger().e('here'),
+              ),
+              const InkWell(
+                child: ListTile(
+                  leading: Icon(UniconsLine.capsule),
+                  trailing: Icon(UniconsLine.angle_right),
+                  title: Text('Medcine'),
+                ),
+              ),
+              const InkWell(
+                child: ListTile(
+                  leading: Icon(UniconsLine.coronavirus),
+                  trailing: Icon(UniconsLine.angle_right),
+                  title: Text('Diseases'),
+                ),
+              ),
+              const InkWell(
+                child: ListTile(
+                  leading: Icon(UniconsLine.syringe),
+                  trailing: Icon(UniconsLine.angle_right),
+                  title: Text('Vaccine'),
+                ),
+              ),
+              const InkWell(
+                child: ListTile(
+                  leading: Icon(UniconsLine.user_md),
+                  trailing: Icon(UniconsLine.angle_right),
+                  title: Text('Physician'),
+                ),
+              ),
+              const InkWell(
+                child: ListTile(
+                  leading: Icon(UniconsLine.wheelchair_alt),
+                  trailing: Icon(UniconsLine.angle_right),
+                  title: Text('Surgery'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
