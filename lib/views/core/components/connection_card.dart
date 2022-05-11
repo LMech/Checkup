@@ -2,6 +2,7 @@ import 'package:checkup/controllers/connections_list_controller.dart';
 import 'package:checkup/views/core/components/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unicons/unicons.dart';
 
 class ConnectionCard extends StatelessWidget {
   ConnectionCard({
@@ -70,16 +71,22 @@ class ConnectionCard extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     if (isFriend)
-                                      TextButton(
+                                      TextButton.icon(
                                         onPressed: () {
                                           connectionsController
                                               .removeConnection(
                                             snapshot.data!['email'] as String,
                                           );
                                         },
-                                        child: const Text(
+                                        label: Text(
                                           'Delete',
-                                          style: TextStyle(color: Colors.red),
+                                          style: TextStyle(
+                                            color: Get.theme.errorColor,
+                                          ),
+                                        ),
+                                        icon: Icon(
+                                          UniconsLine.trash,
+                                          color: Get.theme.errorColor,
                                         ),
                                       )
                                     else
