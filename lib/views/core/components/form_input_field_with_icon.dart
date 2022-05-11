@@ -15,6 +15,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
     this.onChanged,
     this.onSaved,
     this.onEditdingComplete,
+    this.edgeInsets,
   }) : super(key: key);
 
   final String? Function(String?)? validator;
@@ -29,25 +30,29 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final int? maxLines;
   final int minLines;
   final bool obscureText;
+  final EdgeInsets? edgeInsets;
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        filled: true,
-        prefixIcon: Icon(iconPrefix),
-        labelText: labelText,
+    return Form(
+      child: TextFormField(
+        decoration: InputDecoration(
+          filled: true,
+          prefixIcon: Icon(iconPrefix),
+          labelText: labelText,
+          contentPadding: edgeInsets,
+        ),
+        controller: controller,
+        onTap: onTap,
+        onSaved: onSaved,
+        onChanged: onChanged,
+        onEditingComplete: onEditdingComplete,
+        keyboardType: keyboardType,
+        obscureText: obscureText,
+        maxLines: maxLines,
+        minLines: minLines,
+        validator: validator,
       ),
-      controller: controller,
-      onTap: onTap,
-      onSaved: onSaved,
-      onChanged: onChanged,
-      onEditingComplete: onEditdingComplete,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      maxLines: maxLines,
-      minLines: minLines,
-      validator: validator,
     );
   }
 }

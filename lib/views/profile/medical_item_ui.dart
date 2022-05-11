@@ -58,6 +58,11 @@ class MedicalItemUI extends StatelessWidget {
               ),
             ),
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () =>
+                Get.toNamed('/tabbar/profile/medical_item/add_item'),
+            child: const Icon(UniconsLine.plus),
+          ),
         );
       },
     );

@@ -11,6 +11,7 @@ import 'package:checkup/views/core/tabbar_ui.dart';
 import 'package:checkup/views/home/bluetooth_devices_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/about_you_ui.dart';
+import 'package:checkup/views/profile/add_item_ui.dart';
 import 'package:checkup/views/profile/medical_item_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:get/get.dart';
@@ -59,10 +60,16 @@ class AppRoutes {
       page: () => const AbouYouUI(),
     ),
 
-    // /tabbar/profile/about_you
+    // /tabbar/profile/medical_item
     GetPage(
       name: '/tabbar/profile/medical_item',
       page: () => const MedicalItemUI(),
+    ),
+
+    // /tabbar/profile/medical_item/add_item
+    GetPage(
+      name: '/tabbar/profile/medical_item/add_item',
+      page: () => AddItemUI(),
     ),
   ];
 }

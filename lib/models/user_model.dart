@@ -20,6 +20,10 @@ class UserModel {
     this.address = '',
     this.allergies = const <dynamic>[],
     this.medicine = const <dynamic>[],
+    this.diseases = const <dynamic>[],
+    this.vaccine = const <dynamic>[],
+    this.physician = const <dynamic>[],
+    this.surgery = const <dynamic>[],
   });
 
   /// `dart:convert`
@@ -45,6 +49,10 @@ class UserModel {
         address: data['address'] as String,
         allergies: data['allergies'] as List<dynamic>,
         medicine: data['medicine'] as List<dynamic>,
+        diseases: data['diseases'] as List<dynamic>,
+        vaccine: data['vaccine'] as List<dynamic>,
+        physician: data['physician'] as List<dynamic>,
+        surgery: data['surgery'] as List<dynamic>,
       );
 
   final Map<String, dynamic> connections;
@@ -62,6 +70,10 @@ class UserModel {
   final String address;
   final List<dynamic> allergies;
   final List<dynamic> medicine;
+  final List<dynamic> diseases;
+  final List<dynamic> vaccine;
+  final List<dynamic> physician;
+  final List<dynamic> surgery;
 
   @override
   bool operator ==(Object other) {
@@ -87,7 +99,11 @@ class UserModel {
       bloodType.hashCode ^
       address.hashCode ^
       allergies.hashCode ^
-      medicine.hashCode;
+      medicine.hashCode ^
+      diseases.hashCode ^
+      vaccine.hashCode ^
+      physician.hashCode ^
+      surgery.hashCode;
 
   @override
   String toString() {
@@ -110,6 +126,10 @@ class UserModel {
         'address': address,
         'allergies': allergies,
         'medicine': medicine,
+        'diseases': diseases,
+        'vaccine': vaccine,
+        'physician': physician,
+        'surgery': surgery,
       };
 
   /// `dart:convert`
