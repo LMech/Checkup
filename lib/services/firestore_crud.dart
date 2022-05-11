@@ -1,4 +1,3 @@
-import 'package:checkup/controllers/auth_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart' show Logger;
@@ -8,9 +7,7 @@ class FirestoreOperations {
 
   static final FirestoreOperations instance = FirestoreOperations._internal();
 
-  final AuthController authController = AuthController.to;
   FirebaseFirestore db = FirebaseFirestore.instance;
-  late String userEmail;
 
   // Check if the document exist in users using a email
   Future<bool> checkExist(String key) async {

@@ -1,19 +1,20 @@
 import 'package:checkup/controllers/auth_controller.dart';
+import 'package:checkup/models/user_model.dart';
 import 'package:checkup/services/firestore_crud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 class ConnectionsListController extends GetxController {
-  static final AuthController authController = AuthController.to;
+  static final UserModel userData = AuthController.to.firestoreUser.value!;
+
+  FirestoreOperations firestoreOperations = FirestoreOperations.instance;
   RxSet<String> userConnections = <String>{}.obs;
   RxSet<String> userRequests = <String>{}.obs;
 
-  FirestoreOperations firestoreOperations = FirestoreOperations.instance;
-
-  final String _userEmail = authController.firestoreUser.value!.email;
-  final String _userId = authController.firestoreUser.value!.uid;
   late Map<String, dynamic> _connectionsList;
+  final String _userEmail = userData.email;
+  final String _userId = userData.uid;
 
   @override
   Future<void> onInit() async {
@@ -42,19 +43,6 @@ class ConnectionsListController extends GetxController {
       },
     );
     _updateConnections();
-  }
-
-  void _updateConnections() {
-    _connectionsList = authController.firestoreUser.value!.connections;
-    userConnections.clear();
-    userRequests.clear();
-    for (final MapEntry<String, dynamic> entry in _connectionsList.entries) {
-      if (entry.value == true) {
-        userConnections.add(entry.key);
-      } else {
-        userRequests.add(entry.key);
-      }
-    }
   }
 
   Future<Map<String, dynamic>> getConnectionData(
@@ -88,6 +76,19 @@ class ConnectionsListController extends GetxController {
           'connections': {_userEmail: false}
         },
       );
+    }
+  }
+
+  void _updateConnections() {
+    _connectionsList = userData.connections;
+    userConnections.clear();
+    userRequests.clear();
+    for (final MapEntry<String, dynamic> entry in _connectionsList.entries) {
+      if (entry.value == true) {
+        userConnections.add(entry.key);
+      } else {
+        userRequests.add(entry.key);
+      }
     }
   }
 }

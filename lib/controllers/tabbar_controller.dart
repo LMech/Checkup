@@ -1,4 +1,5 @@
 import 'package:checkup/controllers/auth_controller.dart';
+import 'package:checkup/models/user_model.dart';
 import 'package:checkup/services/firestore_crud.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -6,16 +7,17 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 class TabbarController extends GetxController {
+  static final UserModel userData = AuthController.to.firestoreUser.value!;
+
   RxInt tabIndex = 0.obs;
-  AuthController authController = AuthController.to;
 
   @override
   Future<void> onInit() async {
     final String fcmToken = await FirebaseMessaging.instance.getToken() ?? '';
-    if (fcmToken != authController.firestoreUser.value!.fcm && fcmToken != '') {
+    if (fcmToken != userData.fcm && fcmToken != '') {
       FirestoreOperations.instance.updateDocumentWithkey(
-        authController.firestoreUser.value!.email,
-        {'fcm': authController.firestoreUser.value!.fcm},
+        userData.email,
+        {'fcm': userData.fcm},
       );
     }
     FirebaseMessaging.instance.getInitialMessage();

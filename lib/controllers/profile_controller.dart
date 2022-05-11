@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
   static final AuthController authController = AuthController.to;
-  String name = authController.firestoreUser.value!.name;
+
   String email = authController.firestoreUser.value!.email;
+  String name = authController.firestoreUser.value!.name;
   String photoUrl = authController.firestoreUser.value!.photoUrl;
   Future<void> Function() signout = authController.signOut;
 }

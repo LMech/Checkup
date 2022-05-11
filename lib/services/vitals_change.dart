@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:checkup/controllers/auth_controller.dart';
+import 'package:checkup/models/user_model.dart';
 import 'package:checkup/services/firestore_crud.dart';
 import 'package:checkup/services/push_notification_servicice.dart';
 
@@ -8,14 +9,14 @@ class VitalsClassifier {
   VitalsClassifier._internal();
 
   static final VitalsClassifier instance = VitalsClassifier._internal();
+  static final UserModel userData = AuthController.to.firestoreUser.value!;
 
-  static final AuthController authController = AuthController.to;
   final FirestoreOperations firestoreOperations = FirestoreOperations.instance;
   final NotificationProvider notificationProvider =
       NotificationProvider.instance;
 
-  final String _fcm = authController.firestoreUser.value!.fcm;
-  final String _name = authController.firestoreUser.value!.name;
+  final String _fcm = userData.fcm;
+  final String _name = userData.name;
 
   Future<void> spo2Classifier(int value) async {
     final List<String> fcmList = await _getFcm();
@@ -62,8 +63,7 @@ class VitalsClassifier {
 
   Future<List<String>> _getFcm() async {
     final List<String> connectionList = <String>[];
-    final Map<String, dynamic> connectionsMap =
-        authController.firestoreUser.value!.connections;
+    final Map<String, dynamic> connectionsMap = userData.connections;
     for (final MapEntry<String, dynamic> connection in connectionsMap.entries) {
       if (connection.value == true) {
         connectionList.add(connection.key);

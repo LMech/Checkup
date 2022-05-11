@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
         scheme: FlexScheme.deepBlue,
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 20,
-        appBarOpacity: 0.95,
+        appBarStyle: FlexAppBarStyle.material,
+        appBarOpacity: 0,
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
         useMaterial3: true,
         // To use the playground font, add GoogleFonts package and uncomment

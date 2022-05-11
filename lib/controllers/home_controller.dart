@@ -1,19 +1,22 @@
 import 'package:checkup/controllers/auth_controller.dart';
+import 'package:checkup/models/user_model.dart';
 import 'package:checkup/models/vital_model.dart';
 import 'package:checkup/services/vitals_change.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  static final AuthController authController = AuthController.to;
+  static final UserModel userData = AuthController.to.firestoreUser.value!;
+
   RxList<VitalModel> hr = <VitalModel>[].obs;
   RxList<VitalModel> spo2 = <VitalModel>[].obs;
   final VitalsClassifier vitalsClassifier = VitalsClassifier.instance;
 
   late final DatabaseReference _ref =
       FirebaseDatabase.instance.ref('users/$_uid/');
+
   late final String _today;
-  final String _uid = authController.firestoreUser.value!.uid;
+  final String _uid = userData.uid;
 
   @override
   Future<void> onInit() async {

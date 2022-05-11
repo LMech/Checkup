@@ -15,6 +15,9 @@ class UserModel {
     this.weight = 0,
     required this.photoUrl,
     required this.fcm,
+    this.gender = '',
+    this.bloodType = '',
+    this.address = '',
   });
 
   /// `dart:convert`
@@ -35,6 +38,9 @@ class UserModel {
         weight: data['weight'] as int,
         photoUrl: data['photoUrl'] as String,
         fcm: data['fcm'] as String,
+        gender: data['gender'] as String,
+        bloodType: data['bloodType'] as String,
+        address: data['address'] as String,
       );
 
   final Map<String, dynamic> connections;
@@ -45,8 +51,11 @@ class UserModel {
   final String phoneNumber;
   final String photoUrl;
   final String uid;
-  final int? weight;
+  final int weight;
   final String fcm;
+  final String gender;
+  final String bloodType;
+  final String address;
 
   @override
   bool operator ==(Object other) {
@@ -67,11 +76,14 @@ class UserModel {
       email.hashCode ^
       weight.hashCode ^
       photoUrl.hashCode ^
-      fcm.hashCode;
+      fcm.hashCode ^
+      gender.hashCode ^
+      bloodType.hashCode ^
+      address.hashCode;
 
   @override
   String toString() {
-    return 'UserModel(name: $name, connections: $connections, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, height: $height, uid: $uid, email: $email, weight: $weight, photoUrl: $photoUrl, fcm: $fcm)';
+    return 'UserModel(name: $name, connections: $connections, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, height: $height, uid: $uid, email: $email, weight: $weight, photoUrl: $photoUrl, fcm: $fcm, gender: $gender, bloodType: $bloodType, address: $address)';
   }
 
   Map<String, dynamic> toMap() => {
@@ -85,6 +97,9 @@ class UserModel {
         'weight': weight,
         'photoUrl': photoUrl,
         'fcm': fcm,
+        'gender': gender,
+        'bloodType': bloodType,
+        'address': address,
       };
 
   /// `dart:convert`
