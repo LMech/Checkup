@@ -1,3 +1,4 @@
+import 'package:checkup/controllers/auth_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart' show Logger;
@@ -80,6 +81,25 @@ class FirestoreOperations {
     try {
       await db.collection('users/').where('email', isEqualTo: key).get().then(
             (value) => value.docs[0].reference.set(
+              newValue,
+              SetOptions(merge: true),
+            ),
+          );
+    } catch (e) {
+      Logger().e(e);
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
+  Future<void> updateDocument(
+    Map<String, Object?> newValue,
+  ) async {
+    try {
+      await db
+          .doc('users/${AuthController.to.firestoreUser.value!.uid}')
+          .get()
+          .then(
+            (value) => value.reference.set(
               newValue,
               SetOptions(merge: true),
             ),

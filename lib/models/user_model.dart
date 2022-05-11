@@ -18,6 +18,8 @@ class UserModel {
     this.gender = '',
     this.bloodType = '',
     this.address = '',
+    this.allergies = const <dynamic>[],
+    this.medicine = const <dynamic>[],
   });
 
   /// `dart:convert`
@@ -41,6 +43,8 @@ class UserModel {
         gender: data['gender'] as String,
         bloodType: data['bloodType'] as String,
         address: data['address'] as String,
+        allergies: data['allergies'] as List<dynamic>,
+        medicine: data['medicine'] as List<dynamic>,
       );
 
   final Map<String, dynamic> connections;
@@ -56,6 +60,8 @@ class UserModel {
   final String gender;
   final String bloodType;
   final String address;
+  final List<dynamic> allergies;
+  final List<dynamic> medicine;
 
   @override
   bool operator ==(Object other) {
@@ -79,11 +85,13 @@ class UserModel {
       fcm.hashCode ^
       gender.hashCode ^
       bloodType.hashCode ^
-      address.hashCode;
+      address.hashCode ^
+      allergies.hashCode ^
+      medicine.hashCode;
 
   @override
   String toString() {
-    return 'UserModel(name: $name, connections: $connections, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, height: $height, uid: $uid, email: $email, weight: $weight, photoUrl: $photoUrl, fcm: $fcm, gender: $gender, bloodType: $bloodType, address: $address)';
+    return 'UserModel(name: $name, connections: $connections, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, height: $height, uid: $uid, email: $email, weight: $weight, photoUrl: $photoUrl, fcm: $fcm, gender: $gender, bloodType: $bloodType, address: $address, allergies: $allergies, medicine: $medicine)';
   }
 
   Map<String, dynamic> toMap() => {
@@ -100,6 +108,8 @@ class UserModel {
         'gender': gender,
         'bloodType': bloodType,
         'address': address,
+        'allergies': allergies,
+        'medicine': medicine,
       };
 
   /// `dart:convert`

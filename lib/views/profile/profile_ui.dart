@@ -2,7 +2,6 @@ import 'package:checkup/controllers/profile_controller.dart';
 import 'package:checkup/views/core/components/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:unicons/unicons.dart';
 
 @immutable
@@ -63,31 +62,29 @@ class ProfileUI extends StatelessWidget {
   Widget _listView(Future<void> Function() signout) {
     return Column(
       children: [
-        Material(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Get.theme.backgroundColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              children: [
-                ListTile(
-                  leading: const Icon(UniconsLine.user_circle),
-                  trailing: const Icon(UniconsLine.angle_right),
-                  title: const Text('About you'),
-                  onTap: () => Get.toNamed('/tabbar/profile/about_you'),
+        Container(
+          decoration: BoxDecoration(
+            color: Get.theme.backgroundColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            children: <ListTile>[
+              ListTile(
+                leading: const Icon(UniconsLine.user_circle),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('About you'),
+                onTap: () => Get.toNamed('/tabbar/profile/about_you'),
+              ),
+              ListTile(
+                leading: const Icon(UniconsLine.sign_alt),
+                trailing: Icon(
+                  UniconsLine.signout,
+                  color: Get.theme.errorColor,
                 ),
-                ListTile(
-                  leading: const Icon(UniconsLine.sign_alt),
-                  trailing: Icon(
-                    UniconsLine.signout,
-                    color: Get.theme.errorColor,
-                  ),
-                  title: const Text('Sign out'),
-                  onTap: () => signout(),
-                )
-              ],
-            ),
+                title: const Text('Sign out'),
+                onTap: () => signout(),
+              )
+            ],
           ),
         ),
         const SizedBox(height: 16.0),
@@ -98,49 +95,40 @@ class ProfileUI extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
-            children: [
-              InkWell(
-                child: const ListTile(
-                  leading: Icon(UniconsLine.head_side_cough),
-                  trailing: Icon(UniconsLine.angle_right),
-                  title: Text('Allergies'),
-                ),
-                onTap: () => Logger().e('here'),
-              ),
-              const InkWell(
-                child: ListTile(
-                  leading: Icon(UniconsLine.capsule),
-                  trailing: Icon(UniconsLine.angle_right),
-                  title: Text('Medcine'),
+            children: <ListTile>[
+              ListTile(
+                leading: const Icon(UniconsLine.head_side_cough),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Allergies'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'allergies',
                 ),
               ),
-              const InkWell(
-                child: ListTile(
-                  leading: Icon(UniconsLine.coronavirus),
-                  trailing: Icon(UniconsLine.angle_right),
-                  title: Text('Diseases'),
-                ),
+              const ListTile(
+                leading: Icon(UniconsLine.capsule),
+                trailing: Icon(UniconsLine.angle_right),
+                title: Text('Medcine'),
               ),
-              const InkWell(
-                child: ListTile(
-                  leading: Icon(UniconsLine.syringe),
-                  trailing: Icon(UniconsLine.angle_right),
-                  title: Text('Vaccine'),
-                ),
+              const ListTile(
+                leading: Icon(UniconsLine.coronavirus),
+                trailing: Icon(UniconsLine.angle_right),
+                title: Text('Diseases'),
               ),
-              const InkWell(
-                child: ListTile(
-                  leading: Icon(UniconsLine.user_md),
-                  trailing: Icon(UniconsLine.angle_right),
-                  title: Text('Physician'),
-                ),
+              const ListTile(
+                leading: Icon(UniconsLine.syringe),
+                trailing: Icon(UniconsLine.angle_right),
+                title: Text('Vaccine'),
               ),
-              const InkWell(
-                child: ListTile(
-                  leading: Icon(UniconsLine.wheelchair_alt),
-                  trailing: Icon(UniconsLine.angle_right),
-                  title: Text('Surgery'),
-                ),
+              const ListTile(
+                leading: Icon(UniconsLine.user_md),
+                trailing: Icon(UniconsLine.angle_right),
+                title: Text('Physician'),
+              ),
+              const ListTile(
+                leading: Icon(UniconsLine.wheelchair_alt),
+                trailing: Icon(UniconsLine.angle_right),
+                title: Text('Surgery'),
               ),
             ],
           ),

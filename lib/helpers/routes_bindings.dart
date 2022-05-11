@@ -11,6 +11,7 @@ import 'package:checkup/views/core/tabbar_ui.dart';
 import 'package:checkup/views/home/bluetooth_devices_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/about_you_ui.dart';
+import 'package:checkup/views/profile/medical_item_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
 import 'package:get/get.dart';
 
@@ -38,7 +39,7 @@ class AppRoutes {
     ),
     GetPage(name: '/tabbar/chat', page: () => const ChatbotUI()),
     GetPage(name: '/tabbar/connections_list', page: () => ConnectionsListUI()),
-    GetPage(name: '/tabbar/profile', page: () => ProfileUI()),
+    GetPage(name: '/tabbar/profile', page: () => const ProfileUI()),
 
     // /tabbar/home/bluetooth_search
     GetPage(
@@ -56,6 +57,12 @@ class AppRoutes {
     GetPage(
       name: '/tabbar/profile/about_you',
       page: () => const AbouYouUI(),
+    ),
+
+    // /tabbar/profile/about_you
+    GetPage(
+      name: '/tabbar/profile/medical_item',
+      page: () => const MedicalItemUI(),
     ),
   ];
 }
