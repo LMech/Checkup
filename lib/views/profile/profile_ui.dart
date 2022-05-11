@@ -105,30 +105,50 @@ class ProfileUI extends StatelessWidget {
                   arguments: 'allergies',
                 ),
               ),
-              const ListTile(
-                leading: Icon(UniconsLine.capsule),
-                trailing: Icon(UniconsLine.angle_right),
-                title: Text('Medcine'),
+              ListTile(
+                leading: const Icon(UniconsLine.capsule),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Medicine'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'medicine',
+                ),
               ),
-              const ListTile(
-                leading: Icon(UniconsLine.coronavirus),
-                trailing: Icon(UniconsLine.angle_right),
-                title: Text('Diseases'),
+              ListTile(
+                leading: const Icon(UniconsLine.coronavirus),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Diseases'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'diseases',
+                ),
               ),
-              const ListTile(
-                leading: Icon(UniconsLine.syringe),
-                trailing: Icon(UniconsLine.angle_right),
-                title: Text('Vaccine'),
+              ListTile(
+                leading: const Icon(UniconsLine.syringe),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Vaccine'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'vaccine',
+                ),
               ),
-              const ListTile(
-                leading: Icon(UniconsLine.user_md),
-                trailing: Icon(UniconsLine.angle_right),
-                title: Text('Physician'),
+              ListTile(
+                leading: const Icon(UniconsLine.user_md),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Physician'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'physician',
+                ),
               ),
-              const ListTile(
-                leading: Icon(UniconsLine.wheelchair_alt),
-                trailing: Icon(UniconsLine.angle_right),
-                title: Text('Surgery'),
+              ListTile(
+                leading: const Icon(UniconsLine.wheelchair_alt),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Surgery'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'surgery',
+                ),
               ),
             ],
           ),
