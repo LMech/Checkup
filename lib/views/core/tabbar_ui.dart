@@ -22,7 +22,7 @@ class TabbarUI extends StatelessWidget {
               const HomeUI(),
               const ChatbotUI(),
               ConnectionsListUI(),
-              ProfileUI(),
+              const ProfileUI(),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(

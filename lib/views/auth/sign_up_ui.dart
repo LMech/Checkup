@@ -42,7 +42,7 @@ class SignUpUI extends StatelessWidget {
                           authController.nameController.text = value!,
                       onEditdingComplete: () {},
                     ),
-                    const SizedBox(height: 48.0),
+                    const SizedBox(height: 8.0),
                     FormInputFieldWithIcon(
                       controller: authController.dobController,
                       iconPrefix: UniconsLine.calendar_alt,
