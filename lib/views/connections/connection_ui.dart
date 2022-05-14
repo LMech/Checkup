@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unicons/unicons.dart';
 
+// TODO: Add all the missing data
 class ConnectionUI extends StatelessWidget {
   const ConnectionUI({Key? key}) : super(key: key);
 

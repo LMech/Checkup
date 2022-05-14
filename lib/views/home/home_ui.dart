@@ -32,6 +32,8 @@ class HomeUI extends StatelessWidget {
                   icon: const Icon(UniconsLine.plus),
                 ),
               ),
+
+              //  TODO: Add the measure symbol
               Obx(
                 () => VitalChart(
                   data: controller.hr.toList(),
@@ -40,6 +42,7 @@ class HomeUI extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 35),
+              // TODO: Redesign the widget
               Obx(
                 () => VitalChart(
                   data: controller.spo2.toList(),
@@ -112,7 +115,7 @@ class HomeUI extends StatelessWidget {
             ),
             title: const Text('Disconnect from Google Fit'),
             onTap: () async {
-              googleFitController.endtream();
+              googleFitController.endStream();
               Get.back();
             },
           )
@@ -154,7 +157,9 @@ class HomeUI extends StatelessWidget {
                 icon: Icons.monitor_heart_outlined,
                 title: 'Camera Oximeter',
                 description: 'Measure important vital using your phone camera',
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed('/tabbar/home/camera_oximeter');
+                },
               ),
               const SizedBox(width: 20),
             ],

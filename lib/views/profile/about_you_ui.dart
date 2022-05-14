@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unicons/unicons.dart';
 
-class AbouYouUI extends StatefulWidget {
-  const AbouYouUI({Key? key}) : super(key: key);
+class AboutYouUI extends StatefulWidget {
+  const AboutYouUI({Key? key}) : super(key: key);
 
   @override
-  State<AbouYouUI> createState() => _AbouYouUIState();
+  State<AboutYouUI> createState() => _AboutYouUIState();
 }
 
-class _AbouYouUIState extends State<AbouYouUI> {
+class _AboutYouUIState extends State<AboutYouUI> {
   String dropdownValue = 'Male';
 
   @override

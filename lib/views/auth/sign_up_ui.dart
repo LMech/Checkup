@@ -43,6 +43,8 @@ class SignUpUI extends StatelessWidget {
                       onEditdingComplete: () {},
                     ),
                     const SizedBox(height: 8.0),
+
+                    // TODO: Add the date time picker
                     FormInputFieldWithIcon(
                       controller: authController.dobController,
                       iconPrefix: UniconsLine.calendar_alt,
