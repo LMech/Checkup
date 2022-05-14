@@ -9,6 +9,7 @@ import 'package:checkup/views/connections/connections_list_ui.dart';
 import 'package:checkup/views/core/splash_ui.dart';
 import 'package:checkup/views/core/tabbar_ui.dart';
 import 'package:checkup/views/home/bluetooth_devices_ui.dart';
+import 'package:checkup/views/home/camera_oximeter_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/about_you_ui.dart';
 import 'package:checkup/views/profile/add_item_ui.dart';
@@ -42,10 +43,16 @@ class AppRoutes {
     GetPage(name: '/tabbar/connections_list', page: () => ConnectionsListUI()),
     GetPage(name: '/tabbar/profile', page: () => const ProfileUI()),
 
-    // /tabbar/home/bluetooth_search
+    // /tabbar/home/
     GetPage(
       name: '/tabbar/home/bluetooth_search',
       page: () => BluetoothDevicesUI(),
+    ),
+
+    // /tabbar/home/
+    GetPage(
+      name: '/tabbar/home/camera_oximeter',
+      page: () => const CameraOximeterUI(),
     ),
 
     // /tabbar/connections_list/connection
@@ -57,7 +64,7 @@ class AppRoutes {
     // /tabbar/profile/about_you
     GetPage(
       name: '/tabbar/profile/about_you',
-      page: () => const AbouYouUI(),
+      page: () => const AboutYouUI(),
     ),
 
     // /tabbar/profile/medical_item

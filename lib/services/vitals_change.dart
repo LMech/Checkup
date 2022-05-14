@@ -7,6 +7,7 @@ import 'package:checkup/services/push_notification_servicice.dart';
 
 class VitalsClassifier {
   VitalsClassifier._internal();
+  // TODO: Change the values
 
   static final VitalsClassifier instance = VitalsClassifier._internal();
   static final UserModel userData = AuthController.to.firestoreUser.value!;

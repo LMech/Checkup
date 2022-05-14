@@ -38,7 +38,7 @@ class GoogleFitController extends GetxController {
     });
   }
 
-  void endtream() {
+  void endStream() {
     periodicTime!.cancel();
     Logger().e(periodicTime!.isActive);
   }
