@@ -29,26 +29,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cloud_firestore: ^3.1.13
+  cloud_firestore: ^3.1.15
   collection: ^1.15.0
   crypto: ^3.0.2
   dialog_flowtter: ^0.3.3
-  firebase_auth: ^3.3.16
-  firebase_core: ^1.15.0
+  firebase_auth: ^3.3.18
+  firebase_core: ^1.17.0
   firebase_database: ^9.0.12
-  firebase: ^9.0.2
   flutter_bluetooth_serial: ^0.4.0
   flutter_svg: ^1.0.3
   get_storage: ^2.0.3
-  get: ^4.6.1
+  get: ^4.6.3
   intl: ^0.17.0
   logger: ^1.1.0
-  syncfusion_flutter_charts: ^20.1.52
+  syncfusion_flutter_charts: ^20.1.56
   unicons: ^2.1.0
   health: ^3.4.4
   permission_handler: ^9.2.0
-  firebase_messaging: ^11.3.0
-  firebase_analytics: ^9.1.7
+  firebase_messaging: ^11.4.0
+  firebase_analytics: ^9.1.8
   http: ^0.13.4
   camera: ^0.9.5
   tflite_flutter: ^0.9.0
