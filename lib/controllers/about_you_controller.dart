@@ -5,7 +5,11 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class AboutYouController extends GetxController {
-  List<DropdownMenuItem<String>> bloodTypeItems = [
+  final TextEditingController addressTextController = TextEditingController(
+    text: AuthController.to.firestoreUser.value!.address,
+  );
+
+  List<DropdownMenuItem<String>> bloodTypeItems = <DropdownMenuItem<String>>[
     const DropdownMenuItem(
       value: '',
       child: Text('Blood Type'),
@@ -20,6 +24,14 @@ class AboutYouController extends GetxController {
     const DropdownMenuItem(value: 'O-', child: Text('O-')),
   ];
 
+  RxString bloodTypeSelected =
+      (AuthController.to.firestoreUser.value!.bloodType).obs;
+
+  Rx<TextEditingController> dobTextController = TextEditingController(
+    text: DateFormat('yMMMMd')
+        .format(AuthController.to.firestoreUser.value!.dateOfBirth),
+  ).obs;
+
   List<DropdownMenuItem<String>> genderItems = [
     const DropdownMenuItem(
       value: '',
@@ -29,17 +41,9 @@ class AboutYouController extends GetxController {
     const DropdownMenuItem(value: 'female', child: Text('Female')),
   ];
 
-  RxString bloodTypeSelected =
-      (AuthController.to.firestoreUser.value!.bloodType).obs;
-  Rx<TextEditingController> dobTextController = TextEditingController(
-    text: DateFormat('yMMMMd')
-        .format(AuthController.to.firestoreUser.value!.dateOfBirth),
-  ).obs;
-  final TextEditingController addressTextController = TextEditingController(
-    text: AuthController.to.firestoreUser.value!.address,
-  );
   final RxString genderSelected =
       (AuthController.to.firestoreUser.value!.gender).obs;
+
   final TextEditingController heightTextController = TextEditingController(
     text: AuthController.to.firestoreUser.value!.height == 0
         ? ''
@@ -59,6 +63,18 @@ class AboutYouController extends GetxController {
         : AuthController.to.firestoreUser.value!.weight.toString(),
   );
 
+  @override
+  void onClose() {
+    weightTextController.dispose();
+    heightTextController.dispose();
+    phoneNubmerTextController.dispose();
+    nameTextController.dispose();
+    addressTextController.dispose();
+    dobTextController.value.dispose();
+
+    super.onClose();
+  }
+
   Future<void> updateValue(String field, dynamic value) async {
     FirestoreOperations.instance.updateDocumentWithkey(
       AuthController.to.firestoreUser.value!.email,
@@ -67,7 +83,9 @@ class AboutYouController extends GetxController {
   }
 
   void updateGender(String newValue) => genderSelected(newValue);
+
   void updateBloodType(String newValue) => bloodTypeSelected(newValue);
+
   void updateDob(DateTime picked) {
     dobTextController(
       TextEditingController(

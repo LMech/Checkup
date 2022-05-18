@@ -26,7 +26,7 @@ class TabbarController extends GetxController {
         AlertDialog(
           title: Text(message.notification!.title!),
           content: Text(message.notification!.body!),
-          actions: [
+          actions: <TextButton>[
             TextButton(onPressed: () => Get.back(), child: const Text('Close'))
           ],
         ),

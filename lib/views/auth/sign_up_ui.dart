@@ -1,4 +1,5 @@
 import 'package:checkup/controllers/auth_controller.dart';
+import 'package:checkup/helpers/datetime_picker.dart';
 import 'package:checkup/helpers/validator.dart';
 import 'package:checkup/views/core/components/form_input_field_with_icon.dart';
 import 'package:checkup/views/core/components/label_button.dart';
@@ -7,6 +8,7 @@ import 'package:checkup/views/core/components/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:unicons/unicons.dart';
 
 class SignUpUI extends StatelessWidget {
@@ -49,11 +51,16 @@ class SignUpUI extends StatelessWidget {
                       controller: authController.dobController,
                       iconPrefix: UniconsLine.calendar_alt,
                       labelText: 'Date of Birth',
-                      validator: Validator().date,
-                      onChanged: (value) => '',
-                      onSaved: (value) =>
-                          authController.nameController.text = value!,
-                      onEditdingComplete: () {},
+                      validator: Validator().notEmpty,
+                      keyboardType: TextInputType.none,
+                      onTap: () async {
+                        final DateTime? picked = await DateTimePicker()
+                            .presentDatePicker(Get.context!);
+                        if (picked != null) {
+                          authController.dobController.text =
+                              DateFormat('yMMMMd').format(picked);
+                        }
+                      },
                     ),
                     const SizedBox(height: 8.0),
                     FormInputFieldWithIcon(

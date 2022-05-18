@@ -7,7 +7,10 @@ import 'package:logger/logger.dart';
 
 class GoogleFitController extends GetxController {
   final HealthFactory health = HealthFactory();
-  final types = [HealthDataType.HEART_RATE, HealthDataType.BLOOD_OXYGEN];
+  final List<HealthDataType> types = <HealthDataType>[
+    HealthDataType.HEART_RATE,
+    HealthDataType.BLOOD_OXYGEN
+  ];
   final HomeController homeController = Get.find<HomeController>();
   Timer? periodicTime;
 

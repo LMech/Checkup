@@ -34,7 +34,7 @@ class CameraOximeterUI extends StatelessWidget {
                       controller.startCamera();
                     },
                     icon: const Icon(UniconsLine.play),
-                    label: const Text('Start measurment'),
+                    label: const Text('Start measurement'),
                   ),
                 )
               ],

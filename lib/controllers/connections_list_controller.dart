@@ -80,7 +80,7 @@ class ConnectionsListController extends GetxController {
   }
 
   void _updateConnections() {
-    _connectionsList = userData.connections;
+    _connectionsList = AuthController.to.firestoreUser.value!.connections;
     userConnections.clear();
     userRequests.clear();
     for (final MapEntry<String, dynamic> entry in _connectionsList.entries) {

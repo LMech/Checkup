@@ -10,93 +10,64 @@ class VitalChart extends StatelessWidget {
     Key? key,
     required this.data,
     required this.color,
-    required this.icon,
-    this.rtl = false,
   }) : super(key: key);
 
   final Color color;
   final List<VitalModel> data;
-  final IconData icon;
   final DateTime now = DateTime.now();
-  final bool rtl;
-
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment:
-                  rtl ? MainAxisAlignment.end : MainAxisAlignment.start,
-              children: <Widget>[
-                Icon(
-                  icon,
-                  size: 60,
-                  color: color,
-                ),
-                Text(
-                  data.isNotEmpty ? data.last.value.toStringAsFixed(0) : '--',
-                  style:
-                      const TextStyle(fontSize: 60, fontFamily: 'Montserrat'),
-                )
-              ],
+    return ExpansionTile(
+      initiallyExpanded: true,
+      title: const Text(''),
+      children: <Widget>[
+        SizedBox(
+          height: 200.0,
+          child: SfCartesianChart(
+            plotAreaBorderWidth: 0.0,
+            primaryXAxis: _getDateTimeAxis(),
+            primaryYAxis: NumericAxis(
+              majorGridLines: const MajorGridLines(width: 0),
+              axisLine: const AxisLine(width: 0.0),
             ),
-            ExpansionTile(
-              title: const Text(''),
-              children: [
-                SizedBox(
-                  height: 200.0,
-                  child: SfCartesianChart(
-                    plotAreaBorderWidth: 0.0,
-                    primaryXAxis: DateTimeAxis(
-                      minimum: _getToday(),
-                      maximum: _getTomorrow(),
-                      majorGridLines: const MajorGridLines(width: 0),
-                      intervalType: DateTimeIntervalType.hours,
-                      desiredIntervals: 2,
-                      interval: 2,
-                      dateFormat: DateFormat.H(),
-                    ),
-                    primaryYAxis: NumericAxis(
-                      majorGridLines: const MajorGridLines(width: 0),
-                      axisLine: const AxisLine(width: 0.0),
-                    ),
-                    series: <ChartSeries<VitalModel, DateTime>>[
-                      SplineAreaSeries<VitalModel, DateTime>(
-                        dataSource: data,
-                        xValueMapper: (VitalModel sales, _) =>
-                            sales.measuringTime,
-                        yValueMapper: (VitalModel sales, _) => sales.value,
-                        splineType: SplineType.cardinal,
-                        borderWidth: 2,
-                        borderColor: color,
-                        onCreateShader: (ShaderDetails details) {
-                          return ui.Gradient.linear(details.rect.topCenter,
-                              details.rect.bottomCenter, <Color>[
-                            color,
-                            Colors.transparent,
-                          ]);
-                        },
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
+            series: <ChartSeries<VitalModel, DateTime>>[
+              SplineAreaSeries<VitalModel, DateTime>(
+                dataSource: data,
+                xValueMapper: (VitalModel sales, _) => sales.measuringTime,
+                yValueMapper: (VitalModel sales, _) => sales.value,
+                splineType: SplineType.cardinal,
+                borderWidth: 2,
+                borderColor: color,
+                onCreateShader: (ShaderDetails details) {
+                  return ui.Gradient.linear(details.rect.topCenter,
+                      details.rect.bottomCenter, <Color>[
+                    color,
+                    Colors.transparent,
+                  ]);
+                },
+              )
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
-  DateTime _getToday() {
-    return DateTime(now.year, now.month, now.day);
-  }
+  DateTime _getToday() => DateTime(now.year, now.month, now.day);
 
   DateTime _getTomorrow() {
     final DateTime today = _getToday();
     return today.add(const Duration(hours: 24));
   }
+
+  DateTimeAxis _getDateTimeAxis() => DateTimeAxis(
+        title: AxisTitle(text: 'Time'),
+        minimum: _getToday(),
+        maximum: _getTomorrow(),
+        majorGridLines: const MajorGridLines(width: 0),
+        intervalType: DateTimeIntervalType.hours,
+        desiredIntervals: 2,
+        interval: 2,
+        dateFormat: DateFormat.H(),
+      );
 }

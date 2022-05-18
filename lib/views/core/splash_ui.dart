@@ -11,14 +11,14 @@ class SplashUI extends StatelessWidget {
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
+              colors: <Color>[
                 Color.fromARGB(255, 59, 73, 147),
                 Color.fromARGB(255, 45, 19, 83)
               ],
             ),
           ),
           child: Stack(
-            children: [
+            children: <Align>[
               Align(
                 alignment: Alignment.topCenter,
                 child: SvgPicture.asset(
@@ -35,7 +35,6 @@ class SplashUI extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontFamily: 'Montserrat',
                     fontSize: 18.0,
                   ),
                 ),

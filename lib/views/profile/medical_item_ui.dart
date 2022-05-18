@@ -30,7 +30,7 @@ class MedicalItemUI extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              controller.elements.value[i] as String,
+                              controller.elements[i] as String,
                               style: const TextStyle(fontSize: 24.0),
                             ),
                             const SizedBox(

@@ -20,7 +20,7 @@ class AddItemUI extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            children: [
+            children: <Widget>[
               FormInputFieldWithIcon(
                 controller: medicalItemController.elementController,
                 iconPrefix: UniconsLine.head_side_cough,
