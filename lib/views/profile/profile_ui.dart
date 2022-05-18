@@ -1,5 +1,6 @@
 import 'package:checkup/controllers/profile_controller.dart';
-import 'package:checkup/views/core/components/avatar.dart';
+import 'package:checkup/helpers/constns.dart';
+import 'package:checkup/views/core/components/profile_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unicons/unicons.dart';
@@ -14,59 +15,28 @@ class ProfileUI extends StatelessWidget {
       init: ProfileController(),
       builder: (controller) => Scaffold(
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: ListView(
-              children: <Widget>[
-                _profileData(
-                  controller.name,
-                  controller.email,
-                  controller.photoUrl,
-                ),
-                const SizedBox(height: 10),
-                _listView(controller.signout),
-              ],
-            ),
+          child: ListView(
+            padding: mediumPadding,
+            children: <Widget>[
+              ProfileHeader(
+                name: controller.name,
+                email: controller.email,
+                photoUrl: controller.photoUrl,
+              ),
+              const SizedBox(height: 10),
+              _listView(controller.signout),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _profileData(String name, String email, String photoUrl) {
-    return Column(
-      children: [
-        // TODO: make a white space component
-        const SizedBox(
-          height: 8.0,
-        ),
-        Avatar(
-          photoUrl,
-          radius: 110.0,
-          height: 50.0,
-          width: 50.0,
-        ),
-        const SizedBox(
-          height: 8.0,
-        ),
-        Text(
-          name,
-          style: const TextStyle(fontSize: 28.0),
-        ),
-        const SizedBox(height: 8),
-        Text(email),
-      ],
-    );
-  }
-
   Widget _listView(Future<void> Function() signout) {
     return Column(
-      children: [
+      children: <Widget>[
         Container(
-          decoration: BoxDecoration(
-            color: Get.theme.backgroundColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
+          decoration: customBoxDecoration,
           child: Column(
             children: <ListTile>[
               ListTile(
@@ -90,10 +60,7 @@ class ProfileUI extends StatelessWidget {
         const SizedBox(height: 16.0),
         // Medical ID container
         Container(
-          decoration: BoxDecoration(
-            color: Get.theme.backgroundColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
+          decoration: customBoxDecoration,
           child: Column(
             children: <ListTile>[
               ListTile(

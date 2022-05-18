@@ -3,7 +3,7 @@
 import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/models/user_model.dart';
 import 'package:checkup/services/firestore_crud.dart';
-import 'package:checkup/services/push_notification_servicice.dart';
+import 'package:checkup/services/push_notifications.dart';
 
 class VitalsClassifier {
   VitalsClassifier._internal();

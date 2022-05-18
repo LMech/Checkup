@@ -18,7 +18,7 @@ class TabbarUI extends StatelessWidget {
         () => Scaffold(
           body: IndexedStack(
             index: controller.tabIndex.value,
-            children: [
+            children: <Widget>[
               const HomeUI(),
               const ChatbotUI(),
               ConnectionsListUI(),

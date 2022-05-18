@@ -99,7 +99,7 @@ class _AnimSearchBarState extends State<AnimSearchBar>
           /// can add custom color or the color will be white
           color: Get.theme.bottomAppBarColor,
           borderRadius: BorderRadius.circular(30.0),
-          boxShadow: const [
+          boxShadow: const <BoxShadow>[
             BoxShadow(
               spreadRadius: -10.0,
               blurRadius: 10.0,

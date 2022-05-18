@@ -1,4 +1,5 @@
 import 'package:checkup/controllers/connections_list_controller.dart';
+import 'package:checkup/helpers/constns.dart';
 import 'package:checkup/views/core/components/anim_search_bar.dart';
 import 'package:checkup/views/core/components/connection_card.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,8 @@ class ConnectionsListUI extends StatelessWidget {
         child: Scaffold(
           body: Obx(
             () => ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              children: [
+              padding: mediumPadding,
+              children: <Widget>[
                 AnimSearchBar(
                   textController: _emailTextController,
                   onSuffixTap: () {
@@ -29,13 +30,13 @@ class ConnectionsListUI extends StatelessWidget {
                   suffixIcon: const Icon(UniconsLine.user_plus),
                   prefixIcon: const Icon(UniconsLine.user_plus),
                 ),
-                for (String connectionEamil in controller.userConnections)
+                for (String connectionEmail in controller.userConnections)
                   ConnectionCard(
                     isFriend: true,
-                    connectionEmail: connectionEamil,
+                    connectionEmail: connectionEmail,
                   ),
                 Column(
-                  children: [
+                  children: <Widget>[
                     const Divider(indent: 16),
                     Container(
                       padding: const EdgeInsets.only(left: 16),

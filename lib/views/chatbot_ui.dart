@@ -1,4 +1,5 @@
 import 'package:checkup/controllers/chat_controller.dart';
+import 'package:checkup/helpers/constns.dart';
 import 'package:checkup/views/core/components/message_container.dart';
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class ChatbotUI extends StatelessWidget {
         return Scaffold(
           body: SafeArea(
             child: Column(
-              children: [
+              children: <Widget>[
                 Expanded(
                   child: Obx(() {
                     if (controller.messages.isEmpty) {
@@ -73,7 +74,7 @@ Widget _messagesBar(ChatController controller) {
               controller.messagesController.clear();
             },
             child: const Padding(
-              padding: EdgeInsets.all(16),
+              padding: mediumPadding,
               child: Icon(
                 UniconsLine.message,
                 size: 20,
@@ -96,7 +97,7 @@ Widget _body(List<Map<String, dynamic>> messages) {
         mainAxisAlignment:
             isUserMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <MessageContainer>[
           MessageContainer(
             message: message,
             isUserMessage: isUserMessage,

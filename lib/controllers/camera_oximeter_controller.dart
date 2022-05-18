@@ -1,10 +1,10 @@
-// TODO:Add the logic
+// TODO: Add the logic
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 
 class CameraOximeterController extends GetxController {
   Rx<bool> started = false.obs;
@@ -18,9 +18,9 @@ class CameraOximeterController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    rs = [];
-    gs = [];
-    bs = [];
+    rs = <double>[];
+    gs = <double>[];
+    bs = <double>[];
     try {
       final List<CameraDescription> _cameras = await availableCameras();
       cameraController = CameraController(
@@ -48,24 +48,22 @@ class CameraOximeterController extends GetxController {
       }).then((value) => _initTimer());
     } catch (e) {
       Logger().e(e);
+      Get.snackbar('Error using the camera', e.toString());
     }
   }
 
   void _initTimer() {
-    Logger().e('work');
-    final List<List<double>> ppg = [];
-    final List<double> meanRed = [];
-    List<double> tmp = [];
+    final List<List<double>> ppg = <List<double>>[];
+    final List<double> meanRed = <double>[];
+    List<double> tmp = <double>[];
     _timer = Timer.periodic(const Duration(milliseconds: 1000 ~/ 30), (timer) {
       if (started.value) {
         if (_image != null) {
           tmp = _meanYUV2RGB(_image!);
           ppg.add(tmp);
           meanRed.add(tmp[0]);
-          if (meanRed.length == 200) {
-            Get.back();
-            log(ppg.toString());
-            log(meanRed.toString());
+          if (meanRed.length == 250) {
+            _startMeasurement(ppg, meanRed);
           }
         }
       } else {
@@ -122,5 +120,40 @@ class CameraOximeterController extends GetxController {
       _timer!.cancel();
     }
     super.onClose();
+  }
+
+  void _stopMeasurement() {}
+
+  Future<void> _startMeasurement(
+    List<List<double>> ppg,
+    List<double> meanRed,
+  ) async {
+    if (meanRed.every((element) => element > 150)) {
+      final interpreter = await tfl.Interpreter.fromAsset('spo2.tflite');
+      final output = [
+        [-1.0]
+      ];
+      interpreter.run([ppg.sublist(48, 202)], output);
+      interpreter.close();
+      Get.back();
+      if (output.first.first > 100.0) {
+        output.first.first = 100.0;
+      }
+      Get.defaultDialog(
+        title:
+            'Your Oxygen saturation is predicted to be ${output.first.first.toStringAsFixed(0)}',
+        middleText:
+            'Please note this feature is under development and can not be in medically',
+      );
+    } else {
+      cameraController!.setFlashMode(FlashMode.off);
+      cameraController!.stopImageStream();
+      started(false);
+      Get.defaultDialog(
+        title:
+            'Please, make sure your hand is placed on the camera and flash at the same time',
+        middleText: '',
+      );
+    }
   }
 }

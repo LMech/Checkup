@@ -40,7 +40,7 @@ class _AboutYouUIState extends State<AboutYouUI> {
 
   Widget _aboutYou(AboutYouController controller) {
     return Column(
-      children: [
+      children: <Widget>[
         FormInputFieldWithIcon(
           controller: controller.nameTextController,
           iconPrefix: UniconsLine.user,
@@ -69,7 +69,7 @@ class _AboutYouUIState extends State<AboutYouUI> {
         FormInputFieldWithIcon(
           controller: controller.addressTextController,
           iconPrefix: UniconsLine.location_arrow,
-          labelText: 'Addresss',
+          labelText: 'Address',
           validator: Validator().notEmpty,
           onChanged: (newValue) {
             controller.updateValue('address', newValue);
@@ -79,7 +79,7 @@ class _AboutYouUIState extends State<AboutYouUI> {
           height: 8.0,
         ),
         Row(
-          children: [
+          children: <Widget>[
             Expanded(
               child: FormInputFieldWithIcon(
                 controller: controller.weightTextController,
@@ -118,7 +118,7 @@ class _AboutYouUIState extends State<AboutYouUI> {
             keyboardType: TextInputType.none,
             onTap: () async {
               final DateTime? picked =
-                  await DateTimePicker.instance.presentDatePicker(Get.context!);
+                  await DateTimePicker().presentDatePicker(Get.context!);
               if (picked != null) {
                 controller.updateValue(
                   'dateOfBirth',
