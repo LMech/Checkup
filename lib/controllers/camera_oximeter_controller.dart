@@ -1,7 +1,9 @@
 // TODO: Add the logic
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:camera/camera.dart';
+import 'package:collection/collection.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
@@ -54,20 +56,19 @@ class CameraOximeterController extends GetxController {
 
   void _initTimer() {
     final List<List<double>> ppg = <List<double>>[];
-    final List<double> meanRed = <double>[];
+    final List<SensorValue> meanRed = <SensorValue>[];
     List<double> tmp = <double>[];
     _timer = Timer.periodic(const Duration(milliseconds: 1000 ~/ 30), (timer) {
       if (started.value) {
         if (_image != null) {
           tmp = _meanYUV2RGB(_image!);
           ppg.add(tmp);
-          meanRed.add(tmp[0]);
+          meanRed.add(SensorValue(value: tmp[0], time: DateTime.now()));
           if (meanRed.length == 250) {
             _startMeasurement(ppg, meanRed);
           }
         }
       } else {
-        Logger().e("canceled");
         timer.cancel();
       }
     });
@@ -126,22 +127,19 @@ class CameraOximeterController extends GetxController {
 
   Future<void> _startMeasurement(
     List<List<double>> ppg,
-    List<double> meanRed,
+    List<SensorValue> meanRed,
   ) async {
-    if (meanRed.every((element) => element > 150)) {
-      final interpreter = await tfl.Interpreter.fromAsset('spo2.tflite');
-      final output = [
-        [-1.0]
-      ];
-      interpreter.run([ppg.sublist(48, 202)], output);
-      interpreter.close();
+    if (meanRed.every((element) => element.value > 150)) {
+      double spo2Value = await _getSpo2(ppg.sublist(48, 202));
+      final double hr = _getHR(meanRed.sublist(48, 202));
+      log('HR: ${hr.toString()}');
       Get.back();
-      if (output.first.first > 100.0) {
-        output.first.first = 100.0;
+      if (spo2Value > 99.0) {
+        spo2Value = 99.0;
       }
       Get.defaultDialog(
         title:
-            'Your Oxygen saturation is predicted to be ${output.first.first.toStringAsFixed(0)}',
+            'Your Oxygen saturation is predicted to be ${spo2Value.toStringAsFixed(0)}',
         middleText:
             'Please note this feature is under development and can not be in medically',
       );
@@ -156,4 +154,79 @@ class CameraOximeterController extends GetxController {
       );
     }
   }
+
+  Future<double> _getSpo2(List<List<double>> ppg) async {
+    final interpreter = await tfl.Interpreter.fromAsset('spo2.tflite');
+    final output = [
+      [-1.0]
+    ];
+    interpreter.run([ppg], output);
+    interpreter.close();
+    return output.first.first;
+  }
+
+  double _getHR(List<SensorValue> meanRed) {
+    final List<int> values = [];
+    int currentValue = 0;
+
+    for (int i = 50; i < meanRed.length; i++) {
+      double maxVal = 0;
+      double _avg = 0;
+      final subMeanRed = meanRed.sublist(i - 50, i);
+      for (final element in subMeanRed) {
+        _avg += element.value / subMeanRed.length;
+        if (element.value > maxVal) {
+          maxVal = element.value as double;
+        }
+      }
+      final double _threshold = (maxVal + _avg) / 2;
+      int _counter = 0;
+      int _previousTimestamp = 0;
+      double _tempBPM = 0.0;
+
+      for (int j = 1; j < subMeanRed.length; j++) {
+        if (subMeanRed[j - 1].value < _threshold &&
+            subMeanRed[j].value > _threshold) {
+          if (_previousTimestamp != 0) {
+            _counter++;
+            _tempBPM += 60000 /
+                (subMeanRed[j].time.millisecondsSinceEpoch -
+                    _previousTimestamp);
+          }
+          _previousTimestamp = subMeanRed[j].time.millisecondsSinceEpoch;
+        }
+      }
+
+      if (_counter > 0) {
+        _tempBPM /= _counter;
+        _tempBPM = .4 * currentValue + .6 * _tempBPM;
+        currentValue = _tempBPM.toInt();
+        if (currentValue != 0) {
+          values.add(currentValue);
+        }
+      }
+      log(currentValue.toString());
+    }
+    return values.average;
+  }
+}
+
+class SensorValue {
+  /// timestamp of datapoint
+  final DateTime time;
+
+  /// value of datapoint
+  final num value;
+
+  SensorValue({required this.time, required this.value});
+
+  /// Returns JSON mapped data point
+  Map<String, dynamic> toJSON() => {'time': time, 'value': value};
+
+  /// Map a list of data samples to a JSON formatted array.
+  ///
+  /// Map a list of [data] samples to a JSON formatted array. This is
+  /// particularly useful to store [data] to database.
+  static List<Map<String, dynamic>> toJSONArray(List<SensorValue> data) =>
+      List.generate(data.length, (index) => data[index].toJSON());
 }
