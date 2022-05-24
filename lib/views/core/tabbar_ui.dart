@@ -1,5 +1,4 @@
 import 'package:checkup/controllers/tabbar_controller.dart';
-import 'package:checkup/views/chatbot_ui.dart';
 import 'package:checkup/views/connections/connections_list_ui.dart';
 import 'package:checkup/views/home/home_ui.dart';
 import 'package:checkup/views/profile/profile_ui.dart';
@@ -20,7 +19,7 @@ class TabbarUI extends StatelessWidget {
             index: controller.tabIndex.value,
             children: <Widget>[
               const HomeUI(),
-              const ChatbotUI(),
+              // const ChatbotUI(),
               ConnectionsListUI(),
               const ProfileUI(),
             ],
@@ -35,10 +34,10 @@ class TabbarUI extends StatelessWidget {
                 icon: Icon(UniconsLine.home_alt),
                 label: '○',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(UniconsLine.robot),
-                label: '○',
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(UniconsLine.robot),
+              //   label: '○',
+              // ),
               BottomNavigationBarItem(
                 icon: Icon(UniconsLine.users_alt),
                 label: '○',

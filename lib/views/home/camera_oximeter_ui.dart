@@ -19,25 +19,28 @@ class CameraOximeterUI extends StatelessWidget {
             title: const Text('Camera Oximeter'),
           ),
           body: SafeArea(
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: Obx(
-                    () => controller.started.value
-                        ? CameraPreview(controller.cameraController!)
-                        : Container(),
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Obx(
+                      () => controller.started.value
+                          ? CameraPreview(controller.cameraController!)
+                          : Container(),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: TextButton.icon(
-                    onPressed: () {
-                      controller.startCamera();
-                    },
-                    icon: const Icon(UniconsLine.play),
-                    label: const Text('Start measurement'),
-                  ),
-                )
-              ],
+                  Expanded(
+                    child: TextButton.icon(
+                      onPressed: () {
+                        controller.startCamera();
+                      },
+                      icon: const Icon(UniconsLine.play),
+                      label: const Text('Start measurement'),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );

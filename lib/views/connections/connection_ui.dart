@@ -33,16 +33,83 @@ class ConnectionUI extends StatelessWidget {
                   height: 8.0,
                 ),
                 Obx(
-                  () => VitalChart(
-                    data: controller.hr.toList(),
-                    color: Colors.red[800] ?? Colors.red,
+                  () => Container(
+                    decoration: customBoxDecoration,
+                    child: Padding(
+                      padding: mediumPadding,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(
+                                UniconsLine.heartbeat,
+                                size: 80,
+                                color: Get.theme.errorColor,
+                              ),
+                              Column(
+                                children: [
+                                  const Text(
+                                    'Heart Rate (bpm)',
+                                    style: TextStyle(fontSize: 24),
+                                  ),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text(
+                                      controller.hr.isEmpty
+                                          ? '--'
+                                          : 'bpm ${controller.hr.last.value.toString()}',
+                                      style: const TextStyle(fontSize: 24),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          VitalChart(
+                            data: controller.hr,
+                            color: Get.theme.errorColor,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 35),
                 Obx(
-                  () => VitalChart(
-                    data: controller.spo2.toList(),
-                    color: Colors.blueAccent[800] ?? Colors.blue,
+                  () => Container(
+                    decoration: customBoxDecoration,
+                    padding: mediumPadding,
+                    child: Column(
+                      children: <Widget>[
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Blood Oxygen (spo2)',
+                            style: TextStyle(fontSize: 26),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            controller.spo2.isEmpty
+                                ? '--'
+                                : '${controller.spo2.last.value.toString()}%',
+                            style: const TextStyle(fontSize: 24),
+                          ),
+                        ),
+                        VitalChart(
+                          data: controller.spo2.toList(),
+                          color: Colors.blueAccent[800] ?? Colors.blue,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -98,7 +165,65 @@ class ConnectionUI extends StatelessWidget {
                       avatar: const Icon(Icons.bloodtype),
                     ),
                   ],
-                )
+                ),
+                if ((controller.argumentData!['allergies'] as List<dynamic>)
+                    .isNotEmpty)
+                  const Text('Allergies'),
+                for (dynamic allergy
+                    in controller.argumentData!['allergies'] as List<dynamic>)
+                  ListTile(
+                    title: Text(allergy as String),
+                  ),
+                if ((controller.argumentData!['medicine'] as List<dynamic>)
+                    .isNotEmpty)
+                  const Text(
+                    'Medicine',
+                  ),
+                for (dynamic allergy
+                    in controller.argumentData!['medicine'] as List<dynamic>)
+                  ListTile(
+                    title: Text(allergy as String),
+                  ),
+                if ((controller.argumentData!['diseases'] as List<dynamic>)
+                    .isNotEmpty)
+                  const Text(
+                    'Diseases',
+                  ),
+                for (dynamic allergy
+                    in controller.argumentData!['diseases'] as List<dynamic>)
+                  ListTile(
+                    title: Text(allergy as String),
+                  ),
+                if ((controller.argumentData!['physician'] as List<dynamic>)
+                    .isNotEmpty)
+                  const Text(
+                    'Physician',
+                  ),
+                for (dynamic allergy
+                    in controller.argumentData!['physician'] as List<dynamic>)
+                  ListTile(
+                    title: Text(allergy as String),
+                  ),
+                if ((controller.argumentData!['surgery'] as List<dynamic>)
+                    .isNotEmpty)
+                  const Text(
+                    'Surgery',
+                  ),
+                for (dynamic allergy
+                    in controller.argumentData!['surgery'] as List<dynamic>)
+                  ListTile(
+                    title: Text(allergy as String),
+                  ),
+                if ((controller.argumentData!['vaccine'] as List<dynamic>)
+                    .isNotEmpty)
+                  const Text(
+                    'Vaccine',
+                  ),
+                for (dynamic allergy
+                    in controller.argumentData!['vaccine'] as List<dynamic>)
+                  ListTile(
+                    title: Text(allergy as String),
+                  ),
               ],
             ),
           ),

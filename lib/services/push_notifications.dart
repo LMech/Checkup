@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 
 class NotificationProvider {
   NotificationProvider._internal();
@@ -41,10 +40,10 @@ class NotificationProvider {
       body: jsonEncode(data),
     );
 
-    if (response.statusCode == 200) {
-      Logger().e(response.body);
-    } else {
-      Logger().e(response.body);
-    }
+    // if (response.statusCode == 200) {
+    //   Logger().e(response.body);
+    // } else {
+    //   Logger().e(response.body);
+    // }
   }
 }

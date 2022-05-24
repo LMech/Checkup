@@ -1,8 +1,8 @@
 // TODO: Add the logic
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:camera/camera.dart';
+import 'package:checkup/controllers/home_controller.dart';
 import 'package:collection/collection.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -123,25 +123,22 @@ class CameraOximeterController extends GetxController {
     super.onClose();
   }
 
-  void _stopMeasurement() {}
-
   Future<void> _startMeasurement(
     List<List<double>> ppg,
     List<SensorValue> meanRed,
   ) async {
     if (meanRed.every((element) => element.value > 150)) {
       double spo2Value = await _getSpo2(ppg.sublist(48, 202));
-      final double hr = _getHR(meanRed.sublist(48, 202));
-      log('HR: ${hr.toString()}');
+      final double hrValue = _getHR(meanRed.sublist(40, 220));
+      Get.find<HomeController>().updateAll(hrValue.toInt(), spo2Value.toInt());
       Get.back();
       if (spo2Value > 99.0) {
         spo2Value = 99.0;
       }
       Get.defaultDialog(
         title:
-            'Your Oxygen saturation is predicted to be ${spo2Value.toStringAsFixed(0)}',
-        middleText:
-            'Please note this feature is under development and can not be in medically',
+            'Your Oxygen saturation is predicted to be ${spo2Value.toStringAsFixed(0)}, and your heart rate on average is ${hrValue.toStringAsFixed(0)}',
+        middleText: '',
       );
     } else {
       cameraController!.setFlashMode(FlashMode.off);
@@ -199,13 +196,12 @@ class CameraOximeterController extends GetxController {
 
       if (_counter > 0) {
         _tempBPM /= _counter;
-        _tempBPM = .4 * currentValue + .6 * _tempBPM;
+        _tempBPM = .3 * currentValue + .7 * _tempBPM;
         currentValue = _tempBPM.toInt();
-        if (currentValue != 0) {
+        if (currentValue != 0 && currentValue > 20 && currentValue < 250) {
           values.add(currentValue);
         }
       }
-      log(currentValue.toString());
     }
     return values.average;
   }

@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
       ],
       initialRoute: '/',
       getPages: AppRoutes.routes,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
