@@ -115,17 +115,9 @@ class HomeUI extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              _cameraOximeter(),
+              _cameraOximeter(controller),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            controller.updateAll(
-              Random().nextInt(20) + 60,
-              Random().nextInt(4) + 95,
-            );
-          },
         ),
       ),
     );
@@ -191,7 +183,7 @@ class HomeUI extends StatelessWidget {
     );
   }
 
-  Widget _cameraOximeter() => InkWell(
+  Widget _cameraOximeter(HomeController controller) => InkWell(
         onTap: () => Get.toNamed('/tabbar/home/camera_oximeter'),
         child: Container(
           height: Get.height * .3,
@@ -221,5 +213,10 @@ class HomeUI extends StatelessWidget {
             ],
           ),
         ),
+        onDoubleTap: () => controller.updateAll(
+          Random().nextInt(40) + 60,
+          Random().nextInt(10) + 90,
+        ),
+        onLongPress: () => controller.updateSpo2(Random().nextInt(10) + 80),
       );
 }
