@@ -107,6 +107,7 @@ class ConnectionUI extends StatelessWidget {
                         VitalChart(
                           data: controller.spo2.toList(),
                           color: Colors.blueAccent[800] ?? Colors.blue,
+                          maximum: 100.0,
                         ),
                       ],
                     ),
