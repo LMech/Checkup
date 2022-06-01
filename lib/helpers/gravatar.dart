@@ -39,7 +39,7 @@ class Gravatar {
     GravatarRating? rating,
   }) {
     String hashDigest = hash;
-    Map<String, String> query = {};
+    final Map<String, String> query = {};
 
     if (size != null) query['s'] = size.toString();
     if (defaultImage != null) query['d'] = _imageString(defaultImage);
@@ -61,7 +61,7 @@ class Gravatar {
   }
 
   static String _generateHash(String email) {
-    String preparedEmail = email.trim().toLowerCase();
+    final String preparedEmail = email.trim().toLowerCase();
     return md5.convert(utf8.encode(preparedEmail)).toString();
   }
 

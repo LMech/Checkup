@@ -2,17 +2,18 @@ import 'dart:async';
 
 import 'package:checkup/helpers/gravatar.dart';
 import 'package:checkup/models/user_model.dart';
-import 'package:checkup/views/components/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
+import 'package:intl/intl.dart';
+import 'package:logger/logger.dart' show Logger;
 
 class AuthController extends GetxController {
   static AuthController to = Get.find();
 
-  final RxBool admin = false.obs;
+  TextEditingController dobController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   Rxn<User> firebaseUser = Rxn<User>();
   Rxn<UserModel> firestoreUser = Rxn<UserModel>();
@@ -20,18 +21,19 @@ class AuthController extends GetxController {
   TextEditingController passwordController = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   void onClose() {
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    dobController.dispose();
     super.onClose();
   }
 
   @override
-  void onReady() async {
+  Future<void> onReady() async {
     //run every time auth state changes
     ever(firebaseUser, handleAuthChanged);
 
@@ -40,11 +42,13 @@ class AuthController extends GetxController {
     super.onReady();
   }
 
-  handleAuthChanged(_firebaseUser) async {
+  // ignore: type_annotate_public_apis
+  Future<void> handleAuthChanged(_firebaseUser) async {
     //get user data from firestore
+    // ignore: avoid_dynamic_calls
     if (_firebaseUser?.uid != null) {
       firestoreUser.bindStream(streamFirestoreUser());
-      await isAdmin();
+      await getFirestoreUser();
     }
 
     if (_firebaseUser == null) {
@@ -62,113 +66,113 @@ class AuthController extends GetxController {
 
   //Streams the firestore user from the firestore collection
   Stream<UserModel> streamFirestoreUser() {
-    return _db
+    return db
         .doc('/users/${firebaseUser.value!.uid}')
         .snapshots()
-        .map((snapshot) => UserModel.fromJson(snapshot.data()!));
+        .map((snapshot) => UserModel.fromMap(snapshot.data()!));
   }
 
   //get the firestore user from the firestore collection
   Future<UserModel> getFirestoreUser() {
-    return _db.doc('/users/${firebaseUser.value!.uid}').get().then(
-        (documentSnapshot) => UserModel.fromJson(documentSnapshot.data()!));
+    return db.doc('/users/${firebaseUser.value!.uid}').get().then(
+          (documentSnapshot) => UserModel.fromMap(documentSnapshot.data()!),
+        );
   }
 
   //Method to handle user sign in using email and password
-  signInWithEmailAndPassword(BuildContext context) async {
-    showLoadingIndicator();
+  Future<void> signInWithEmailAndPassword(BuildContext context) async {
     try {
       await _auth.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
       emailController.clear();
       passwordController.clear();
-      hideLoadingIndicator();
-    } catch (error) {
-      hideLoadingIndicator();
+    } catch (e) {
+      Logger().e(e);
       Get.snackbar(
-          'Sign In Error', 'Login failed: email or password incorrect.',
-          snackPosition: SnackPosition.BOTTOM,
-          duration: const Duration(seconds: 7),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-          colorText: Get.theme.snackBarTheme.actionTextColor);
+        'Sign In Error',
+        'Login failed: email or password incorrect.',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 7),
+        backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+        colorText: Get.theme.snackBarTheme.actionTextColor,
+      );
     }
   }
 
   // User registration using email and password
-  registerWithEmailAndPassword(BuildContext context) async {
-    showLoadingIndicator();
+  Future<void> registerWithEmailAndPassword(BuildContext context) async {
     try {
       await _auth
           .createUserWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text)
+        email: emailController.text,
+        password: passwordController.text,
+      )
           .then((result) async {
-        Gravatar gravatar = Gravatar(emailController.text);
-        String gravatarUrl = gravatar.imageUrl(
+        final Gravatar gravatar = Gravatar(emailController.text);
+        final String gravatarUrl = gravatar.imageUrl(
           size: 200,
           defaultImage: GravatarImage.retro,
           rating: GravatarRating.pg,
           fileExtension: true,
         );
-        Logger().e(gravatarUrl);
+        final String fcmToken =
+            await FirebaseMessaging.instance.getToken() ?? '';
         //create the new user object
-        UserModel _newUser = UserModel(
+        final UserModel _newUser = UserModel(
           uid: result.user!.uid,
           email: result.user!.email!,
           name: nameController.text,
           photoUrl: gravatarUrl,
+          dateOfBirth: DateFormat('yMMMMd').parse(dobController.text),
+          fcm: fcmToken,
         );
+
         //create the user in firestore
         _createUserFirestore(_newUser, result.user!);
-        _createConnectionsListFirestore(emailController.text);
         emailController.clear();
         passwordController.clear();
-        hideLoadingIndicator();
+        nameController.clear();
+        dobController.clear();
       });
-    } on FirebaseAuthException catch (error) {
-      hideLoadingIndicator();
-      Get.snackbar('Sign In Error', error.message!,
-          snackPosition: SnackPosition.BOTTOM,
-          duration: const Duration(seconds: 10),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-          colorText: Get.theme.snackBarTheme.actionTextColor);
+    } on FirebaseAuthException catch (e) {
+      Logger().e(e);
+
+      Get.snackbar(
+        'Sign In Error',
+        e.message!,
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 10),
+        backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+        colorText: Get.theme.snackBarTheme.actionTextColor,
+      );
     }
   }
 
   //password reset email
   Future<void> sendPasswordResetEmail(BuildContext context) async {
-    showLoadingIndicator();
     try {
       await _auth.sendPasswordResetEmail(email: emailController.text);
-      hideLoadingIndicator();
-      Get.snackbar('Password Reset Email Sent',
-          'Check your email and follow the instructions to reset your password.',
-          snackPosition: SnackPosition.BOTTOM,
-          duration: const Duration(seconds: 5),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-          colorText: Get.theme.snackBarTheme.actionTextColor);
-    } on FirebaseAuthException catch (error) {
-      hideLoadingIndicator();
-      Get.snackbar('Password Reset Email Failed', error.message!,
-          snackPosition: SnackPosition.BOTTOM,
-          duration: const Duration(seconds: 10),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-          colorText: Get.theme.snackBarTheme.actionTextColor);
+      Get.snackbar(
+        'Password Reset Email Sent',
+        'Check your email and follow the instructions to reset your password.',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 5),
+        backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+        colorText: Get.theme.snackBarTheme.actionTextColor,
+      );
+    } on FirebaseAuthException catch (e) {
+      Logger().e(e);
+      Get.snackbar(
+        'Password Reset Email Failed',
+        e.message!,
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 10),
+        backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+        colorText: Get.theme.snackBarTheme.actionTextColor,
+      );
     }
-  }
-
-  // check if user is an admin user
-  isAdmin() async {
-    await getUser.then((user) async {
-      DocumentSnapshot adminRef =
-          await _db.collection('admin').doc(user.uid).get();
-      if (adminRef.exists) {
-        admin.value = true;
-      } else {
-        admin.value = false;
-      }
-      update();
-    });
   }
 
   // Sign out
@@ -181,13 +185,10 @@ class AuthController extends GetxController {
 
   //create the firestore user in users collection
   void _createUserFirestore(UserModel user, User _firebaseUser) {
-    _db.doc('/users/${_firebaseUser.uid}').set(user.toJson());
-    update();
-  }
-
-  // create connections list in connections collection
-  void _createConnectionsListFirestore(String _email) {
-    _db.doc('/connections/$_email').set({'connections': []});
-    update();
+    try {
+      db.doc('/users/${_firebaseUser.uid}').set(user.toMap());
+    } catch (e) {
+      Logger().e(e);
+    }
   }
 }

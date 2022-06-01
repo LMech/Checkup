@@ -1,12 +1,14 @@
 import 'package:dialog_flowtter/dialog_flowtter.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ChatController extends GetxController {
-  int messagesCount = 0;
   late DialogFlowtter dialogFlowtter;
-  RxList<Map<String, dynamic>> messages = <Map<String, dynamic>>[].obs;
   RxBool loaded = false.obs;
+  RxList<Map<String, dynamic>> messages = <Map<String, dynamic>>[].obs;
+  TextEditingController messagesController = TextEditingController();
+  int messagesCount = 0;
   GetStorage messagesStorage = GetStorage('messagesStorage');
 
   @override
@@ -22,15 +24,15 @@ class ChatController extends GetxController {
     super.onInit();
   }
 
-  void sendMessage(String text) async {
+  Future<void> sendMessage(String text) async {
     if (text.isEmpty) return;
 
     addMessage(
       Message(text: DialogText(text: [text])),
-      true,
+      isUserMessage: true,
     );
 
-    DetectIntentResponse response = await dialogFlowtter.detectIntent(
+    final DetectIntentResponse response = await dialogFlowtter.detectIntent(
       queryInput: QueryInput(text: TextInput(text: text)),
     );
 
@@ -38,9 +40,11 @@ class ChatController extends GetxController {
     addMessage(response.message!);
   }
 
-  void addMessage(Message message, [bool isUserMessage = false]) {
-    messagesStorage.write(messagesCount.toString(),
-        message.text!.text.toString() + ' : ' + isUserMessage.toString());
+  void addMessage(Message message, {bool isUserMessage = false}) {
+    messagesStorage.write(
+      messagesCount.toString(),
+      '${message.text!.text} : $isUserMessage',
+    );
     messagesCount++;
     messages.add({
       'message': message,
@@ -49,10 +53,10 @@ class ChatController extends GetxController {
   }
 
   void loadOldMessages() {
-    Iterable<dynamic> msgs = messagesStorage.getValues();
-    for (dynamic msg in msgs) {
-      List<String> split = msg.toString().split(' : ');
-      String first = split.first.substring(1, split.first.length - 1);
+    final Iterable<dynamic> msgs = messagesStorage.getValues();
+    for (final dynamic msg in msgs) {
+      final List<String> split = msg.toString().split(' : ');
+      final String first = split.first.substring(1, split.first.length - 1);
       messages.add({
         'message': Message(text: DialogText(text: first.split(','))),
         'isUserMessage': split.last == 'true',

@@ -1,92 +1,127 @@
-import 'package:checkup/controllers/auth_controller.dart';
 import 'package:checkup/controllers/profile_controller.dart';
-import 'package:checkup/views/components/avatar.dart';
-import 'package:checkup/views/components/list_tile_with_icon.dart';
-import 'package:checkup/views/profile/about_user_ui.dart';
+import 'package:checkup/helpers/constns.dart';
+import 'package:checkup/views/core/components/profile_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unicons/unicons.dart';
 
 @immutable
 class ProfileUI extends StatelessWidget {
-  ProfileUI({Key? key}) : super(key: key);
-
-  final AuthController authController = AuthController.to;
-
-  Widget _profileData() {
-    final String userName = authController.firestoreUser.value!.name;
-    final String email = authController.firestoreUser.value!.email;
-
-    return Column(
-      children: [
-        const SizedBox(height: 10),
-        GestureDetector(
-          child: authController.firestoreUser.value!.photoUrl == ''
-              ? Avatar(
-                  authController.firestoreUser.value!.photoUrl,
-                  radius: 50.0,
-                  height: 120,
-                  width: 200,
-                )
-              : CircleAvatar(
-                  child: ClipOval(
-                      child: FadeInImage.assetNetwork(
-                          placeholder: '',
-                          image: authController.firestoreUser.value!.photoUrl,
-                          fit: BoxFit.cover,
-                          width: 200,
-                          height: 120)),
-                  radius: 50),
-          onTap: () {},
-        ),
-        const SizedBox(height: 10),
-        Text(
-          userName,
-          style: const TextStyle(fontSize: 28.0),
-        ),
-        const SizedBox(height: 5),
-        Text(email),
-      ],
-    );
-  }
-
-  Widget _listView() {
-    return Expanded(
-      child: ListView(children: [
-        ListTileWithIcon(
-          title: "About Me",
-          icon: Icons.arrow_forward_ios_outlined,
-          size: 20.0,
-          onTap: () => Get.to(() => const AboutUserUI()),
-        ),
-        ListTileWithIcon(
-          title: "Medical ID",
-          icon: Icons.arrow_forward_ios_outlined,
-          size: 20.0,
-          onTap: () => Get.to(() => const AboutUserUI()),
-        ),
-        ListTileWithIcon(
-            title: "Sign Out",
-            color: const Color.fromARGB(71, 232, 88, 88),
-            icon: Icons.logout_sharp,
-            size: 20.0,
-            onTap: () => AuthController.to.signOut()),
-      ]),
-    );
-  }
+  const ProfileUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(
-        init: ProfileController(),
-        builder: (controller) => Scaffold(
-                body: SafeArea(
-                    child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(children: <Widget>[
-                _profileData(),
-                const SizedBox(height: 10),
-                _listView(),
-              ]),
-            ))));
+      init: ProfileController(),
+      builder: (controller) => Scaffold(
+        body: SafeArea(
+          child: ListView(
+            padding: mediumPadding,
+            children: <Widget>[
+              ProfileHeader(
+                name: controller.name,
+                email: controller.email,
+                photoUrl: controller.photoUrl,
+              ),
+              const SizedBox(height: 10),
+              _listView(controller.signout),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _listView(Future<void> Function() signout) {
+    return Column(
+      children: <Widget>[
+        Container(
+          decoration: customBoxDecoration,
+          child: Column(
+            children: <ListTile>[
+              ListTile(
+                leading: const Icon(UniconsLine.user_circle),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('About you'),
+                onTap: () => Get.toNamed('/tabbar/profile/about_you'),
+              ),
+              ListTile(
+                leading: const Icon(UniconsLine.sign_alt),
+                trailing: Icon(
+                  UniconsLine.signout,
+                  color: Get.theme.errorColor,
+                ),
+                title: const Text('Sign out'),
+                onTap: () => signout(),
+              )
+            ],
+          ),
+        ),
+        const SizedBox(height: 16.0),
+        // Medical ID container
+        Container(
+          decoration: customBoxDecoration,
+          child: Column(
+            children: <ListTile>[
+              ListTile(
+                leading: const Icon(UniconsLine.head_side_cough),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Allergies'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'allergies',
+                ),
+              ),
+              ListTile(
+                leading: const Icon(UniconsLine.capsule),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Medicine'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'medicine',
+                ),
+              ),
+              ListTile(
+                leading: const Icon(UniconsLine.coronavirus),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Diseases'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'diseases',
+                ),
+              ),
+              ListTile(
+                leading: const Icon(UniconsLine.syringe),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Vaccine'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'vaccine',
+                ),
+              ),
+              ListTile(
+                leading: const Icon(UniconsLine.user_md),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Physician'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'physician',
+                ),
+              ),
+              ListTile(
+                leading: const Icon(UniconsLine.wheelchair_alt),
+                trailing: const Icon(UniconsLine.angle_right),
+                title: const Text('Surgery'),
+                onTap: () => Get.toNamed(
+                  '/tabbar/profile/medical_item',
+                  arguments: 'surgery',
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
   }
 }
