@@ -25,7 +25,7 @@ class VitalsClassifier {
       notificationProvider.postNotification(
         [_fcm],
         'Are you feeling well!',
-        'The application detected that has a oxygen saturation maybe ask Atouf he might has an advice for you.',
+        'The application detected that has a oxygen saturation maybe you need to see a doctor.',
       );
       notificationProvider.postNotification(
         fcmList,
@@ -41,7 +41,7 @@ class VitalsClassifier {
       notificationProvider.postNotification(
         [_fcm],
         'Are you feeling well!',
-        'The application detected that has a low heart rate maybe ask Atouf he might has an advice for you.',
+        'The application detected that has a low heart rate maybe maybe you need to see a doctor.',
       );
       notificationProvider.postNotification(
         fcmList,
@@ -52,7 +52,7 @@ class VitalsClassifier {
       notificationProvider.postNotification(
         [_fcm],
         'Are you feeling well!',
-        'The application detected that has a high heart rate maybe ask Atouf he might has an advice for you.',
+        'The application detected that has a high heart rate maybe maybe you need to see a doctor.',
       );
       notificationProvider.postNotification(
         fcmList,

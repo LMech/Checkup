@@ -3,7 +3,6 @@ import 'dart:ui' as ui;
 import 'package:checkup/models/vital_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class VitalChart extends StatelessWidget {
@@ -11,11 +10,13 @@ class VitalChart extends StatelessWidget {
     Key? key,
     required this.data,
     required this.color,
+    this.maximum,
   }) : super(key: key);
 
   final Color color;
   final List<VitalModel> data;
   final DateTime now = DateTime.now();
+  final double? maximum;
 
   ZoomController zoomController = Get.put<ZoomController>(ZoomController());
   @override
@@ -63,9 +64,11 @@ class VitalChart extends StatelessWidget {
               primaryXAxis: _getDateTimeAxis(),
               primaryYAxis: NumericAxis(
                 axisLine: const AxisLine(width: 0.0),
+                maximum: maximum,
               ),
               series: <ChartSeries<VitalModel, DateTime>>[
                 SplineAreaSeries<VitalModel, DateTime>(
+                  cardinalSplineTension: .3,
                   dataLabelSettings: DataLabelSettings(
                     isVisible: zoomController.isVisible.value,
                     labelAlignment: ChartDataLabelAlignment.top,
@@ -105,16 +108,14 @@ class VitalChart extends StatelessWidget {
   }
 
   DateTimeAxis _getDateTimeAxis() => DateTimeAxis(
+        enableAutoIntervalOnZooming: true,
         title: AxisTitle(text: 'Time of Day'),
         zoomFactor: zoomController.zoomFactor.value,
         zoomPosition: zoomController.zoomPosition.value,
         name: color.toString(),
         minimum: _getToday(),
         maximum: _getTomorrow(),
-        intervalType: DateTimeIntervalType.hours,
-        desiredIntervals: 1,
-        interval: 1,
-        dateFormat: DateFormat.H(),
+        desiredIntervals: 24,
       );
 }
 
