@@ -45,3 +45,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# API details
+lib/android/app/google-services.json
+lib/assets/dialog_flow_auth.json
+lib/firebase_options.dart
+lib/env.dart
