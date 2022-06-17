@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:checkup/env.dart';
 import 'package:http/http.dart' as http;
 
 class NotificationProvider {
@@ -9,13 +10,9 @@ class NotificationProvider {
   static const String url = 'https://fcm.googleapis.com/fcm/send';
 
   final Map<String, String> tokenData = {
-    'Authorization': 'key=$_serverKey',
+    'Authorization': 'key=$serverKey',
     'Content-Type': 'application/json',
   };
-
-  //! TODO: Remove before publishing
-  static const String _serverKey =
-      'AAAASypbmOU:APA91bE89WC3uyRI6p-TPPZGDlN5u0m9E-ftQCbQZFlfYNezOdE4IHagMW0FvOVs20bN54zv9I1snOWpZMP9EOvifcmmyquMpgjZ-SftMvYk1qnfP1yF3SjzIcFjWuA2DfLz4EJcZ72b';
 
   Future<void> postNotification(
     List<String> users,
